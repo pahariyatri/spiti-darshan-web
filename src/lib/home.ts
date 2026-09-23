@@ -10,6 +10,7 @@ export const HOME = {
     kicker: 'Spiti · Private transport',
     title: 'The road to Spiti.',
     titleAccent: 'Your private ride.',
-    subtitle: 'Private Innova Crysta from Shimla to Kaza and Manali, planned around your dates.',
+    subtitle:
+      'Private Innova Crysta journeys through Shimla, Kinnaur, Kaza, Chandratal and Manali.',
   },
 } as const;

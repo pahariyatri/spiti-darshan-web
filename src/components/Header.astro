@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../lib/config/site';
+import Icon from './Icon.astro';
 import WhatsAppLink from './conversion/WhatsAppLink.astro';
 
 interface Props {
@@ -7,6 +8,13 @@ interface Props {
   homeHref?: string;
 }
 const { routeLabel, homeHref = '/' } = Astro.props;
+const nav = [
+  { href: '/#journey', label: 'Itinerary' },
+  { href: '/routes/', label: 'Routes' },
+  { href: '/spiti-road-guide/', label: 'Road guide' },
+  { href: '/vehicles/innova-crysta/', label: 'Innova Crysta' },
+  { href: '/contact/', label: 'Contact' },
+];
 ---
 
 <header class="header">
@@ -18,8 +26,13 @@ const { routeLabel, homeHref = '/' } = Astro.props;
         <small>{SITE.tagline}</small>
       </span>
     </a>
+    <nav class="header-nav" aria-label="Main">
+      {nav.map((n) => (
+        <a href={n.href}>{n.label}</a>
+      ))}
+    </nav>
     <WhatsAppLink class="button button-whatsapp header-book" cta="header" routeLabel={routeLabel}>
-      Chat to book ↗
+      <Icon name="chat" size={16} /> Chat to book
     </WhatsAppLink>
   </div>
 </header>

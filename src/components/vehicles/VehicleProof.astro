@@ -1,39 +1,64 @@
 ---
 import type { MediaView } from '../../lib/domain/types';
+import Icon from '../Icon.astro';
 import Picture from '../Picture.astro';
 
 interface Props {
   media: MediaView | null;
 }
 const { media } = Astro.props;
+/* Verified service facts only — no fleet size, ratings or driver claims. */
+const features = [
+  {
+    icon: 'seat',
+    title: 'Private & comfortable',
+    text: 'The whole Innova Crysta is yours: your group, your luggage, your stops.',
+  },
+  {
+    icon: 'route',
+    title: 'Planned around you',
+    text: 'Stop for monasteries, villages and viewpoints at your own pace.',
+  },
+  {
+    icon: 'shield',
+    title: 'Checked for your dates',
+    text: 'Route, seasonal sections and high-pass access confirmed trip by trip.',
+  },
+] as const;
 ---
 
 <section class="proof" aria-labelledby="proofTitle">
   <div class="shell proof-grid">
     <div class="proof-photo">
       {media && <Picture media={media} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />}
-      <span>Your private ride, on the real road.</span>
+      <span>Our Innova Crysta, on the real road.</span>
     </div>
     <div>
-      <div class="eyebrow">Your private Spiti ride</div>
-      <h2 id="proofTitle">
-        More of the road.
-        <br />
-        Less of the rush.
-      </h2>
+      <div class="eyebrow">Travel in comfort</div>
+      <h2 id="proofTitle">The right car<br /><em>for higher roads.</em></h2>
       <p>
-        Book private Innova Crysta transport, choose the stops you care about and get a route
-        matched to your dates. Ask about hotels if you need them.
+        Private Innova Crysta transport, stops you choose and a route matched to your dates. Ask about hotels if
+        you need them.
       </p>
-      <div class="proof-detail">
-        <span>Private vehicle</span>
-        <span>Flexible stops</span>
-        <span>Route checked for your dates</span>
-      </div>
       <p class="safety-note">
-        Innova Crysta is not a 4×4 snow-expedition vehicle. Vehicle suitability and high-pass access
-        are confirmed trip by trip.
+        Innova Crysta is not a 4×4 snow-expedition vehicle. Vehicle suitability and high-pass access are
+        confirmed trip by trip.
       </p>
     </div>
   </div>
+  <ul class="shell proof-features">
+    {
+      features.map((f) => (
+        <li>
+          <span class="proof-icon">
+            <Icon name={f.icon} size={26} />
+          </span>
+          <span>
+            <strong>{f.title}</strong>
+            {f.text}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
 </section>

@@ -9,10 +9,23 @@ import { legRanges } from './geometry';
 import type { JourneyPayload } from './payload';
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
+
+/** Small line icons for stop types (constant markup, never user data). viewBox 0 0 16 16. */
+const PIN_ICONS: Record<string, string> = {
+  monastery:
+    '<path d="M8 1.2 9.1 4H6.9ZM5.4 4.6h5.2v1.5H5.4ZM4 6.7c0 2.6 8 2.6 8 0ZM3.4 9.8h9.2v1.4H3.4ZM2.4 11.8h11.2V14H2.4Z" fill="currentColor"/>',
+  lake: '<path d="M1.5 6.5c2-2 3.5-2 5.5 0s3.5 2 5.5 0M3 10.5c2-2 3.5-2 5.5 0s3 2 5 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  pass: '<path d="M1.2 13.5 6 5l2.6 4.3 2-2.8 4.2 7Z" fill="currentColor"/>',
+  stay: '<path d="M10.8 2.2a5.8 5.8 0 1 0 3.1 9.4 4.7 4.7 0 0 1-3.1-9.4Z" fill="currentColor"/>',
+  start:
+    '<path d="M4 14.5V2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4.6 2.4h7.6L10.6 5l1.6 2.6H4.6Z" fill="currentColor"/>',
+};
 const clamp = (v: number, min = 0, max = 1) => Math.max(min, Math.min(max, v));
 
 interface RenderedPin {
   pin: HTMLElement;
+  labelEl: HTMLElement;
+  labelW: number;
   /** x in world pixels (== offsetLeft), cached per render/resize. */
   x: number;
   label: string;
@@ -33,8 +46,6 @@ export function initJourney(): void {
   const counterEl = document.getElementById('dayCounter');
   const stopCounter = document.getElementById('stopCounter');
   const live = document.getElementById('journeyLive');
-  const activeAsphalt = document.getElementById('activeLegAsphalt');
-  const activeLane = document.getElementById('activeLegLane');
   if (!dataEl || !days.length || !sticky || !viewport || !world || !path || !car || !pinLayer)
     return;
   if (!legEl || !placeEl || !counterEl || !stopCounter) return;
@@ -81,11 +92,6 @@ export function initJourney(): void {
 
   const renderPins = (dayIndex: number, worldW: number) => {
     renderedDay = dayIndex;
-    // Highlight only this day's stretch of road; the rest of the route is dimmed by CSS.
-    const leg = data.segments[dayIndex] ?? '';
-    activeAsphalt?.setAttribute('d', leg);
-    activeLane?.setAttribute('d', leg);
-    viewport.classList.toggle('has-active-leg', Boolean(leg));
     renderedWorldW = worldW;
     pinLayer.replaceChildren();
     dayPins = [];
@@ -99,6 +105,11 @@ export function initJourney(): void {
       pin.style.top = `${(pt.y / H) * 100}%`;
       pin.dataset.name = label;
       pin.dataset.kind = kind;
+      const icon = PIN_ICONS[kind];
+      if (icon) {
+        pin.classList.add('has-icon');
+        pin.innerHTML = `<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">${icon}</svg>`;
+      }
       const labelEl = document.createElement('span');
       labelEl.className = 'pin-label';
       const title = document.createElement('strong');
@@ -108,8 +119,11 @@ export function initJourney(): void {
       labelEl.append(title, type);
       pin.appendChild(labelEl);
       pinLayer.appendChild(pin);
-      dayPins.push({ pin, x: (pt.x / W) * worldW, label, i });
+      if (pins.length > 1 && i === pins.length - 1) pin.classList.add('is-destination');
+      dayPins.push({ pin, labelEl, x: (pt.x / W) * worldW, labelW: 0, label, i });
     });
+    // One layout read per day change: label widths for collision-free placement.
+    dayPins.forEach((p) => (p.labelW = p.labelEl.offsetWidth || 90));
   };
 
   // Tapping a stop chip scrolls so the vehicle arrives at that stop (no new screen).
@@ -140,6 +154,7 @@ export function initJourney(): void {
     const worldW = world.offsetWidth;
     const worldH = world.offsetHeight;
     const viewW = viewport.clientWidth;
+    const carHalf = car.offsetWidth / 2;
 
     let d = rects.findIndex((b) => b.top <= target && b.bottom > target);
     if (d < 0) {
@@ -192,14 +207,55 @@ export function initJourney(): void {
     const pan = Math.min(maxPan, Math.max(0, x - viewW * 0.44));
     world.style.transform = `translate3d(${-pan}px,0,0)`;
 
-    // Only the current stop is labelled; other pins of the day stay as quiet dots.
-    dayPins.forEach(({ pin, x: px, i }) => {
-      pin.classList.toggle('is-current', i === currentIndex);
-      pin.classList.toggle('is-passed', i < currentIndex);
-      const sx = px - pan;
-      pin.classList.toggle('label-left', sx < 95);
-      pin.classList.toggle('label-right', sx >= 95 && sx > viewW - 95);
-      pin.classList.toggle('show-label', i === currentIndex);
+    // Labels: the current stop, plus the day's destination. A label sits beside its stop on the
+    // side away from the car, pushed clear of it, and flips when it would leave the view, so it
+    // never covers the moving vehicle. The destination label hides if it would collide.
+    const gap = 8;
+    const viewL = pan + 4;
+    const viewR = pan + viewW - 4;
+    const place = (px: number, w: number) => {
+      const carL = x - carHalf - gap;
+      const carR = x + carHalf + gap;
+      const right = Math.max(px + 10, carR);
+      const left = Math.min(px - 10, carL) - w;
+      const preferRight = x <= px;
+      const fitsRight = right + w <= viewR;
+      const fitsLeft = left >= viewL;
+      const start = preferRight
+        ? fitsRight || !fitsLeft
+          ? right
+          : left
+        : fitsLeft || !fitsRight
+          ? left
+          : right;
+      return { start, end: start + w };
+    };
+    let currentBox: { start: number; end: number } | null = null;
+    dayPins.forEach((p) => {
+      p.pin.classList.toggle('is-current', p.i === currentIndex);
+      p.pin.classList.toggle('is-passed', p.i < currentIndex);
+    });
+    const cur = dayPins[currentIndex];
+    if (cur) {
+      currentBox = place(cur.x, cur.labelW);
+      cur.pin.style.setProperty('--lx', `${currentBox.start - cur.x}px`);
+    }
+    dayPins.forEach((p) => {
+      let show = p.i === currentIndex;
+      if (!show && p.pin.classList.contains('is-destination')) {
+        // The destination label stays attached to its own stop (right side, else left).
+        const right = { start: p.x + 12, end: p.x + 12 + p.labelW };
+        const left = { start: p.x - 12 - p.labelW, end: p.x - 12 };
+        const clear = (b: { start: number; end: number }) =>
+          b.start >= viewL &&
+          b.end <= viewR &&
+          !(b.start < x + carHalf + gap && b.end > x - carHalf - gap) &&
+          !(currentBox && b.start < currentBox.end + gap && b.end > currentBox.start - gap);
+        const box = clear(right) ? right : clear(left) ? left : null;
+        show = box !== null;
+        if (box) p.pin.style.setProperty('--lx', `${box.start - p.x}px`);
+      }
+      p.pin.classList.toggle('show-label', show);
     });
 
     chipsByDay[d]!.forEach((chip) => {

@@ -1,6 +1,7 @@
 ---
 import type { MediaView } from '../lib/domain/types';
 import Header from './Header.astro';
+import Icon from './Icon.astro';
 import Picture from './Picture.astro';
 import WhatsAppLink from './conversion/WhatsAppLink.astro';
 
@@ -14,6 +15,12 @@ interface Props {
 }
 
 const { kicker, title, titleAccent, subtitle, media, routeLabel } = Astro.props;
+/* Only verified service facts (no ratings, counts or driver claims). */
+const trust = [
+  { icon: 'car', title: 'Private Innova Crysta', text: 'Just your group' },
+  { icon: 'route', title: 'Flexible stops', text: 'Your pace, your plan' },
+  { icon: 'shield', title: 'Route checked', text: 'For your travel dates' },
+] as const;
 ---
 
 <section class="hero" id="top" aria-labelledby="heroTitle">
@@ -30,12 +37,23 @@ const { kicker, title, titleAccent, subtitle, media, routeLabel } = Astro.props;
       {subtitle && <p class="hero-sub">{subtitle}</p>}
       <div class="hero-actions">
         <WhatsAppLink class="button button-whatsapp" cta="hero" routeLabel={routeLabel}>
-          Plan my ride on WhatsApp ↗
+          <Icon name="chat" /> Plan my ride on WhatsApp
         </WhatsAppLink>
         <a class="button button-outline" href="#journey">
-          Explore the itinerary ↓
+          Explore the itinerary <Icon name="arrow-down" size={16} />
         </a>
       </div>
+      <ul class="hero-trust">
+        {trust.map((t) => (
+          <li>
+            <Icon name={t.icon} size={26} />
+            <span>
+              <strong>{t.title}</strong>
+              {t.text}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>

@@ -45,10 +45,6 @@ const { path, firstLeg, firstPlace, firstStopCount, totalDays } = Astro.props;
           <path class="road-asphalt" d={path}></path>
           <path class="road-lane" d={path}></path>
         </g>
-        <g class="road-active">
-          <path class="road-asphalt" id="activeLegAsphalt" d=""></path>
-          <path class="road-lane" id="activeLegLane" d=""></path>
-        </g>
         <path id="routePath" d={path} fill="none" stroke="none"></path>
       </svg>
       <div id="pinLayer"></div>

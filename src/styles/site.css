@@ -145,14 +145,6 @@
   .proof p,.contact p,.faq details p{font-size:16px}
 }
 /* Itinerary & route map refinements (2026-09-24). */
-.road-lane{fill:none;stroke:rgba(246,236,210,.7);stroke-width:1.4;stroke-dasharray:9 11;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.road-active path{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.road-active .road-asphalt{stroke:#344c41}
-.road-active .road-lane{stroke:#f6d9a2;stroke-width:1.6}
-.road-base{transition:opacity .3s}
-.nav-map.has-active-leg .road-base{opacity:.42}
-/* Lane markings only on the day being driven; the dimmed rest of the route stays plain. */
-.nav-map.has-active-leg .road-base .road-lane{display:none}
 .day{scroll-margin-top:var(--route-sticky-h,90px)}
 .hero-sub{font-size:17px;line-height:1.55;color:#eef3ee;margin:0 0 26px;max-width:520px}
 @media(max-width:900px){
@@ -162,6 +154,51 @@
   .day-content{padding:56px 0 calc(100px + env(safe-area-inset-bottom,0px))}
 }
 @media(max-width:600px){.hero-sub{font-size:15.5px;max-width:330px;margin-bottom:22px}}
-@media(prefers-reduced-motion:reduce){.road-base{transition:none}}
+/* Labels are placed by the map script (--lx) beside their stop and clear of the moving car. */
+.nav-map .map-pin .pin-label,.nav-map .map-pin.below .pin-label,.nav-map .map-pin.show-label .pin-label,.nav-map .map-pin.below.show-label .pin-label{left:50%;right:auto;top:50%;bottom:auto;transform:translate(var(--lx,10px),-50%);transition:opacity .2s,visibility .2s}
+/*
+ * Route map theme (owner reference, 2026-09-24): dark pine map, dark road with a golden dashed
+ * centre line, gold stop markers with icons for monasteries, lakes, passes, overnights and start.
+ */
+.nav-map{background:linear-gradient(180deg,#153128 0%,#0f261f 100%);border-top:1px solid rgba(239,190,126,.12)}
+.road-casing{stroke:#21423a}
+.road-asphalt{stroke:#0b1c17}
+.road-lane{fill:none;stroke:#efbe7e;stroke-width:1.8;stroke-dasharray:8 9;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.95}
+.map-pin{background:#efbe7e;border:2px solid #0b1c17;box-shadow:0 0 0 2px rgba(239,190,126,.25)}
+.map-pin.is-passed{background:#b98545;border-color:#0b1c17}
+.map-pin[data-kind="detour"]{background:#0b1c17;border:2px dashed #efbe7e}
+.map-pin.has-icon{width:20px;height:20px;display:grid;place-items:center;background:#0f241d;border:1.5px solid #efbe7e;color:#efbe7e;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.map-pin.has-icon svg{width:12px;height:12px;display:block}
+.map-pin.is-current{width:16px;height:16px;background:#efbe7e;border:3px solid #0b1c17;box-shadow:0 0 0 5px rgba(239,190,126,.28);color:#0b1c17}
+.map-pin.has-icon.is-current{width:24px;height:24px;border:2px solid #fff3dd}
+.map-pin.has-icon.is-current svg{width:14px;height:14px}
+.nav-map .pin-label{background:rgba(9,24,19,.92);color:#f3efe6;border:1px solid rgba(239,190,126,.35);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.nav-map .pin-label small{color:#d9b27a}
+.nav-map .map-pin.is-current .pin-label{background:#efbe7e;color:#10261d;border-color:#efbe7e}
+.nav-map .map-pin.is-current .pin-label small{color:#5b3f17}
+.nav-map .map-pin.is-destination:not(.is-current) .pin-label{border-color:#efbe7e;box-shadow:inset 3px 0 0 #efbe7e,0 6px 18px rgba(0,0,0,.35)}
+@media(max-width:600px){.map-pin.has-icon{width:18px;height:18px}.map-pin.has-icon svg{width:11px;height:11px}.map-pin.has-icon.is-current{width:22px;height:22px}}
+/* Hero & header polish (owner reference, 2026-09-24). */
+.header-nav{display:flex;gap:26px;margin-left:auto;margin-right:22px}
+.header-nav a{font-size:14px;font-weight:500;color:#eef3ee;opacity:.9;padding:8px 0;border-bottom:1px solid transparent}
+.header-nav a:hover,.header-nav a:focus-visible{opacity:1;border-bottom-color:#efbe7e}
+.button .icon{flex:none}
+.hero-sub{font-family:'Playfair Display',Georgia,serif;font-size:21px;line-height:1.45;font-weight:500;max-width:560px;color:#f3f1ea}
+.hero-trust{list-style:none;display:flex;gap:0;margin:34px 0 0;padding:0}
+.hero-trust li{display:flex;align-items:center;gap:12px;padding:0 24px;border-left:1px solid rgba(255,255,255,.22);font-size:13px;line-height:1.4;color:#dfe8e1}
+.hero-trust li:first-child{padding-left:0;border-left:0}
+.hero-trust .icon{color:#efbe7e}
+.hero-trust strong{display:block;color:#fff;font-size:14px;font-weight:600}
+@media(max-width:1100px){.header-nav{gap:18px;margin-right:14px}.header-nav a{font-size:13px}}
+@media(max-width:900px){.header-nav,.hero-trust{display:none}}
+@media(max-width:600px){.hero-sub{font-size:17px;max-width:340px}}
+/* Vehicle section (owner reference, 2026-09-24). */
+.proof h2 em{font-style:normal;color:#b07a3b}
+.proof-features{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;padding:0}
+.proof-features li{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.proof-features strong{display:block;font:600 19px/1.25 'Playfair Display',Georgia,serif;color:var(--ink);margin-bottom:6px}
+.proof-features li>span:last-child{font-size:15px;line-height:1.55;color:var(--muted)}
+.proof-icon{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:1.5px solid #d9b27a;color:#8f6330;background:#fbf6ec}
+@media(max-width:900px){.proof-features{grid-template-columns:1fr;gap:12px;margin-top:30px}.proof-features li{padding:18px}}
 /* Visually hidden, still announced. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

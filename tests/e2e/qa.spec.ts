@@ -55,16 +55,57 @@ for (const width of [...MOBILE, ...DESKTOP]) {
   });
 }
 
-test('route map shows only the current day: highlighted leg, one label', async ({ page }) => {
-  await page.goto('/');
-  await focusDay(page, 5);
-  await expect(page.locator('#pinLayer .map-pin')).toHaveCount(5);
-  await expect(page.locator('#pinLayer .map-pin.show-label')).toHaveCount(1);
-  await expect(page.locator('#navMap')).toHaveClass(/has-active-leg/);
-  const leg = await page.locator('#activeLegAsphalt').getAttribute('d');
-  expect(leg).toContain('M 1765 56 C 1805 20');
-  await focusDay(page, 7); // rest day: nothing to highlight
-  await expect(page.locator('#navMap')).not.toHaveClass(/has-active-leg/);
+test('whole road is active; stop labels never cover the car or each other', async ({ page }) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 850 });
+    await page.goto('/');
+    await expect(page.locator('#navMap')).not.toHaveClass(/has-active-leg/);
+    await expect(page.locator('.road-base .road-lane')).toHaveCount(1);
+    for (const day of [1, 2, 3, 4, 5, 6, 8, 9]) {
+      for (const f of [0.05, 0.3, 0.55, 0.8, 0.95]) {
+        await page.evaluate(
+          ({ d, f }) => {
+            const el = document.getElementById(`day${d}`)!;
+            const s = document.getElementById('routeSticky')!;
+            const t = s.offsetHeight + Math.max(70, (innerHeight - s.offsetHeight) * 0.46);
+            scrollTo({
+              top: el.getBoundingClientRect().top + scrollY + el.offsetHeight * f - t,
+              behavior: 'instant',
+            });
+          },
+          { d: day, f },
+        );
+        await page.waitForTimeout(120);
+        const r = await page.evaluate(() => {
+          const car = document.getElementById('mapCar')!.getBoundingClientRect();
+          const labels = [
+            ...document.querySelectorAll('#pinLayer .map-pin.show-label .pin-label'),
+          ].map((l) => l.getBoundingClientRect());
+          const hit = (a: DOMRect, b: DOMRect, pad = 0) =>
+            a.left < b.right - pad &&
+            a.right > b.left + pad &&
+            a.top < b.bottom - pad &&
+            a.bottom > b.top + pad;
+          // Car body only (the SVG box includes transparent shadow margins).
+          const body = new DOMRect(
+            car.left + car.width * 0.15,
+            car.top,
+            car.width * 0.7,
+            car.height,
+          );
+          return {
+            count: labels.length,
+            onCar: labels.some((l) => hit(l, body)),
+            overlap: labels.length === 2 && hit(labels[0]!, labels[1]!),
+          };
+        });
+        expect(r.count, `labels day ${day} @${f} ${width}px`).toBeGreaterThanOrEqual(1);
+        expect(r.count).toBeLessThanOrEqual(2);
+        expect(r.onCar, `label covers car: day ${day} @${f} ${width}px`).toBe(false);
+        expect(r.overlap, `labels overlap: day ${day} @${f} ${width}px`).toBe(false);
+      }
+    }
+  }
 });
 
 test('WhatsApp click is tracked with context and still opens WhatsApp', async ({
