@@ -1,0 +1,27 @@
+---
+interface Props {
+  name: string;
+  label: string;
+  options: { value: string | number; label: string }[];
+  value?: string | number | null | undefined;
+  empty?: string;
+  hint?: string;
+  errors?: string[] | undefined;
+}
+const { name, label, options, value, empty, hint, errors } = Astro.props;
+const id = `f-${name}`;
+---
+
+<div class="field">
+  <label for={id}>{label}</label>
+  <select id={id} name={name}>
+    {empty !== undefined && <option value="">{empty}</option>}
+    {options.map((o) => (
+      <option value={o.value} selected={String(o.value) === String(value ?? '')}>
+        {o.label}
+      </option>
+    ))}
+  </select>
+  {hint && <small>{hint}</small>}
+  {errors?.length ? <span class="err">{errors.join(' ')}</span> : null}
+</div>

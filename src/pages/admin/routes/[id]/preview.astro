@@ -1,0 +1,15 @@
+---
+/* Admin-only preview of any route (including drafts) through the public template. Never indexed. */
+import RouteLayout from '../../../../layouts/RouteLayout.astro';
+import { findRouteById } from '../../../../lib/repositories/routes';
+import { buildRouteMeta } from '../../../../lib/seo/meta';
+
+export const prerender = false;
+
+const id = Number(Astro.params.id);
+const route = Number.isInteger(id) && id > 0 ? await findRouteById(id) : null;
+if (!route) return new Response(null, { status: 404 });
+const meta = buildRouteMeta(route, Astro.site ?? Astro.url, { preview: true });
+---
+
+<RouteLayout route={route} meta={meta} variant="preview" />

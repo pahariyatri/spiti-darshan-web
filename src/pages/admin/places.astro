@@ -1,0 +1,136 @@
+---
+import { actions } from 'astro:actions';
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import Field from '../../components/admin/Field.astro';
+import Select from '../../components/admin/Select.astro';
+import Check from '../../components/admin/Check.astro';
+import { feedbackFrom } from '../../lib/admin/feedback';
+import { listPlaces } from '../../lib/services/admin';
+
+export const prerender = false;
+
+const fb = feedbackFrom([
+  Astro.getActionResult(actions.saveDestination),
+  Astro.getActionResult(actions.saveAttraction),
+]);
+if (fb.ok) return Astro.redirect('/admin/places/?saved=1', 303);
+const { destinations, attractions } = await listPlaces();
+const destOptions = destinations.map((d) => ({ value: d.id, label: d.name }));
+const err = fb.fields;
+---
+
+<AdminLayout title="Places" section="places" feedback={fb}>
+  <p class="muted">
+    Reusable destinations (towns, villages, overnight stops) and attractions (monasteries, passes,
+    lakes). Leave coordinates empty unless verified.
+  </p>
+
+  <h2>Destinations</h2>
+  {destinations.map((d) => (
+    <details class="card">
+      <summary>
+        <strong>{d.name}</strong> <span class="muted">{d.region}</span>{' '}
+        {d.isMajorStop && <span class="pill">major</span>}
+      </summary>
+      <form method="POST" action={'/admin/places/' + actions.saveDestination}>
+        <input type="hidden" name="id" value={d.id} />
+        <div class="grid">
+          <Field name="name" label="Name" value={d.name} required />
+          <Field name="slug" label="Slug" value={d.slug} required />
+          <Field name="region" label="Region" value={d.region} />
+          <Field name="latitude" label="Latitude" type="number" step="any" value={d.latitude} />
+          <Field name="longitude" label="Longitude" type="number" step="any" value={d.longitude} />
+          <Field
+            name="shortDescription"
+            label="Short description"
+            type="textarea"
+            value={d.shortDescription}
+            wide
+          />
+          <Check name="isMajorStop" label="Major stop" checked={d.isMajorStop} />
+        </div>
+        <p>
+          <button class="btn small" type="submit">
+            Save
+          </button>
+        </p>
+      </form>
+    </details>
+  ))}
+  <form class="card" method="POST" action={'/admin/places/' + actions.saveDestination}>
+    <strong>+ New destination</strong>
+    <div class="grid">
+      <Field name="name" label="Name" required errors={err.name} />
+      <Field name="slug" label="Slug" required errors={err.slug} />
+      <Field name="region" label="Region" />
+      <Field name="latitude" label="Latitude" type="number" step="any" errors={err.latitude} />
+      <Field name="longitude" label="Longitude" type="number" step="any" errors={err.longitude} />
+      <Check name="isMajorStop" label="Major stop" />
+    </div>
+    <p>
+      <button class="btn" type="submit">
+        Add destination
+      </button>
+    </p>
+  </form>
+
+  <h2>Attractions</h2>
+  {attractions.map((a) => (
+    <details class="card">
+      <summary>
+        <strong>{a.name}</strong> <span class="pill">{a.attractionType}</span>
+      </summary>
+      <form method="POST" action={'/admin/places/' + actions.saveAttraction}>
+        <input type="hidden" name="id" value={a.id} />
+        <div class="grid">
+          <Field name="name" label="Name" value={a.name} required />
+          <Field name="slug" label="Slug" value={a.slug} required />
+          <Field name="attractionType" label="Type" value={a.attractionType} required />
+          <Select
+            name="destinationId"
+            label="Near destination"
+            options={destOptions}
+            value={a.destinationId}
+            empty="—"
+          />
+          <Field name="latitude" label="Latitude" type="number" step="any" value={a.latitude} />
+          <Field name="longitude" label="Longitude" type="number" step="any" value={a.longitude} />
+          <Field
+            name="shortDescription"
+            label="Short description"
+            type="textarea"
+            value={a.shortDescription}
+            wide
+          />
+          <Check name="isOptional" label="Usually optional" checked={a.isOptional} />
+        </div>
+        <p>
+          <button class="btn small" type="submit">
+            Save
+          </button>
+        </p>
+      </form>
+    </details>
+  ))}
+  <form class="card" method="POST" action={'/admin/places/' + actions.saveAttraction}>
+    <strong>+ New attraction</strong>
+    <div class="grid">
+      <Field name="name" label="Name" required />
+      <Field name="slug" label="Slug" required />
+      <Field
+        name="attractionType"
+        label="Type"
+        value="attraction"
+        required
+        hint="monastery, pass, lake, bridge…"
+      />
+      <Select name="destinationId" label="Near destination" options={destOptions} empty="—" />
+      <Check name="isOptional" label="Usually optional" />
+    </div>
+    <p>
+      <button class="btn" type="submit">
+        Add attraction
+      </button>
+    </p>
+  </form>
+</AdminLayout>

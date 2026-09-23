@@ -1,0 +1,67 @@
+---
+interface Props {
+  name: string;
+  label: string;
+  value?: string | number | null | undefined;
+  type?: 'text' | 'number' | 'email' | 'password' | 'url' | 'textarea';
+  required?: boolean;
+  hint?: string;
+  maxlength?: number;
+  step?: string;
+  wide?: boolean;
+  errors?: string[] | undefined;
+  autocomplete?: string;
+}
+const {
+  name,
+  label,
+  value,
+  type = 'text',
+  required,
+  hint,
+  maxlength,
+  step,
+  wide,
+  errors,
+  autocomplete,
+} = Astro.props;
+const id = `f-${name}`;
+const describedBy =
+  [hint && `${id}-hint`, errors?.length && `${id}-err`].filter(Boolean).join(' ') || undefined;
+---
+
+<div class:list={['field', { wide }]}>
+  <label for={id}>
+    {label}
+    {required && ' *'}
+  </label>
+  {type === 'textarea' ? (
+    <textarea
+      id={id}
+      name={name}
+      required={required}
+      maxlength={maxlength}
+      aria-describedby={describedBy}
+      aria-invalid={errors?.length ? 'true' : undefined}
+    >{value ?? ''}</textarea>
+  ) : (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      value={value ?? ''}
+      required={required}
+      maxlength={maxlength}
+      step={step}
+      autocomplete={autocomplete}
+      aria-describedby={describedBy}
+      aria-invalid={errors?.length ? 'true' : undefined}
+    />
+  )}
+  {hint && <small id={`${id}-hint`}>{hint}</small>}
+  {errors?.length ? (
+    <span class="err" id={`${id}-err`}>
+      {errors.join(' ')}
+    </span>
+  ) : null}
+</div>

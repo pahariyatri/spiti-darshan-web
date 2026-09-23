@@ -1,0 +1,69 @@
+---
+import { actions } from 'astro:actions';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import Field from '../../../components/admin/Field.astro';
+import { feedbackFrom } from '../../../lib/admin/feedback';
+
+export const prerender = false;
+
+const result = Astro.getActionResult(actions.createRoute);
+if (result?.data) return Astro.redirect(`/admin/routes/${result.data.id}/?saved=1`, 303);
+const fb = feedbackFrom([result]);
+---
+
+<AdminLayout title="New route" section="routes" feedback={fb}>
+  <p class="muted">
+    A route is data: metadata here, then days and stops on the next screen. It stays a draft (not
+    public) until you publish it.
+  </p>
+  <form class="card" method="POST" action={actions.createRoute}>
+    <div class="grid">
+      <Field
+        name="name"
+        label="Route name (page H1 context)"
+        required
+        maxlength={160}
+        errors={fb.fields.name}
+        hint="e.g. Private Chandigarh to Spiti Road Trip"
+      />
+      <Field
+        name="shortTitle"
+        label="Short title"
+        required
+        maxlength={80}
+        errors={fb.fields.shortTitle}
+        hint="e.g. Chandigarh → Kaza"
+      />
+      <Field
+        name="slug"
+        label="URL slug"
+        required
+        maxlength={80}
+        errors={fb.fields.slug}
+        hint="/routes/<slug>/ — e.g. chandigarh-to-spiti"
+      />
+      <Field
+        name="startingLocation"
+        label="Starts at"
+        required
+        errors={fb.fields.startingLocation}
+      />
+      <Field name="endingLocation" label="Ends at" required errors={fb.fields.endingLocation} />
+      <Field
+        name="summary"
+        label="Summary"
+        type="textarea"
+        required
+        maxlength={600}
+        wide
+        errors={fb.fields.summary}
+        hint="One or two honest sentences. Used as the default meta description."
+      />
+    </div>
+    <p>
+      <button class="btn" type="submit">
+        Create draft route
+      </button>
+    </p>
+  </form>
+</AdminLayout>

@@ -1,0 +1,66 @@
+---
+import { actions } from 'astro:actions';
+import type { Feedback } from '../lib/admin/feedback';
+import '../styles/admin.css';
+
+interface Props {
+  title: string;
+  section?: 'routes' | 'places' | 'media' | 'dashboard';
+  feedback?: Feedback;
+  saved?: boolean;
+}
+const { title, section, feedback, saved = Astro.url.searchParams.has('saved') } = Astro.props;
+const user = Astro.locals.admin;
+const nav = [
+  { href: '/admin/', label: 'Dashboard', key: 'dashboard' },
+  { href: '/admin/routes/new/', label: 'New route', key: 'routes' },
+  { href: '/admin/places/', label: 'Places', key: 'places' },
+  { href: '/admin/media/', label: 'Media', key: 'media' },
+] as const;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>{title} · Spiti Darshan admin</title>
+  </head>
+  <body class="admin">
+    {user && (
+      <nav class="admin-bar" aria-label="Admin">
+        <strong>Spiti Darshan</strong>
+        {nav.map((n) => (
+          <a href={n.href} aria-current={section === n.key ? 'page' : undefined}>
+            {n.label}
+          </a>
+        ))}
+        <span class="spacer" />
+        <a href="/" target="_blank" rel="noopener">
+          View site ↗
+        </a>
+        <span class="muted">{user.email}</span>
+        <form method="POST" action={'/admin/login/' + actions.logout}>
+          <button class="btn small secondary" type="submit">
+            Sign out
+          </button>
+        </form>
+      </nav>
+    )}
+    <main class="admin-main">
+      <h1>{title}</h1>
+      {saved && (
+        <p class="notice ok" role="status">
+          Saved.
+        </p>
+      )}
+      {feedback?.message && (
+        <p class="notice bad" role="alert">
+          {feedback.message}
+        </p>
+      )}
+      <slot />
+    </main>
+  </body>
+</html>
