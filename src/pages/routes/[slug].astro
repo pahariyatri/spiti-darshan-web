@@ -1,0 +1,43 @@
+---
+/**
+ * Every route page. Server-rendered so publishing in /admin is live without a rebuild; the
+ * response carries a short shared-cache lifetime for the reverse proxy.
+ */
+import RouteLayout from '../../layouts/RouteLayout.astro';
+import { buildRouteMeta, routePath } from '../../lib/seo/meta';
+import {
+  breadcrumbSchema,
+  graph,
+  organizationSchema,
+  touristTripSchema,
+  webPageSchema,
+} from '../../lib/seo/schema';
+import { findPublishedRouteBySlug } from '../../lib/repositories/routes';
+import { publicPageCache } from '../../lib/http/cache';
+
+export const prerender = false;
+
+const slug = Astro.params.slug ?? '';
+if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return new Response(null, { status: 404 });
+const route = await findPublishedRouteBySlug(slug);
+if (!route) return new Response(null, { status: 404 });
+
+const site = Astro.site ?? Astro.url;
+const meta = buildRouteMeta(route, site);
+const jsonLd = graph(
+  organizationSchema(site),
+  webPageSchema({ name: meta.title, description: meta.description, url: meta.canonical, site }),
+  touristTripSchema(route, site, meta.canonical),
+  breadcrumbSchema(
+    [
+      { name: 'Home', path: '/' },
+      { name: 'Routes', path: '/routes/' },
+      { name: route.shortTitle, path: routePath(route.slug) },
+    ],
+    site,
+  ),
+);
+publicPageCache(Astro.response.headers);
+---
+
+<RouteLayout route={route} meta={meta} jsonLd={jsonLd} variant="route" />

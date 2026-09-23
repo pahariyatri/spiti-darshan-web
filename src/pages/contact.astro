@@ -1,0 +1,52 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import WhatsAppLink from '../components/conversion/WhatsAppLink.astro';
+import { buildPageMeta } from '../lib/seo/meta';
+import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../lib/seo/schema';
+
+export const prerender = true;
+const site = Astro.site ?? Astro.url;
+const meta = buildPageMeta({
+  title: 'Contact Spiti Darshan on WhatsApp',
+  description:
+    'Plan a private Spiti taxi: message Spiti Darshan on WhatsApp with your travel dates, group size and pickup city for a route check and quote.',
+  path: '/contact/',
+  site,
+});
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Contact', path: '/contact/' },
+];
+const jsonLd = graph(
+  organizationSchema(site),
+  webPageSchema({ name: meta.title, description: meta.description, url: meta.canonical, site }),
+  breadcrumbSchema(crumbs, site),
+);
+---
+
+<PageLayout
+  meta={meta}
+  jsonLd={jsonLd}
+  eyebrow="Ready for the road?"
+  title="Tell us your dates."
+  titleAccent="We'll plan the drive."
+  intro="No form. Message us on WhatsApp for a private Spiti taxi quote and route check."
+  breadcrumbs={crumbs}
+>
+  <WhatsAppLink slot="hero-actions" class="button button-whatsapp" cta="contact">
+    Start WhatsApp conversation ↗
+  </WhatsAppLink>
+  <div class="shell prose">
+    <h2>What to include</h2>
+    <ul>
+      <li>Travel dates (and whether they are flexible)</li>
+      <li>Number of travellers</li>
+      <li>Pickup city</li>
+      <li>The route or stops you are interested in</li>
+    </ul>
+    <p>
+      We reply with route availability for your dates — including whether seasonal sections such as
+      Kunzum and Chandratal are open — and a price.
+    </p>
+  </div>
+</PageLayout>

@@ -1,0 +1,75 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Picture from '../../components/Picture.astro';
+import WhatsAppLink from '../../components/conversion/WhatsAppLink.astro';
+import { buildPageMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../../lib/seo/schema';
+import { staticMedia, toMediaView } from '../../lib/media/static-media';
+
+export const prerender = true;
+const site = Astro.site ?? Astro.url;
+const hero = toMediaView(staticMedia('hero-vehicles'));
+const fleet = toMediaView(staticMedia('fleet-parked'));
+const meta = buildPageMeta({
+  title: 'Private Innova Crysta taxi for Spiti',
+  description:
+    'Travel to Spiti Valley in a private Innova Crysta with Spiti Darshan. See our real vehicles, what the car is suited for, and how we confirm each route for your dates.',
+  path: '/vehicles/innova-crysta/',
+  site,
+  ogImage: hero,
+});
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Innova Crysta', path: '/vehicles/innova-crysta/' },
+];
+const jsonLd = graph(
+  organizationSchema(site),
+  webPageSchema({ name: meta.title, description: meta.description, url: meta.canonical, site }),
+  breadcrumbSchema(crumbs, site),
+);
+---
+
+<PageLayout
+  meta={meta}
+  jsonLd={jsonLd}
+  eyebrow="Your vehicle"
+  title="Private Innova Crysta."
+  titleAccent="On the real Spiti road."
+  intro="Private transport only: the vehicle, the driver and the stops are for your group."
+  breadcrumbs={crumbs}
+>
+  <div class="shell grid-2">
+    <div class="proof-photo">
+      <Picture media={hero} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />
+      <span>Our vehicles in the Spiti mountains.</span>
+    </div>
+    <div class="prose">
+      <h2>What to expect</h2>
+      <ul>
+        <li>A private Innova Crysta for your group — not a shared seat.</li>
+        <li>Stops you choose along the route, matched to your travel dates.</li>
+        <li>Seating and luggage confirmed for your group size when you enquire.</li>
+      </ul>
+      <p class="safety-note">
+        Innova Crysta is not a 4×4 snow-expedition vehicle. Vehicle suitability and high-pass access
+        are confirmed trip by trip.
+      </p>
+      <WhatsAppLink class="button button-whatsapp" cta="page">
+        Check a vehicle for my dates ↗
+      </WhatsAppLink>
+    </div>
+  </div>
+  <div class="shell grid-2 page-section">
+    <div class="prose">
+      <h2>Routes by Innova Crysta</h2>
+      <p>
+        See the day-by-day itinerary, including which sections are seasonal, on the{' '}
+        <a href="/routes/">routes page</a>.
+      </p>
+    </div>
+    <div class="proof-photo">
+      <Picture media={fleet} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />
+      <span>Your private ride, on the real road.</span>
+    </div>
+  </div>
+</PageLayout>
