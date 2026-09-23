@@ -1,0 +1,50 @@
+---
+import VehicleMarker from './VehicleMarker.astro';
+import { pad2 } from '../../lib/journey/payload';
+
+interface Props {
+  path: string;
+  firstLeg: string;
+  firstPlace: string;
+  firstStopCount: number;
+  totalDays: number;
+}
+
+const { path, firstLeg, firstPlace, firstStopCount, totalDays } = Astro.props;
+---
+
+<div class="route-sticky" id="routeSticky" role="region" aria-label="Animated itinerary map">
+  <div class="route-head">
+    <div class="route-head-left">
+      <strong id="currentLeg">{firstLeg}</strong>
+      <span class="muted" id="currentPlace">
+        Leaving {firstPlace}
+      </span>
+    </div>
+    <div class="route-status">
+      <span class="stop-counter" id="stopCounter">
+        STOP 01 / {pad2(firstStopCount)}
+      </span>
+      <span class="day-counter" id="dayCounter">
+        DAY 01 / {pad2(totalDays)}
+      </span>
+    </div>
+  </div>
+  <div class="nav-map" id="navMap">
+    <div class="map-world" id="mapWorld">
+      <svg
+        class="route-svg"
+        id="routeSvg"
+        viewBox="0 0 3200 110"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path class="road-casing" d={path}></path>
+        <path class="road-asphalt" d={path}></path>
+        <path id="routePath" d={path} fill="none" stroke="none"></path>
+      </svg>
+      <div id="pinLayer"></div>
+      <VehicleMarker />
+    </div>
+  </div>
+</div>

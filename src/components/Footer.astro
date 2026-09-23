@@ -1,0 +1,25 @@
+---
+import { SITE } from '../lib/config/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <span>
+      © <span id="year">{year}</span> {SITE.name} · {SITE.footerTagline}
+    </span>
+    <nav class="footer-nav" aria-label="Site">
+      <a href="/routes/">Routes</a>
+      <a href="/vehicles/innova-crysta/">Innova Crysta</a>
+      <a href="/contact/">Contact</a>
+      <a href="/about/">About</a>
+    </nav>
+    <span>
+      Illustrated journey, not live navigation. Check{' '}
+      <a href={SITE.officialRouteGuidance.url} target="_blank" rel="noopener">
+        {SITE.officialRouteGuidance.label}
+      </a>{' '}
+      before travel.
+    </span>
+  </div>
+</footer>

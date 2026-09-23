@@ -1,0 +1,54 @@
+---
+import SeoHead from '../components/seo/SeoHead.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import type { PageMeta } from '../lib/seo/meta';
+import type { MediaView } from '../lib/domain/types';
+import '../styles/site.css';
+import '../styles/pages.css';
+
+interface Props {
+  meta: PageMeta;
+  jsonLd?: unknown;
+  /** Route slug for the anonymous route_view beacon. */
+  trackRoute?: string | null;
+  /** LCP image to preload (hero). */
+  preload?: MediaView | null;
+}
+
+const { meta, jsonLd, trackRoute, preload } = Astro.props;
+const preloadSrcset = preload
+  ? preload.widths.map((w) => `${preload.basePath}-${w}.avif ${w}w`).join(', ')
+  : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SeoHead meta={meta} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {preloadSrcset && (
+      <link
+        rel="preload"
+        as="image"
+        type="image/avif"
+        imagesrcset={preloadSrcset}
+        imagesizes="100vw"
+        fetchpriority="high"
+      />
+    )}
+    {jsonLd && <JsonLd data={jsonLd} />}
+    <slot name="head" />
+  </head>
+  <body data-track-route={trackRoute ?? undefined}>
+    <slot />
+    <script>
+      import { initAttribution } from '../lib/analytics/attribution';
+      initAttribution();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+---
+import { SITE } from '../lib/config/site';
+import WhatsAppLink from './conversion/WhatsAppLink.astro';
+
+interface Props {
+  route?: string | null;
+  homeHref?: string;
+}
+const { route, homeHref = '/' } = Astro.props;
+---
+
+<header class="header">
+  <div class="shell header-inner">
+    <a class="brand" href={homeHref} aria-label={`${SITE.name} home`}>
+      <span class="brand-mark">{SITE.brandMark}</span>
+      <span>
+        <strong>{SITE.name}</strong>
+        <small>{SITE.tagline}</small>
+      </span>
+    </a>
+    <WhatsAppLink class="button button-whatsapp header-book" cta="header" route={route}>
+      Chat to book ↗
+    </WhatsAppLink>
+  </div>
+</header>

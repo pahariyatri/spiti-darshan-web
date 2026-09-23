@@ -27,13 +27,19 @@ mkdirSync(outDir, { recursive: true });
 
 const browser = await chromium.launch();
 for (const vp of VIEWPORTS) {
-  const context = await browser.newContext({ viewport: vp, reducedMotion: 'reduce', deviceScaleFactor: 1 });
+  const context = await browser.newContext({
+    viewport: vp,
+    reducedMotion: 'reduce',
+    deviceScaleFactor: 1,
+  });
   const page = await context.newPage();
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   const name = `${vp.width}x${vp.height}`;
   await page.screenshot({ path: path.join(outDir, `${name}.png`) });
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - window.innerWidth,
+  );
   for (const day of JOURNEY_DAYS) {
     // Put the middle of the day chapter on the script's "target line".
     await page.evaluate((d) => {
@@ -43,7 +49,22 @@ for (const vp of VIEWPORTS) {
       const top = el.getBoundingClientRect().top + scrollY;
       scrollTo({ top: top + el.offsetHeight * 0.5 - target, behavior: 'instant' });
     }, day);
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(300);
+    // Lazy images in view must finish loading so both pages are compared fully painted.
+    await page
+      .waitForFunction(
+        () =>
+          [...document.images]
+            .filter((img) => {
+              const r = img.getBoundingClientRect();
+              return r.bottom > 0 && r.top < innerHeight;
+            })
+            .every((img) => img.complete && img.naturalWidth > 0),
+        undefined,
+        { timeout: 8000 },
+      )
+      .catch(() => undefined);
+    await page.waitForTimeout(150);
     await page.screenshot({ path: path.join(outDir, `${name}-day${day}.png`) });
   }
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));

@@ -1,0 +1,42 @@
+---
+import type { DayView } from '../../lib/domain/types';
+import { chipPinIndexes } from '../../lib/journey/geometry';
+import { pad2 } from '../../lib/journey/payload';
+import Picture from '../Picture.astro';
+import WhatsAppLink from '../conversion/WhatsAppLink.astro';
+import JourneyStop from './JourneyStop.astro';
+
+interface Props {
+  day: DayView;
+  route: string;
+  active: boolean;
+}
+
+const { day, route, active } = Astro.props;
+const pins = chipPinIndexes(day.stops);
+---
+
+<article
+  class:list={['day', `day-${day.dayNumber}`, { 'is-active': active }]}
+  id={`day${day.dayNumber}`}
+  data-day={day.dayNumber}
+  aria-labelledby={`day${day.dayNumber}-title`}
+>
+  <div class="day-photo">{day.media && <Picture media={day.media} sizes="100vw" />}</div>
+  <div class="day-content">
+    <div class="day-eyebrow">
+      Day {pad2(day.dayNumber)} · {day.subtitle}
+    </div>
+    <h3 id={`day${day.dayNumber}-title`}>{day.title}</h3>
+    <p class="day-hook">{day.shortDescription}</p>
+    <div class="stops">
+      {day.stops.map((stop, i) => (
+        <JourneyStop stop={stop} dayNumber={day.dayNumber} pinIndex={pins[i] ?? 0} />
+      ))}
+    </div>
+    {day.note && <p class="day-note">{day.note}</p>}
+    <WhatsAppLink class="day-enquire" cta="day-card" route={route} day={day.dayNumber}>
+      Ask about this day <span aria-hidden="true">↗</span>
+    </WhatsAppLink>
+  </div>
+</article>

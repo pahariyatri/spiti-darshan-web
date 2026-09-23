@@ -1,0 +1,54 @@
+---
+/**
+ * The one route template. The homepage, every /routes/[slug]/ page and the admin preview all
+ * render through here — adding a route is data, never a copied page.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import JourneySection from '../components/journey/JourneySection.astro';
+import RouteFacts from '../components/RouteFacts.astro';
+import VehicleProof from '../components/vehicles/VehicleProof.astro';
+import ContactSection from '../components/conversion/ContactSection.astro';
+import FaqSection from '../components/FaqSection.astro';
+import Footer from '../components/Footer.astro';
+import MobileWhatsAppCTA from '../components/conversion/MobileWhatsAppCTA.astro';
+import type { RouteView } from '../lib/domain/types';
+import type { PageMeta } from '../lib/seo/meta';
+
+interface Props {
+  route: RouteView;
+  meta: PageMeta;
+  jsonLd?: unknown;
+  /** Homepage keeps the brand hero copy and hides the route-facts block (approved layout). */
+  variant: 'home' | 'route' | 'preview';
+  hero?: Partial<RouteView['hero']>;
+}
+
+const { route, meta, jsonLd, variant, hero: heroOverride } = Astro.props;
+const hero = { ...route.hero, ...heroOverride };
+const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
+---
+
+<BaseLayout
+  meta={meta}
+  jsonLd={jsonLd}
+  trackRoute={variant === 'preview' ? null : route.slug}
+  preload={hero.media}
+>
+  <Hero
+    kicker={hero.kicker}
+    title={hero.title}
+    titleAccent={hero.titleAccent}
+    media={hero.media}
+    route={route.slug}
+  />
+  <main>
+    <JourneySection route={route} />
+    {variant !== 'home' && <RouteFacts route={route} />}
+    <VehicleProof media={proofMedia} />
+    <ContactSection route={route.slug} />
+    <FaqSection />
+  </main>
+  <Footer />
+  <MobileWhatsAppCTA route={route.slug} />
+</BaseLayout>

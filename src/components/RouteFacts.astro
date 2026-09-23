@@ -1,0 +1,70 @@
+---
+/* Route pages only: the at-a-glance answers a traveller needs before messaging. */
+import type { RouteView } from '../lib/domain/types';
+import WhatsAppLink from './conversion/WhatsAppLink.astro';
+
+interface Props {
+  route: RouteView;
+}
+const { route } = Astro.props;
+const overnights = [
+  ...new Set(route.days.map((d) => d.overnight).filter((o): o is string => Boolean(o))),
+];
+const seasonalDays = route.days.filter((d) => d.isSeasonal || d.stops.some((s) => s.isSeasonal));
+const optional = route.days.flatMap((d) => d.stops.filter((s) => s.isOptional).map((s) => s.name));
+---
+
+<section class="route-facts" aria-labelledby="factsTitle">
+  <div class="shell">
+    <div class="eyebrow">Route at a glance</div>
+    <h2 id="factsTitle">{route.shortTitle}</h2>
+    <p class="route-facts-summary">{route.summary}</p>
+    <dl class="route-facts-grid">
+      <div>
+        <dt>Starts</dt>
+        <dd>{route.startingLocation}</dd>
+      </div>
+      <div>
+        <dt>Ends</dt>
+        <dd>{route.endingLocation}</dd>
+      </div>
+      <div>
+        <dt>Duration</dt>
+        <dd>{route.days.length} days</dd>
+      </div>
+      {route.vehicles.length > 0 && (
+        <div>
+          <dt>Vehicle</dt>
+          <dd>Private {route.vehicles.map((v) => v.name).join(', ')}</dd>
+        </div>
+      )}
+      {overnights.length > 0 && (
+        <div>
+          <dt>Overnight stops</dt>
+          <dd>{overnights.join(' · ')}</dd>
+        </div>
+      )}
+      {optional.length > 0 && (
+        <div>
+          <dt>Optional detours</dt>
+          <dd>{optional.join(' · ')}</dd>
+        </div>
+      )}
+      {seasonalDays.length > 0 && (
+        <div>
+          <dt>Seasonal sections</dt>
+          <dd>
+            Days {seasonalDays.map((d) => d.dayNumber).join(', ')} — {route.seasonality}
+          </dd>
+        </div>
+      )}
+      <div>
+        <dt>Can the route change?</dt>
+        <dd>Yes. Stops and order are adjusted to your dates, time and road access.</dd>
+      </div>
+    </dl>
+    <WhatsAppLink class="button button-whatsapp" cta="route-facts" route={route.slug}>
+      Check route for my dates ↗
+    </WhatsAppLink>
+  </div>
+</section>
