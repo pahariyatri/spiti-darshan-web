@@ -1,4 +1,4 @@
-/** Rendering-facing shapes. Repositories map database rows into these; components only see these. */
+/** Rendering-facing shapes: components only ever see these. */
 
 export const STOP_TYPES = [
   'start',
@@ -16,9 +16,6 @@ export const STOP_TYPES = [
   'return',
 ] as const;
 export type StopType = (typeof STOP_TYPES)[number];
-
-export const ROUTE_STATUSES = ['draft', 'published', 'archived'] as const;
-export type RouteStatus = (typeof ROUTE_STATUSES)[number];
 
 export interface MediaView {
   /** Base public path without size/extension, e.g. `/media/hero-vehicles`. */
@@ -58,25 +55,22 @@ export interface DayView {
   stops: StopView[];
 }
 
-export interface SeoFields {
-  metaTitle: string | null;
-  metaDescription: string | null;
-  canonicalPath: string | null;
-  ogTitle: string | null;
-  ogDescription: string | null;
-  ogImage: MediaView | null;
-  robots: string | null;
+interface SeoFields {
+  metaTitle: string;
+  metaDescription: string;
+  ogTitle: string;
+  ogDescription: string;
 }
 
-export interface VehicleView {
+interface VehicleView {
   slug: string;
   name: string;
   vehicleType: string;
   media: MediaView | null;
 }
 
+/** A published route, ready to render. Built from src/content by src/lib/content/routes.ts. */
 export interface RouteView {
-  id: number | null;
   slug: string;
   name: string;
   shortTitle: string;
@@ -84,9 +78,7 @@ export interface RouteView {
   startingLocation: string;
   endingLocation: string;
   durationDays: number;
-  routeType: string;
   seasonality: string;
-  status: RouteStatus;
   isFeatured: boolean;
   hero: {
     kicker: string;
@@ -96,17 +88,5 @@ export interface RouteView {
   };
   days: DayView[];
   vehicles: VehicleView[];
-  seo: SeoFields | null;
-  updatedAt: Date | null;
-}
-
-export interface RouteSummary {
-  slug: string;
-  name: string;
-  shortTitle: string;
-  summary: string;
-  durationDays: number;
-  startingLocation: string;
-  endingLocation: string;
-  updatedAt: Date;
+  seo: SeoFields;
 }

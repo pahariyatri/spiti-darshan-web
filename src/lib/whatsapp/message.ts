@@ -20,10 +20,7 @@ export function buildWhatsAppMessage({
   return lines.join('\n');
 }
 
-/**
- * wa.me deep link. With no verified number configured, `https://wa.me/?text=` lets the visitor
- * pick a chat — the same behaviour as the approved preview page. Never invent a number.
- */
+/** wa.me deep link; without a number it falls back to WhatsApp's contact picker. */
 export function buildWhatsAppUrl(
   message: string,
   businessNumber: string | null | undefined,

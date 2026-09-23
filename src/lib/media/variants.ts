@@ -2,8 +2,8 @@ import sharp from 'sharp';
 import { mkdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 
-export const VARIANT_WIDTHS = [480, 800, 1200, 1600, 2000] as const;
-export const VARIANT_FORMATS = ['avif', 'webp'] as const;
+const VARIANT_WIDTHS = [480, 800, 1200, 1600, 2000] as const;
+const VARIANT_FORMATS = ['avif', 'webp'] as const;
 const OG_WIDTH = 1200;
 
 export interface VariantResult {
@@ -15,7 +15,7 @@ export interface VariantResult {
 }
 
 /** Widths to emit for a source: never upscale, always include the source width if small. */
-export function widthsFor(sourceWidth: number): number[] {
+function widthsFor(sourceWidth: number): number[] {
   const widths: number[] = VARIANT_WIDTHS.filter((w) => w <= sourceWidth);
   if (
     widths.length === 0 ||
@@ -25,17 +25,6 @@ export function widthsFor(sourceWidth: number): number[] {
     widths.push(sourceWidth);
   }
   return widths;
-}
-
-/** Safe file stem: lowercase letters, digits, dashes. */
-export function sanitizeStem(name: string): string {
-  const stem = name
-    .toLowerCase()
-    .replace(/\.[a-z0-9]+$/, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60);
-  return stem || 'image';
 }
 
 async function isFresh(out: string, sourceMtime: number) {

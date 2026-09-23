@@ -16,7 +16,6 @@ const destName = (slug: string | null) => destinations.find((d) => d.slug === sl
 
 export function toRouteView(route: RouteContent): RouteView {
   return {
-    id: null,
     slug: route.slug,
     name: route.name,
     shortTitle: route.shortTitle,
@@ -24,9 +23,7 @@ export function toRouteView(route: RouteContent): RouteView {
     startingLocation: route.startingLocation,
     endingLocation: route.endingLocation,
     durationDays: route.days.length,
-    routeType: route.routeType,
     seasonality: route.seasonality,
-    status: route.status,
     isFeatured: route.isFeatured,
     hero: {
       kicker: route.hero.kicker,
@@ -64,16 +61,7 @@ export function toRouteView(route: RouteContent): RouteView {
         vehicleType: v.vehicleType,
         media: media(v.media),
       })),
-    seo: {
-      metaTitle: route.seo.metaTitle,
-      metaDescription: route.seo.metaDescription,
-      canonicalPath: null,
-      ogTitle: route.seo.ogTitle,
-      ogDescription: route.seo.ogDescription,
-      ogImage: null,
-      robots: null,
-    },
-    updatedAt: null,
+    seo: { ...route.seo },
   };
 }
 

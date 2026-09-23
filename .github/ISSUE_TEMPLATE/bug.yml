@@ -1,5 +1,5 @@
 name: Bug report
-description: Something on the site or admin is broken
+description: Something on the site is broken
 labels: [bug]
 body:
   - type: input

@@ -1,6 +1,6 @@
 /**
- * The approved 9-day Shimla → Spiti → Manali itinerary, transcribed from reference/original.html
- * (day articles, `routeDays` pins and `segmentDefs`).
+ * The flagship 9-day Shimla → Spiti → Manali itinerary (the homepage route). Map segments are the
+ * eight hand-drawn road curves of the approved design.
  */
 import type { RouteContent } from '../types';
 
@@ -25,7 +25,6 @@ export const shimlaToSpiti: RouteContent = {
     'Private transportation via Kinnaur and Kaza, with seasonal Chandratal to Manali route when road access is confirmed.',
   startingLocation: 'Shimla',
   endingLocation: 'Manali',
-  routeType: 'circuit',
   seasonality:
     'Kunzum Pass, Chandratal and the Manali side of the full circuit are seasonal. When access is closed or unsuitable, ask about a Kinnaur-side return from Kaza.',
   isFeatured: true,

@@ -16,13 +16,5 @@ export const SITE = {
 } as const;
 
 /** Stable identifiers for CTA placements (data-cta on every WhatsApp link). */
-export const CTA_LOCATIONS = [
-  'header',
-  'hero',
-  'day-card',
-  'contact',
-  'mobile-bar',
-  'route-facts',
-  'page',
-] as const;
-export type CtaLocation = (typeof CTA_LOCATIONS)[number];
+export type CtaLocation =
+  'header' | 'hero' | 'day-card' | 'contact' | 'mobile-bar' | 'route-facts' | 'page';

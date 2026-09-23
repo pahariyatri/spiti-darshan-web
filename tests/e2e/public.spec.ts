@@ -171,3 +171,38 @@ test('reduced motion keeps the itinerary readable', async ({ browser }) => {
   await expect(page.locator('#day4 h3')).toHaveText('Tabo → Kaza');
   await context.close();
 });
+
+test('small phones (320 and 360 px) have no horizontal overflow', async ({ page }) => {
+  for (const width of [320, 360]) {
+    await page.setViewportSize({ width, height: 740 });
+    for (const path of ['/', '/routes/shimla-to-spiti/', '/contact/']) {
+      await page.goto(path);
+      if (path === '/') await scrollToDay(page, 5);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - window.innerWidth,
+      );
+      expect(overflow, `${path} @ ${width}px`).toBeLessThanOrEqual(0);
+    }
+  }
+});
+
+test('keyboard users can skip to content and hear day changes', async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await expect(page.locator('.skip-link')).toBeFocused();
+  await expect(page.locator('.skip-link')).toHaveAttribute('href', '#main');
+  await expect(page.locator('main#main')).toHaveCount(1);
+  await scrollToDay(page, 1);
+  await scrollToDay(page, 3);
+  await expect(page.locator('#journeyLive')).toHaveText('Day 3 of 9: Kalpa → Tabo');
+});
+
+test('every CTA opens WhatsApp chat with the business number', async ({ page }) => {
+  await page.goto('/');
+  const hrefs = await page
+    .locator('a.whatsapp-link')
+    .evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+  expect(hrefs.length).toBeGreaterThan(10);
+  for (const h of hrefs) expect(h).toMatch(/^https:\/\/wa\.me\/916230070301\?text=/);
+  await expect(page.locator('body')).not.toContainText('Preview: add the verified business number');
+});

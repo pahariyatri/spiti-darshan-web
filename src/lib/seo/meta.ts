@@ -13,7 +13,7 @@ export interface PageMeta {
   ogType: 'website' | 'article';
 }
 
-export const DEFAULT_ROBOTS = 'index,follow,max-image-preview:large';
+const DEFAULT_ROBOTS = 'index,follow,max-image-preview:large';
 export const NOINDEX = 'noindex,nofollow';
 
 /** Absolute URL on the canonical origin with a trailing slash on page paths. */
@@ -23,7 +23,7 @@ export function absoluteUrl(pathOrUrl: string, site: string | URL): string {
   return url.href;
 }
 
-export function ogImagePath(media: MediaView | null | undefined): string {
+function ogImagePath(media: MediaView | null | undefined): string {
   return media ? `${media.basePath}-og.jpg` : SITE.defaultOgImage;
 }
 
@@ -72,21 +72,15 @@ export function routePath(slug: string): string {
   return `/routes/${slug}/`;
 }
 
-/** Route page metadata: SEO fields win, otherwise derived from route content. */
-export function buildRouteMeta(
-  route: RouteView,
-  site: string | URL,
-  opts: { preview?: boolean } = {},
-): PageMeta {
-  const seo = route.seo;
+/** Route page metadata from the route's SEO fields. */
+export function buildRouteMeta(route: RouteView, site: string | URL): PageMeta {
   return buildPageMeta({
-    title: seo?.metaTitle || `${route.name} — ${route.durationDays}-day private taxi`,
-    description: seo?.metaDescription || route.summary,
-    path: seo?.canonicalPath || routePath(route.slug),
+    title: route.seo.metaTitle,
+    description: route.seo.metaDescription,
+    path: routePath(route.slug),
     site,
-    robots: opts.preview || route.status !== 'published' ? NOINDEX : seo?.robots,
-    ogTitle: seo?.ogTitle,
-    ogDescription: seo?.ogDescription,
-    ogImage: seo?.ogImage ?? route.hero.media,
+    ogTitle: route.seo.ogTitle,
+    ogDescription: route.seo.ogDescription,
+    ogImage: route.hero.media,
   });
 }

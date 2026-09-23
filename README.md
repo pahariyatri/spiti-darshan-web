@@ -5,13 +5,11 @@ Private taxi and transport for Spiti Valley. The site's job is to get a visitor 
 then WhatsApp, a quote and a booking.
 
 A **fully static** Astro 7 site in TypeScript, hosted on Vercel. There is no database and no server: every
-page is HTML generated at build time from typed content files. The approved design is
-`reference/original.html`, and this site renders the same page from data.
+page is HTML generated at build time from typed content files. Every page is rendered from
+typed route data.
 
-Further reading: [TECHNICAL_DECISIONS.md](TECHNICAL_DECISIONS.md) · [MIGRATION_PLAN.md](MIGRATION_PLAN.md) ·
-[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) · [docs/ASSETS.md](docs/ASSETS.md)
-
-> The earlier PostgreSQL + admin-panel version is preserved at git tag `v0.1-postgres-admin`.
+Further reading: [TECHNICAL_DECISIONS.md](TECHNICAL_DECISIONS.md) · [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) ·
+[docs/ASSETS.md](docs/ASSETS.md)
 
 ## Local setup
 
@@ -142,15 +140,14 @@ enabled in the dashboard. Clicks aren't bookings; track qualified enquiries, quo
 
 ## Commands
 
-| Command                                                           | What it does                                                                 |
-| ----------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `pnpm dev`                                                        | Dev server                                                                   |
-| `pnpm build`                                                      | Image variants (cached) + static build into `dist/`                          |
-| `pnpm preview`                                                    | Serve `dist/` on 127.0.0.1:4400                                              |
-| `pnpm check` · `pnpm lint` · `pnpm format`                        | Typecheck · ESLint · Prettier                                                |
-| `pnpm test`                                                       | Unit tests (content validation, map geometry vs the original, WhatsApp, SEO) |
-| `pnpm test:e2e`                                                   | Build + Playwright on desktop and mobile                                     |
-| `pnpm visual:capture <url> <dir>` / `pnpm visual:compare <a> <b>` | Screenshots at 5 viewports + pixel diff                                      |
+| Command                                    | What it does                                                                 |
+| ------------------------------------------ | ---------------------------------------------------------------------------- |
+| `pnpm dev`                                 | Dev server                                                                   |
+| `pnpm build`                               | Image variants (cached) + static build into `dist/`                          |
+| `pnpm preview`                             | Serve `dist/` on 127.0.0.1:4400                                              |
+| `pnpm check` · `pnpm lint` · `pnpm format` | Typecheck · ESLint · Prettier                                                |
+| `pnpm test`                                | Unit tests (content validation, map geometry vs the original, WhatsApp, SEO) |
+| `pnpm test:e2e`                            | Build + Playwright on desktop and mobile                                     |
 
 ## SEO checklist
 

@@ -32,6 +32,7 @@ export function initJourney(): void {
   const placeEl = document.getElementById('currentPlace');
   const counterEl = document.getElementById('dayCounter');
   const stopCounter = document.getElementById('stopCounter');
+  const live = document.getElementById('journeyLive');
   if (!dataEl || !days.length || !sticky || !viewport || !world || !path || !car || !pinLayer)
     return;
   if (!legEl || !placeEl || !counterEl || !stopCounter) return;
@@ -57,12 +58,15 @@ export function initJourney(): void {
   const ranges = legRanges(segmentLengths);
   const totalLength = path.getTotalLength();
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Photo parallax only on larger screens: it's decorative and costs frames on low-end phones.
+  const wide = window.matchMedia('(min-width: 901px)');
   const chipsByDay = days.map((article) =>
     Array.from(article.querySelectorAll<HTMLButtonElement>('.stop')),
   );
   const photos = days.map((article) => article.querySelector<HTMLElement>('.day-photo'));
 
   let renderedDay = -1;
+  let announcedDay = -1;
   let renderedWorldW = -1;
   let dayPins: RenderedPin[] = [];
   let ticking = false;
@@ -167,6 +171,10 @@ export function initJourney(): void {
     car.style.transform = `translate(-50%,-50%) rotate(${heading}deg)`;
 
     legEl.textContent = day.leg;
+    // Screen readers hear the day change once, not every scroll frame.
+    if (live && announcedDay !== d && announcedDay !== -1)
+      live.textContent = `Day ${d + 1} of ${dayCount}: ${day.leg}`;
+    announcedDay = d;
     counterEl.textContent = `DAY ${pad2(d + 1)} / ${pad2(dayCount)}`;
     placeEl.textContent = dayPins[currentIndex]?.label ?? '';
     stopCounter.textContent =
@@ -207,7 +215,7 @@ export function initJourney(): void {
         );
     });
 
-    if (!reduced) {
+    if (!reduced && wide.matches) {
       rects.forEach((b, i) => {
         const bg = photos[i];
         if (bg && b.top < vh && b.bottom > 0) {

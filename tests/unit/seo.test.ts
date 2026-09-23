@@ -5,7 +5,6 @@ import {
   buildRouteMeta,
   clampDescription,
   formatTitle,
-  NOINDEX,
 } from '../../src/lib/seo/meta';
 import {
   breadcrumbSchema,
@@ -43,15 +42,13 @@ describe('page metadata', () => {
     expect(meta.robots).toContain('index');
   });
 
-  it('uses route SEO fields, defaults the canonical to the route path and noindexes drafts/previews', () => {
+  it('uses the route SEO fields and canonical route path', () => {
     const meta = buildRouteMeta(route, SITE);
     expect(meta.title).toBe(
       'Shimla to Spiti Taxi — 9-Day Private Innova Crysta Circuit | Spiti Darshan',
     );
     expect(meta.canonical).toBe('https://example.test/routes/shimla-to-spiti/');
-    expect(buildRouteMeta({ ...route, status: 'draft' }, SITE).robots).toBe(NOINDEX);
-    expect(buildRouteMeta(route, SITE, { preview: true }).robots).toBe(NOINDEX);
-    expect(buildRouteMeta({ ...route, seo: null }, SITE).title).toContain('9-day private taxi');
+    expect(meta.robots).toContain('index');
   });
 });
 

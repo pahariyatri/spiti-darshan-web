@@ -1,9 +1,5 @@
 dist
 node_modules
-drizzle
-reference
-.archive
 pnpm-lock.yaml
-tests/screenshots
 src/styles/site.css
 media-source/generated.json

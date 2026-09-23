@@ -20,7 +20,7 @@ export interface AttractionContent {
   isOptional?: boolean;
 }
 
-export interface StopContent {
+interface StopContent {
   name: string;
   type: StopType;
   destination?: string;
@@ -32,7 +32,7 @@ export interface StopContent {
   showOnMap?: boolean;
 }
 
-export interface DayContent {
+interface DayContent {
   dayNumber: number;
   subtitle: string;
   title: string;
@@ -55,7 +55,6 @@ export interface RouteContent {
   summary: string;
   startingLocation: string;
   endingLocation: string;
-  routeType: string;
   seasonality: string;
   isFeatured: boolean;
   hero: { kicker: string; title: string; titleAccent: string; media: string };

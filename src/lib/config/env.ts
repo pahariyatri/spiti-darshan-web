@@ -12,10 +12,7 @@ if (existsSync('.env') && typeof process.loadEnvFile === 'function') {
 }
 
 const EnvSchema = z.object({
-  /**
-   * Verified WhatsApp Business number (country code + digits). Empty until verified: CTAs then open
-   * WhatsApp's contact picker with the message, and the page shows the preview note.
-   */
+  /** Optional override of the verified business WhatsApp number in SITE.whatsapp. */
   BUSINESS_WHATSAPP_NUMBER: z
     .string()
     .optional()
@@ -25,12 +22,12 @@ const EnvSchema = z.object({
     }),
 });
 
-export type Env = z.infer<typeof EnvSchema>;
+type Env = z.infer<typeof EnvSchema>;
 
 let cached: Env | undefined;
 
 /** Validated build-time environment. Throws a readable error on misconfiguration. */
-export function env(): Env {
+function env(): Env {
   if (cached) return cached;
   const parsed = EnvSchema.safeParse(process.env);
   if (!parsed.success) {

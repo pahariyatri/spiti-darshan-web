@@ -37,7 +37,7 @@ const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
     media={hero.media}
     routeLabel={route.shortTitle}
   />
-  <main>
+  <main id="main">
     <JourneySection route={route} />
     {variant !== 'home' && <RouteFacts route={route} />}
     <VehicleProof media={proofMedia} />

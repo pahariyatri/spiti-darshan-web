@@ -1,166 +1,50 @@
 # Technical decisions
 
-Short records of the choices that shape this codebase. Each says what was decided, why, and what
-would make us revisit it. Dates are when the decision was made.
+## Static site on Vercel
 
-## 0. Static site on Vercel, no database (2026-09-23, supersedes 1, 5, 6, 7 and the logging part of 8)
+Astro 7 builds every page to plain HTML at build time (`output: 'static'`), and Vercel serves it from its CDN.
+There is no server, database or admin panel: the business flow (search → route page → WhatsApp) doesn't need
+one. The result is fast, free to host, and has nothing to back up, secure or keep running.
 
-**Decision.** The owner chose a fully static site. Routes are typed content files (`src/content/`)
-validated at build time; Astro builds every page to HTML (`output: 'static'`, no adapter), and Vercel serves it.
-WhatsApp CTAs are direct `wa.me` links built at build time.
+## Routes are content, not pages
 
-**Why.** The business flow (search → route page → WhatsApp) needs no server. Static means no hosting costs
-beyond Vercel's free tier, no database to secure, back up or migrate, the fastest possible delivery, and
-nothing that can go down.
+Each route is a typed file in `src/content/routes/`, and shared places and vehicles live in
+`src/content/places.ts`. `src/lib/content/routes.ts` validates everything at build time (unknown place or
+photo, gaps in day numbers, missing hero, not exactly one featured route), so broken content fails the build
+instead of reaching visitors. The homepage and every `/routes/<slug>/` page render through the single
+`RouteLayout`.
 
-**Given up** (restorable from tag `v0.1-postgres-admin`): the admin panel (routes are now edited in code and
-deployed by a push), the anonymous server-side click log (count enquiries in WhatsApp Business; optionally
-enable Vercel Web Analytics), and live publishing without a rebuild (a Vercel build takes about 1 minute once
-images are cached).
+## The journey map
 
-**Still true:** decisions 2, 3, 4, 9, 10 and 12, and the message format and "never invent a number" rule
-from 8. CSP (11) is Astro's hash-based `<meta>`, with `frame-ancestors` and other headers in `vercel.json`.
+`src/lib/journey/client.ts` is a small vanilla-TypeScript script, with no UI framework and no hydration. It
+moves the Innova marker along an SVG road as you scroll. Each day has an SVG `mapSegment`; days without one
+get a generated curve, or a loop when the day returns to where it started, and a day with one map stop keeps
+the car still. Per frame it reads layout once, then writes transforms and classes only. Reduced motion is
+respected.
 
----
+## WhatsApp-first
 
-The records below describe the original PostgreSQL + admin architecture.
+Every CTA is a direct `wa.me` link built at build time from one function (`src/lib/whatsapp/message.ts`), so it
+works without JavaScript. The verified number lives in `SITE.whatsapp`; `BUSINESS_WHATSAPP_NUMBER` can override
+it. Enquiries, quotes and bookings are tracked in WhatsApp Business, not on the site.
 
-## 1. Astro 7 + Node adapter, hybrid rendering (2026-09-23)
+## Performance
 
-**Decision.** Astro with `output: 'static'` and the official `@astrojs/node` adapter (standalone).
-Pages prerender by default; only pages that must reflect the database immediately opt out with
-`export const prerender = false`.
+- Photos: `scripts/build-images.ts` makes AVIF and WebP variants (480–2000 px, never upscaled) plus a
+  1200×630 social image, cached by content hash between builds. The hero is eager and preloaded; the rest
+  are lazy. Width and height are always set, so there's no layout shift.
+- Fonts: DM Sans and Playfair Display (OFL) are self-hosted with preloads, and the ~20 KB stylesheet is
+  inlined, so nothing blocks rendering.
+- Lighthouse mobile: performance 98, and 100 for accessibility, best practices and SEO.
 
-| Prerendered at build                                                                                            | Server-rendered on request                                                                                        |
-| --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `/` (from the featured route), `/about/`, `/contact/`, `/vehicles/innova-crysta/`, `/404`, `/500`, `robots.txt` | `/routes/`, `/routes/[slug]/`, `/sitemap.xml`, `/go/whatsapp/`, `/api/event/`, `/uploads/*`, `/admin/**`, actions |
+## SEO
 
-**Why.** Route pages must go live the moment an admin publishes, so they are SSR with a short shared cache
-(`s-maxage`, default 300 s, set by `ROUTE_PAGE_CACHE_SECONDS`). Everything else is static HTML: fastest and
-cheapest to serve. SEO-critical content (days, stops, notes) is always in the server HTML, never rendered by JS.
+Every page has a unique title and description, an absolute canonical URL, Open Graph and Twitter tags, one
+H1, and JSON-LD (`Organization` with the WhatsApp contact point, `WebPage`, `TouristTrip` listing every day,
+`BreadcrumbList`). Every day, stop and seasonal note is in the HTML, not rendered by JavaScript. There's a
+sitemap, and `robots.txt` allows all crawlers. No invented ratings, prices, reviews or addresses.
 
-**Trade-off.** The homepage shows the featured route as of the last deploy. Admin shows a note about this.
-Revisit if the owner edits the featured route often: set `prerender = false` on `src/pages/index.astro`.
+## Security
 
-## 2. No UI framework; the journey is vanilla TypeScript (2026-09-23)
-
-**Decision.** Astro components only. The map is `src/lib/journey/client.ts`, a typed, line-by-line port of
-the approved inline script, now driven by a JSON payload instead of hardcoded arrays.
-
-**Why.** No hydration cost. The original behaviour is kept exactly: same target line, heading maths, label
-rules and parallax. Per frame, all layout reads happen before any writes, so there's no layout thrashing.
-
-## 3. Map geometry is data (2026-09-23)
-
-**Decision.** Each `route_days.map_segment` holds that day's SVG path in a 3200×110 viewBox. A day with fewer
-than two map stops is stationary (rest day). Days without a hand-drawn segment get a generated curve, or a
-loop when the day returns to where it started.
-
-**Why.** The approved 9-day map keeps its eight hand-drawn segments byte for byte (unit-tested against the
-original script). New routes need no designer: add days and stops, and a road appears. Admins can paste a
-custom segment later. Input is limited to path commands and numbers.
-
-## 4. Styles: the approved CSS, verbatim (2026-09-23)
-
-**Decision.** `src/styles/site.css` is the original stylesheet in its original order. Photos are `<img>`
-elements with `object-fit` rules that reproduce `background-size: cover`. No Tailwind or other design system.
-
-**Why.** The original CSS has three layers that override each other, so reordering or scoping them would
-change the design. Screenshot diffs against `reference/original.html` are 0.00–0.03% on the journey states
-at every tested viewport.
-
-## 5. PostgreSQL + Drizzle ORM + SQL migrations (2026-09-23)
-
-**Decision.** Normalised schema (`src/lib/db/schema.ts`). Migrations are generated by `drizzle-kit generate`,
-reviewed, committed in `drizzle/`, and applied by `pnpm db:migrate` (the Drizzle migrator, transactional per
-file). Never `drizzle-kit push` in production. CI fails if the schema and the committed migrations drift.
-
-**Why.** Typed queries without a heavy ORM runtime; plain SQL files are reviewable and replayable from empty.
-
-**Notable constraints.** Unique `(route_id, day_number)`; a partial unique index allows only one featured
-route; checks on slug format, coordinates and canonical paths; `ON DELETE CASCADE` from routes to days to
-stops; `SET NULL` for shared places and media.
-
-## 6. Authentication: database sessions + argon2id, no auth library (2026-09-23)
-
-Maintenance evidence (npm registry, 2026-09-23):
-
-| Package                | Status                                                                                             |
-| ---------------------- | -------------------------------------------------------------------------------------------------- |
-| `lucia`                | **Deprecated** (the project is now a learning resource describing this exact pattern)              |
-| `oslo`                 | **Deprecated**                                                                                     |
-| `auth-astro` (Auth.js) | Last published 2024-12; OAuth-first                                                                |
-| `better-auth`          | Active (1.7.x, 2026-09), supports Astro, but brings its own schema, email flows and plugin surface |
-| `@node-rs/argon2`      | Active (2.2.x, 2026-09), prebuilt native binaries, no node-gyp                                     |
-
-**Decision.** Implement the session pattern the Lucia project documents, with established primitives only:
-
-- a 256-bit `crypto.randomBytes` token in an `HttpOnly`, `SameSite=Strict` cookie, `Secure` with the
-  `__Host-` prefix in production, 12-hour lifetime
-- the database stores only `HMAC-SHA256(SESSION_SECRET, token)`, so a leaked table can't be replayed
-- argon2id via `@node-rs/argon2` (19 MiB, t=2, p=1: OWASP minimum), with a dummy verify for unknown
-  emails to avoid timing leaks
-- CSRF: Astro `security.checkOrigin` (on by default) rejects cross-origin form posts to pages and actions,
-  plus `SameSite=Strict`
-- rate limits: 5 failures per email and 20 per client per 15 minutes
-
-No custom cryptography: only the HMAC and random functions from `node:crypto`, plus argon2.
-
-**Why not better-auth.** One or two staff accounts with email and password don't justify another schema,
-plugin system and dependency surface to keep updated. Revisit if we need OAuth, 2FA or password reset by email.
-
-## 7. Rate limiting in memory (2026-09-23)
-
-**Decision.** A fixed-window limiter in process memory (`src/lib/http/rate-limit.ts`).
-
-**Why.** The deployment is one Node process, so no Redis is needed. `TRUST_PROXY=true` makes the app take the
-right-most `X-Forwarded-For` hop, which our proxy appends. Revisit if we run more than one instance: move the
-buckets to PostgreSQL (`UNLOGGED` table) or the proxy.
-
-## 8. WhatsApp-first conversion, anonymous intent only (2026-09-23)
-
-**Decision.** Every CTA is a real link to `/go/whatsapp/?route=&day=&cta=`. The endpoint validates
-parameters (invalid ones degrade rather than fail), builds the message in `src/lib/whatsapp/message.ts`,
-logs an anonymous `whatsapp_click` without waiting for it, and returns 302 to `wa.me`.
-
-- The number comes from `BUSINESS_WHATSAPP_NUMBER` and is never hardcoded or invented. When it's empty,
-  links open WhatsApp's contact picker with the message (the approved preview behaviour), and the page shows
-  the preview note.
-- Route labels are cached for 60 s and the lookup times out after 400 ms. With the database down, visitors
-  still reach WhatsApp with a generic message (tested).
-- Stored: event type, route, day, CTA, UTM tags, **referrer host only**. Not stored: IP addresses, user
-  agents, cookies, names or phone numbers.
-
-## 9. Images: generated variants, self-hosted (2026-09-23)
-
-**Decision.** `scripts/build-images.ts` (run before every build) and admin uploads share one sharp pipeline:
-AVIF and WebP at 480/800/1200/1600/2000 px (never upscaled) plus a 1200×630 JPEG for social cards. The hero
-image is eager with `fetchpriority="high"` and preloaded; everything else is lazy. Width and height are always
-set, so CLS is 0.
-
-**Why.** The original inlined about 199 KB of base64 in CSS and hot-linked Unsplash and Pexels (one of those
-URLs already returns 404). See `docs/ASSETS.md` for provenance and the photos that must be replaced.
-
-## 10. Self-hosted fonts, inlined CSS (2026-09-23)
-
-**Decision.** DM Sans and Playfair Display (SIL OFL) are served from `/fonts` under their original family
-names, with preloads. The stylesheet (~20 KB) is inlined.
-
-**Why.** Google Fonts was about 970 ms of render-blocking on mobile. Lighthouse mobile went from 88 to 98
-(LCP 3.1 s → 2.4 s) with the journey screenshots unchanged.
-
-## 11. CSP (2026-09-23)
-
-**Decision.** Astro's built-in hash-based CSP `<meta>` for `script-src` and `style-src` on every page
-(including prerendered ones), plus `default-src 'self'`, `img-src 'self' data:`, `font-src 'self'`,
-`object-src 'none'`. `frame-ancestors`, which must be a header, is sent by the middleware for SSR responses
-and by Caddy/nginx for static files.
-
-## 12. What we deliberately did not build
-
-- No `/spiti-taxi/` or `/spiti-road-guide/` pages: they need owner-verified editorial content, and empty SEO
-  pages are what the brief forbids.
-- No FAQ schema: the FAQ is visible, but FAQ rich results are limited to authoritative government and health
-  sites.
-- No LocalBusiness, rating, price or availability markup: no verified values exist yet.
-- No Redis, queues, Docker in production, or microservices. One Node process, one PostgreSQL, one proxy.
+Astro emits a hash-based CSP `<meta>` for scripts and styles. `vercel.json` adds `frame-ancestors 'none'`,
+HSTS, `nosniff`, `Referrer-Policy` and `Permissions-Policy`. There are no forms, cookies or user data.

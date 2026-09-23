@@ -9,22 +9,20 @@ import {
   MAP_VIEWBOX,
 } from './geometry';
 
-export interface JourneyPin {
+interface JourneyPin {
   label: string;
   kind: string;
   kindLabel: string;
 }
 
 export interface JourneyPayload {
-  route: string;
   viewBox: { width: number; height: number };
   segments: (string | null)[];
   days: { leg: string; pins: JourneyPin[]; restLabel: string }[];
 }
 
-export function buildJourneyPayload(route: Pick<RouteView, 'slug' | 'days'>): JourneyPayload {
+export function buildJourneyPayload(route: Pick<RouteView, 'days'>): JourneyPayload {
   return {
-    route: route.slug,
     viewBox: { ...MAP_VIEWBOX },
     segments: resolveSegments(route.days),
     days: route.days.map((day) => {

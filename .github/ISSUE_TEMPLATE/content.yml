@@ -6,7 +6,7 @@ body:
     id: change
     attributes:
       label: What should change?
-      description: Routes and itineraries are edited in /admin — use this only for changes the admin can't make.
+      description: Route, itinerary, photo or copy change (content lives in src/content/).
     validations:
       required: true
   - type: checkboxes
