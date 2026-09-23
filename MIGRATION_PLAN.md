@@ -142,13 +142,29 @@ No IP addresses, no names/phones: the conversation itself stays on WhatsApp.
 
 ## 6. Intentional changes (the only visual/behavioural deltas)
 
-1. Background photos become `<picture>` elements inside the same boxes (performance: srcset, AVIF, lazy).
-2. CTAs are real `href`s to `/go/whatsapp?...` (works without JS, logs anonymous intent).
-3. Stop chips marked optional render "· optional" consistently (the original showed it for Gue and Pin
-   Valley but not Chitkul, whose map pin already said "optional").
-4. Footer year is rendered server-side (no JS needed).
-5. `og:url`, `og:image`, canonical, Twitter card added; JSON-LD provider becomes `Organization` with URL.
-6. Heading hierarchy: the FAQ section gets an `aria-labelledby`; nothing visual.
+1. Background photos become `<picture>` elements inside the same boxes (srcset, AVIF/WebP, lazy below the fold).
+2. CTAs are real `href`s to `/go/whatsapp/?…` (they work without JS and log anonymous intent).
+3. Optional stop chips render "· optional" consistently (the original showed it for Gue and Pin Valley but
+   not Chitkul, whose map pin already said "optional").
+4. The footer year is rendered server-side, and the footer gains a small crawlable nav (Routes, Innova Crysta,
+   Contact, About).
+5. `og:url`, `og:image`, canonical and Twitter card added; the JSON-LD provider becomes `Organization`.
+6. **Owner edit (2026-09-23):** the hero subtitle and the hero seasonal note were removed at the owner's request.
+   The seasonal information remains on days 8–9, in the FAQ and in the route-facts block.
+7. Accessibility: the gold eyebrow on the sand background (2.0:1) goes to `#8f6330` (4.7:1); muted text goes
+   `#617469` → `#5c6e63` (4.4 → 4.8:1); the brand link uses its visible text as its accessible name; the car
+   marker is `aria-hidden`.
+8. Bug fix: the original left the previous day's chip highlighted (`aria-current` on two chips); only the
+   active day's chip is marked now.
+9. Performance: fonts are self-hosted (same families) and CSS is inlined. Journey screenshots are unchanged.
+
+## Status (2026-09-23)
+
+All ten phases are implemented and verified: typecheck and lint clean, 59 unit and integration tests,
+30 Playwright E2E tests (desktop and mobile), migrations applied from an empty database, and the seed checked
+against the original map script. Lighthouse mobile: 98 / 100 / 100 / 100 (LCP 2.4 s, CLS 0, TBT 0). Visual
+diff vs `reference/original.html`: journey states 0.00–0.03% at 390, 430, 768, 1440 and 1920; the hero
+differs only by change 6.
 
 ## 7. Phases
 
