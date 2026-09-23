@@ -1,0 +1,37 @@
+---
+/**
+ * Responsive <picture> for a generated media asset (AVIF + WebP at several widths).
+ * Above-the-fold images pass `priority` (eager, high fetch priority); everything else is lazy.
+ */
+import type { MediaView } from '../lib/domain/types';
+
+interface Props {
+  media: MediaView;
+  sizes: string;
+  priority?: boolean;
+  alt?: string;
+}
+
+const { media, sizes, priority = false, alt } = Astro.props;
+const srcset = (fmt: string) =>
+  media.widths.map((w) => `${media.basePath}-${w}.${fmt} ${w}w`).join(', ');
+const largest = media.widths[media.widths.length - 1];
+const others = media.formats.filter((f) => f !== media.fallbackFormat);
+---
+
+<picture>
+  {others.map((fmt) => (
+    <source type={`image/${fmt}`} srcset={srcset(fmt)} sizes={sizes} />
+  ))}
+  <img
+    src={`${media.basePath}-${largest}.${media.fallbackFormat}`}
+    srcset={srcset(media.fallbackFormat)}
+    sizes={sizes}
+    width={media.width}
+    height={media.height}
+    alt={alt ?? media.alt}
+    loading={priority ? 'eager' : 'lazy'}
+    decoding={priority ? 'sync' : 'async'}
+    fetchpriority={priority ? 'high' : 'auto'}
+  />
+</picture>

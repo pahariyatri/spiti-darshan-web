@@ -1,0 +1,28 @@
+---
+import RouteLayout from '../layouts/RouteLayout.astro';
+import { buildPageMeta } from '../lib/seo/meta';
+import { graph, organizationSchema, touristTripSchema, webPageSchema } from '../lib/seo/schema';
+import { HOME } from '../lib/home';
+import { seedRouteToView } from '../lib/db/seed/to-view';
+import { shimlaToSpiti } from '../lib/db/seed/data';
+
+// Phase 3: rendered from typed data; switched to the database in phase 5.
+const route = seedRouteToView(shimlaToSpiti);
+const site = Astro.site!;
+const meta = buildPageMeta({
+  title: HOME.title,
+  description: HOME.description,
+  path: '/',
+  site,
+  ogTitle: HOME.ogTitle,
+  ogDescription: HOME.ogDescription,
+  ogImage: route.hero.media,
+});
+const jsonLd = graph(
+  organizationSchema(site),
+  webPageSchema({ name: HOME.title, description: HOME.description, url: meta.canonical, site }),
+  touristTripSchema(route, site),
+);
+---
+
+<RouteLayout route={route} meta={meta} jsonLd={jsonLd} variant="home" hero={HOME.hero} />

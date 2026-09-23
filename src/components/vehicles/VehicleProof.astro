@@ -1,0 +1,39 @@
+---
+import type { MediaView } from '../../lib/domain/types';
+import Picture from '../Picture.astro';
+
+interface Props {
+  media: MediaView | null;
+}
+const { media } = Astro.props;
+---
+
+<section class="proof" aria-labelledby="proofTitle">
+  <div class="shell proof-grid">
+    <div class="proof-photo">
+      {media && <Picture media={media} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />}
+      <span>Your private ride, on the real road.</span>
+    </div>
+    <div>
+      <div class="eyebrow">Your private Spiti ride</div>
+      <h2 id="proofTitle">
+        More of the road.
+        <br />
+        Less of the rush.
+      </h2>
+      <p>
+        Book private Innova Crysta transport, choose the stops you care about and get a route
+        matched to your dates. Ask about hotels if you need them.
+      </p>
+      <div class="proof-detail">
+        <span>Private vehicle</span>
+        <span>Flexible stops</span>
+        <span>Route checked for your dates</span>
+      </div>
+      <p class="safety-note">
+        Innova Crysta is not a 4×4 snow-expedition vehicle. Vehicle suitability and high-pass access
+        are confirmed trip by trip.
+      </p>
+    </div>
+  </div>
+</section>

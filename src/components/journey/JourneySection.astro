@@ -1,0 +1,44 @@
+---
+import type { RouteView } from '../../lib/domain/types';
+import { buildJourneyPayload, journeyPath } from '../../lib/journey/payload';
+import JourneyMap from './JourneyMap.astro';
+import JourneyDay from './JourneyDay.astro';
+
+interface Props {
+  route: RouteView;
+}
+
+const { route } = Astro.props;
+const payload = buildJourneyPayload(route);
+const first = payload.days[0];
+---
+
+<section class="journey" id="journey" aria-labelledby="journeyTitle" data-route={route.slug}>
+  <div class="journey-intro">
+    <div class="eyebrow">Your {route.days.length}-day journey</div>
+    <h2 id="journeyTitle">Your journey, stop by stop.</h2>
+    <p>Scroll to follow the road. Tap a stop to explore it.</p>
+  </div>
+  <JourneyMap
+    path={journeyPath(route)}
+    firstLeg={first?.leg ?? route.shortTitle}
+    firstPlace={route.days[0]?.stops[0]?.name ?? route.startingLocation}
+    firstStopCount={first?.pins.length ?? 1}
+    totalDays={route.days.length}
+  />
+  <div class="days" id="days">
+    {route.days.map((day, i) => (
+      <JourneyDay day={day} route={route.slug} active={i === 0} />
+    ))}
+  </div>
+  <script
+    type="application/json"
+    id="journeyData"
+    set:html={JSON.stringify(payload).replace(/</g, '\\u003c')}
+  ></script>
+</section>
+
+<script>
+  import { initJourney } from '../../lib/journey/client';
+  initJourney();
+</script>

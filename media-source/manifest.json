@@ -1,0 +1,65 @@
+[
+  {
+    "file": "photo-one.webp",
+    "stem": "hero-vehicles",
+    "alt": "Real white Innova Crysta vehicles travelling through the Spiti mountains",
+    "credit": "Spiti Darshan",
+    "license": "Owned by Spiti Darshan",
+    "sourceUrl": null,
+    "note": "Extracted from the approved page (--photo-one). Only 680×510: request a higher-resolution original."
+  },
+  {
+    "file": "photo-two.webp",
+    "stem": "fleet-parked",
+    "alt": "Real white Spiti Darshan vehicles parked on a mountain route",
+    "credit": "Spiti Darshan",
+    "license": "Owned by Spiti Darshan",
+    "sourceUrl": null,
+    "note": "Extracted from the approved page (--photo-two). Only 510×510: request a higher-resolution original."
+  },
+  {
+    "file": "day2-unsplash-1626621341517.jpg",
+    "stem": "day-kinnaur-valley",
+    "alt": "Hikers on a snow-covered mountain trail under clouds",
+    "credit": "Unsplash photo 1626621341517",
+    "license": "Unsplash License",
+    "sourceUrl": "https://unsplash.com/photos/1626621341517-bbf3d9990a23",
+    "note": "Stock photo (snow trek) — not Chitkul/Kalpa. REPLACE with an owned day-2 photo."
+  },
+  {
+    "file": "day3-unsplash-1597074866923.jpg",
+    "stem": "day-cold-desert",
+    "alt": "Hillside town of colourful buildings under a blue sky",
+    "credit": "Unsplash photo 1597074866923",
+    "license": "Unsplash License",
+    "sourceUrl": "https://unsplash.com/photos/1597074866923-dc0589150358",
+    "note": "Stock photo shows Shimla town, not the Kalpa–Tabo cold desert. REPLACE."
+  },
+  {
+    "file": "day4-pexels-31874842.jpg",
+    "stem": "day-old-spiti",
+    "alt": "Vehicles on a winding road through barren brown cliffs",
+    "credit": "Pexels photo 31874842",
+    "license": "Pexels License",
+    "sourceUrl": "https://www.pexels.com/photo/31874842/",
+    "note": "Stock photo, plausible high-desert road; not verified as Tabo–Kaza. Replace when possible."
+  },
+  {
+    "file": "day8-unsplash-1609920658906.jpg",
+    "stem": "day-high-pass",
+    "alt": "Mountain river flowing past pine forest",
+    "credit": "Unsplash photo 1609920658906",
+    "license": "Unsplash License",
+    "sourceUrl": "https://unsplash.com/photos/1609920658906-8223bd289001",
+    "note": "Stock photo shows a forested river valley, not Kunzum/Chandratal. REPLACE."
+  },
+  {
+    "file": "day9-unsplash-1605640840605.jpg",
+    "stem": "day-chandra-valley",
+    "alt": "Aerial view of a city around a large white stupa",
+    "credit": "Unsplash photo 1605640840605",
+    "license": "Unsplash License",
+    "sourceUrl": "https://unsplash.com/photos/1605640840605-14ac1855827b",
+    "note": "WRONG LOCATION: this is Boudhanath Stupa, Kathmandu (Nepal), shown on the Chandratal→Manali day. REPLACE BEFORE LAUNCH."
+  }
+]

@@ -1,0 +1,22 @@
+---
+import type { StopView } from '../../lib/domain/types';
+import { chipLabel } from '../../lib/journey/geometry';
+
+interface Props {
+  stop: StopView;
+  dayNumber: number;
+  pinIndex: number;
+}
+const { stop, dayNumber, pinIndex } = Astro.props;
+const label = chipLabel(stop);
+---
+
+<button
+  class="stop"
+  type="button"
+  data-pin={pinIndex}
+  data-on-map={stop.showOnMap ? '' : undefined}
+  aria-label={`Explore ${label} on day ${dayNumber}`}
+>
+  {label}
+</button>

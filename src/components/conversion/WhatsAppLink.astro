@@ -1,0 +1,25 @@
+---
+/** Every WhatsApp CTA is this anchor: a real, crawl-safe link through /go/whatsapp/. */
+import { whatsappGoPath } from '../../lib/whatsapp/message';
+import type { CtaLocation } from '../../lib/config/site';
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
+  cta: CtaLocation;
+  route?: string | null;
+  day?: number | null;
+}
+
+const { cta, route, day, class: className, ...rest } = Astro.props;
+---
+
+<a
+  class:list={[className, 'whatsapp-link']}
+  href={whatsappGoPath({ route, day, cta })}
+  target="_blank"
+  rel="noopener noreferrer nofollow"
+  data-cta={cta}
+  {...rest}
+>
+  <slot />
+</a>

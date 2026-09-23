@@ -1,0 +1,10 @@
+---
+import { serializeJsonLd } from '../../lib/seo/schema';
+
+interface Props {
+  data: unknown;
+}
+const { data } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={serializeJsonLd(data)}></script>
