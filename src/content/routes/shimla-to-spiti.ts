@@ -1,5 +1,5 @@
 /**
- * The flagship 9-day Shimla → Spiti → Manali itinerary (the homepage route). The map road is
+ * The flagship 9 day Shimla → Spiti → Manali itinerary (the homepage route). The map road is
  * generated from the days (one forward stretch per travel day).
  */
 import type { RouteContent } from '../types';
@@ -14,7 +14,7 @@ export const shimlaToSpiti: RouteContent = {
   startingLocation: 'Shimla',
   endingLocation: 'Manali',
   seasonality:
-    'Kunzum Pass, Chandratal and the Manali side of the full circuit are seasonal. When access is closed or unsuitable, ask about a Kinnaur-side return from Kaza.',
+    'Kunzum Pass, Chandratal and the Manali side of the full circuit are seasonal. When access is closed or unsuitable, ask about a Kinnaur return from Kaza.',
   isFeatured: true,
   hero: {
     kicker: 'Spiti · Private transport',
@@ -24,12 +24,12 @@ export const shimlaToSpiti: RouteContent = {
     media: 'hero-vehicles',
   },
   seo: {
-    metaTitle: 'Shimla to Spiti Taxi — 9-Day Private Innova Crysta Circuit',
+    metaTitle: 'Shimla to Spiti Taxi: 9 Day Private Innova Crysta Circuit',
     metaDescription:
-      'Day-wise private taxi route from Shimla through Kinnaur and Kaza, with the seasonal Chandratal–Manali crossing. Check the route for your dates on WhatsApp.',
+      'Daily private taxi route from Shimla through Kinnaur and Kaza, with the seasonal Chandratal to Manali crossing. Check the route for your dates on WhatsApp.',
     ogTitle: 'Private Shimla to Spiti Road Trip | Spiti Darshan',
     ogDescription:
-      'Explore the 9-day private transport itinerary and start a WhatsApp conversation.',
+      'Explore the 9 day private transport itinerary and start a WhatsApp conversation.',
   },
   vehicles: ['innova-crysta'],
   days: [
@@ -135,7 +135,7 @@ export const shimlaToSpiti: RouteContent = {
     },
     {
       dayNumber: 6,
-      subtitle: 'The high-village circuit',
+      subtitle: 'The high village circuit',
       title: 'Langza → Hikkim → Komic',
       mapLegLabel: 'Langza → Hikkim → Komic',
       shortDescription: 'Small villages. Big Himalayan skies.',

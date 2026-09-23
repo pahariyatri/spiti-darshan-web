@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('stop preview preserves map movement and links to a destination guide', async ({ page }) => {
   await page.goto('/');
-  const chip = page.getByRole('button', { name: 'Explore Komic on day 6', exact: true });
+  const chip = page.getByRole('link', { name: 'Explore Komic on day 6', exact: true });
   await chip.click();
   const card = page.locator('#stopCard');
   await expect(card).toBeVisible();
@@ -30,10 +30,7 @@ test('guides and itinerary links work without JavaScript', async ({ browser }) =
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/routes/shimla-to-spiti/');
-  await page
-    .getByRole('navigation', { name: 'Place guides for day 6' })
-    .getByRole('link', { name: 'Komic' })
-    .click();
+  await page.getByRole('link', { name: 'Explore Komic on day 6', exact: true }).click();
   await expect(page.locator('h1')).toHaveText('Komic');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/places\/komic\/$/);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /high village/);

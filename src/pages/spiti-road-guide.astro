@@ -11,7 +11,7 @@ const UPDATED = '2026-09-24';
 const site = Astro.site ?? Astro.url;
 const title = 'Spiti road guide: Shimla, Kinnaur, Kaza, Kunzum & Manali';
 const description =
-  'How the Spiti circuit works by road: the Kinnaur route from Shimla, Kaza and its villages, the seasonal Kunzum–Chandratal–Manali side, when to go and what it means for your vehicle.';
+  'How the Spiti circuit works by road: the Kinnaur route from Shimla, Kaza and its villages, the seasonal Kunzum to Chandratal to Manali side, when to go and what it means for your vehicle.';
 const meta = buildPageMeta({
   title,
   description,
@@ -45,28 +45,35 @@ const route = 'Shimla → Spiti → Manali';
   </WhatsAppLink>
   <article class="shell prose guide">
     <p class="guide-updated">
-      Updated {UPDATED}. Road and weather conditions change; we confirm them for your dates.
+      Updated{' '}
+      {new Intl.DateTimeFormat('en-IN', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      }).format(new Date(UPDATED))}
+      . Road and weather conditions change; we confirm them for your dates.
     </p>
 
     <h2>Two ways in, one circuit</h2>
     <p>
       Spiti can be reached from Shimla through Kinnaur, or from Manali over Kunzum Pass. Our{' '}
-      <a href="/routes/shimla-to-spiti/">9-day private circuit</a> goes in through Kinnaur and comes
+      <a href="/routes/shimla-to-spiti/">9 day private circuit</a> goes in through Kinnaur and comes
       out via Kunzum, Chandratal and Manali. Going in from the Shimla side gains height gradually,
       which gives your body time to adjust before the high villages around Kaza.
     </p>
 
     <h2>Shimla to Kinnaur</h2>
     <p>
-      The road follows the Sutlej valley on NH-5 through Narkanda and Rampur to Karcham, where the
+      The road follows the Sutlej valley on NH 5 through Narkanda and Rampur to Karcham, where the
       Baspa river joins the Sutlej. From there a side road climbs into the Sangla valley, with
       Rakcham and Chitkul further up (<a href="/routes/shimla-to-spiti/#day1">day 1</a> and{' '}
       <a href="/routes/shimla-to-spiti/#day2">day 2</a>). Reckong Peo is Kinnaur's main town; Kalpa
       sits above it with wide mountain views.
     </p>
     <p>
-      Beyond Pooh the valley narrows and the road is cut into the cliffs, with landslide-prone and
-      under-repair stretches. It is driven in daylight and at an unhurried pace. Nako, and the
+      Beyond Pooh the valley narrows and the road is cut into the cliffs, with landslide prone and
+      under repair stretches. It is driven in daylight and at an unhurried pace. Nako, and the
       optional detour to Gue, lead to Tabo on the Spiti side (
       <a href="/routes/shimla-to-spiti/#day3">day 3</a>).
     </p>
@@ -117,9 +124,8 @@ const route = 'Shimla → Spiti → Manali';
     <h2>What it means for your vehicle</h2>
     <p>
       We travel in a private <a href="/vehicles/innova-crysta/">Innova Crysta</a>: comfortable on
-      the long Kinnaur drive with room for luggage. It is not a 4×4 snow-expedition vehicle, so
-      high-pass and stream-crossing sections are confirmed trip by trip for the conditions at the
-      time.
+      the long Kinnaur drive with room for luggage. It is not a 4×4 snow expedition vehicle, so high
+      pass and stream crossing sections are confirmed trip by trip for the conditions at the time.
     </p>
 
     <h2>Before you travel</h2>
@@ -154,7 +160,7 @@ const route = 'Shimla → Spiti → Manali';
         Start WhatsApp conversation ↗
       </WhatsAppLink>
       <p>
-        <a href="/routes/shimla-to-spiti/">See the full 9-day itinerary →</a>
+        <a href="/routes/shimla-to-spiti/">See the full 9 day itinerary →</a>
       </p>
     </div>
   </article>

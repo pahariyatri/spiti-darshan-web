@@ -24,7 +24,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
     ],
   },
   rampur: {
-    summary: 'A waypoint between Narkanda and Karcham on the Shimla–Sangla travel day.',
+    summary: 'A waypoint between Narkanda and Karcham on the Shimla to Sangla travel day.',
     body: [
       'Rampur breaks up the first day’s journey from Shimla. From here, the itinerary continues towards Karcham before turning towards Sangla for the night.',
       'This is a transit stop in the circuit. Ask about a meal or rest break when planning the day; a longer visit needs extra time.',
@@ -70,20 +70,20 @@ export const placeGuides: Record<string, PlaceGuide> = {
     summary: 'A waypoint on the final travel day from Chandratal towards Manali.',
     body: [
       'Batal is the first named stop after Chandratal on day 9. The route continues through Gramphu and the Atal Tunnel before reaching Manali.',
-      'This day follows a rough mountain-road section. Leave room in your onward plans for changes to the driving schedule.',
+      'This day follows a rough mountain road section. Leave room in your onward plans for changes to the driving schedule.',
     ],
   },
   gramphu: {
     summary: 'A waypoint between Batal and the Atal Tunnel on the journey to Manali.',
     body: [
       'Gramphu appears on day 9, after the Batal section of the drive from Chandratal. The itinerary then passes through the Atal Tunnel to finish in Manali.',
-      'Treat this as part of the final travel day rather than a separate sightseeing excursion. Confirm road access and your Manali drop-off when arranging the trip.',
+      'Treat this as part of the final travel day rather than a separate sightseeing excursion. Confirm road access and your Manali drop off when arranging the trip.',
     ],
   },
   'tabo-monastery': {
     summary: 'Tabo’s historic Buddhist monastery, visited before leaving for Dhankar and Kaza.',
     body: [
-      'The monastery’s mud-walled halls preserve murals and sculptures, with meditation caves in the hillside above Tabo. It is the main cultural visit at the start of day 4.',
+      'The monastery’s mud walled halls preserve murals and sculptures, with meditation caves in the hillside above Tabo. It is the main cultural visit at the start of day 4.',
       'Stay overnight in Tabo on day 3, then allow time for the monastery before continuing to Dhankar. Follow the monastery’s rules for entry and photography.',
     ],
   },
@@ -91,7 +91,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
     summary:
       'Himachal Pradesh’s capital and the usual starting point for the drive to Spiti through Kinnaur.',
     body: [
-      'Shimla is the state capital of Himachal Pradesh and a former summer capital of British India. Its ridge-top centre, the Mall and colonial-era buildings make it a pleasant place to begin before heading into the mountains.',
+      'Shimla is the state capital of Himachal Pradesh and a former summer capital of British India. Its hilltop centre, the Mall and colonial era buildings make it a pleasant place to begin before heading into the mountains.',
       'Starting from Shimla means the road climbs gradually through Kinnaur towards Spiti, which gives your body time to adjust to altitude before the high villages around Kaza.',
     ],
     tips: ['Pickups can usually be arranged from your hotel, the railway station or the airport.'],
@@ -108,13 +108,13 @@ export const placeGuides: Record<string, PlaceGuide> = {
     summary:
       'The main village of Kinnaur’s Baspa valley, with wooden houses, orchards and the river below.',
     body: [
-      'Sangla lies in the Baspa valley, reached by a side road that leaves the main highway at Karcham. The valley is greener than Spiti, with apple orchards, pine forest and traditional wood-and-stone houses.',
+      'Sangla lies in the Baspa valley, reached by a side road that leaves the main highway at Karcham. The valley is greener than Spiti, with apple orchards, pine forest and traditional wood and stone houses.',
       'The old Kamru fort sits above Sangla. It is the overnight stop on day 1 and the base for the drive up the valley to Rakcham and Chitkul.',
     ],
   },
   chitkul: {
     summary:
-      'A wooden-housed village at the head of the Baspa valley, often described as the last village on the road towards the Tibet border.',
+      'A wooden house village at the head of the Baspa valley, often described as the last village on the road towards the Tibet border.',
     body: [
       'Chitkul sits at the upper end of the Baspa valley beyond Rakcham, with snow peaks on three sides and the river running through meadows below the village. Its wooden houses and the local temple give it a very different feel from the towns below.',
       'On our itinerary Chitkul is an optional side trip on day 2, depending on the time available and road access.',
@@ -132,7 +132,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
   },
   nako: {
     summary:
-      'A stone village beside a small lake near the Kinnaur–Spiti border, with an old monastery complex.',
+      'A stone village beside a small lake near the Kinnaur and Spiti border, with an old monastery complex.',
     body: [
       'Nako lies high above the Sutlej, close to where Kinnaur meets Spiti. The landscape here is noticeably drier, a first taste of the cold desert. The village has stone houses, prayer flags, a small lake and an old monastery complex.',
       'It is a stop on day 3 between Kalpa and Tabo, a good place to stretch your legs and walk through the village lanes.',
@@ -141,7 +141,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
   },
   gue: {
     summary:
-      'A small village off the Sumdo–Tabo road, known for a naturally mummified monk kept in a shrine.',
+      'A small village off the Sumdo to Tabo road, known for a naturally mummified monk kept in a shrine.',
     body: [
       'Gue is reached by a short side road off the main route into Spiti. The village is known for a naturally preserved mummy of a monk, kept in a small shrine and said to be several centuries old.',
       'On our itinerary Gue is an optional detour on day 3, subject to timing and road conditions.',
@@ -151,7 +151,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
     summary:
       'A village in the Spiti valley around Tabo Monastery, founded in 996 CE and famous for its ancient murals.',
     body: [
-      'Tabo is home to one of the oldest Buddhist monasteries in the Himalaya, founded in 996 CE. Its mud-walled halls hold centuries-old murals and sculptures; caves once used for meditation are cut into the hillside above the village.',
+      'Tabo is home to one of the oldest Buddhist monasteries in the Himalaya, founded in 996 CE. Its mud walled halls hold centuries old murals and sculptures; caves once used for meditation are cut into the hillside above the village.',
       'Tabo is the overnight stop on day 3, and the monastery is the first visit on day 4. Please follow the monastery’s rules on photography inside the halls.',
     ],
   },
@@ -184,7 +184,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
     summary:
       'Spiti’s largest monastery, stacked on a hill above the Spiti river a short drive from Kaza.',
     body: [
-      'Key Monastery rises in white-walled tiers above Key village and the Spiti river. It is the largest monastery in the valley and home to a community of monks.',
+      'Key Monastery rises in white walled tiers above Key village and the Spiti river. It is the largest monastery in the valley and home to a community of monks.',
       'It is the first visit on day 5, followed by Kibber and Chicham. Please be respectful during prayers and follow the monastery’s photography rules.',
     ],
     media: 'day-key-monastery',
@@ -209,7 +209,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
       'A high village known for fossils in the area and a large Buddha statue overlooking the valley.',
     body: [
       'Langza is a small village on a high meadow above Kaza. A large Buddha statue looks out over the valley, and marine fossils found around the village are a reminder that this land was once under the sea.',
-      'It is the first stop on day 6’s high-village circuit, with Hikkim and Komic nearby.',
+      'It is the first stop on day 6’s high village circuit, with Hikkim and Komic nearby.',
     ],
     tips: ['Fossils belong where they lie: please do not collect them.'],
     media: 'day-langza',
@@ -240,7 +240,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
   chandratal: {
     summary: 'The “moon lake” in Lahaul, reached by a side road beyond Kunzum Pass. Seasonal.',
     body: [
-      'Chandratal is a clear, crescent-shaped lake surrounded by high mountains, reached by a side road beyond Kunzum Pass and a short walk. Its colour changes through the day with the light.',
+      'Chandratal is a clear, crescent shaped lake surrounded by high mountains, reached by a side road beyond Kunzum Pass and a short walk. Its colour changes through the day with the light.',
       'The road and the camps near the lake are seasonal. On our itinerary it is the overnight stop on day 8, confirmed for your dates.',
     ],
     tips: [
@@ -262,7 +262,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
       'The Kullu valley town where the circuit ends, after crossing into the Manali side on day 9.',
     body: [
       'Manali sits in the Kullu valley beside the Beas river, among pine and deodar forest. It is where our Shimla → Spiti circuit ends.',
-      'From Manali you can continue onward by road, or we can discuss drop-off arrangements when you enquire.',
+      'From Manali you can continue onward by road, or we can discuss drop off arrangements when you enquire.',
     ],
   },
 };

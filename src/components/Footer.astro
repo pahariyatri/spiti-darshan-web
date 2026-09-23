@@ -1,4 +1,5 @@
 ---
+import { allStaticMedia } from '../lib/media/static-media';
 import { SITE } from '../lib/config/site';
 import { businessWhatsApp } from '../lib/config/env';
 import WhatsAppLink from './conversion/WhatsAppLink.astro';
@@ -22,6 +23,27 @@ const number = businessWhatsApp();
       <a href="/contact/">Contact</a>
       <a href="/about/">About</a>
     </nav>
+    <details class="photo-attributions">
+      <summary>Photo credits</summary>
+      <ul>
+        {allStaticMedia()
+          .filter((photo) => photo.creditUrl)
+          .map((photo) => (
+            <li>
+              <a href={photo.creditUrl!} target="_blank" rel="noopener">
+                {photo.alt}
+              </a>
+              {' by '}
+              {photo.credit}
+              {'. '}
+              <a href={photo.licenseUrl!} target="_blank" rel="noopener license">
+                {photo.license.replace('CC BY-SA', 'Creative Commons Attribution ShareAlike')}
+              </a>
+              {'. Photos are resized and may be cropped for display.'}
+            </li>
+          ))}
+      </ul>
+    </details>
     <span>
       Illustrated journey, not live navigation. Check{' '}
       <a href={SITE.officialRouteGuidance.url} target="_blank" rel="noopener">

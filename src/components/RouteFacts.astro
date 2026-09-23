@@ -54,7 +54,7 @@ const optional = route.days.flatMap((d) => d.stops.filter((s) => s.isOptional).m
         <div>
           <dt>Seasonal sections</dt>
           <dd>
-            Days {seasonalDays.map((d) => d.dayNumber).join(', ')} — {route.seasonality}
+            Days {seasonalDays.map((d) => d.dayNumber).join(', ')}: {route.seasonality}
           </dd>
         </div>
       )}

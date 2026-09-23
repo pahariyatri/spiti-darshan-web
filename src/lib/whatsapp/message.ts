@@ -10,7 +10,7 @@ export interface WhatsAppMessageInput {
 export function buildWhatsAppMessage({ routeLabel, day }: WhatsAppMessageInput = {}): string {
   const lines = ["Hello Spiti Darshan! I'd like a quote for a private Spiti taxi."];
   if (routeLabel) lines.push(`Route: ${routeLabel}`);
-  if (day) lines.push(`Interested in: Day ${day.number} — ${day.leg}`);
+  if (day) lines.push(`Interested in: Day ${day.number}: ${day.leg}`);
   lines.push('Dates:', 'Travellers:');
   return lines.join('\n');
 }

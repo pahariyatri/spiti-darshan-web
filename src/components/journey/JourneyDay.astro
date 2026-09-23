@@ -5,7 +5,6 @@ import { pad2 } from '../../lib/journey/payload';
 import Picture from '../Picture.astro';
 import WhatsAppLink from '../conversion/WhatsAppLink.astro';
 import JourneyStop from './JourneyStop.astro';
-import { placeForStop } from '../../lib/content/places';
 
 interface Props {
   day: DayView;
@@ -16,15 +15,6 @@ interface Props {
 const { day, routeLabel, active } = Astro.props;
 const pins = chipPinIndexes(day.stops);
 const eyebrow = `Day ${pad2(day.dayNumber)}${day.subtitle ? ` · ${day.subtitle}` : ''}`;
-const credit = day.media?.credit;
-const places = [
-  ...new Map(
-    day.stops.flatMap((stop) => {
-      const place = placeForStop(stop);
-      return place ? [[place.slug, place] as const] : [];
-    }),
-  ).values(),
-];
 ---
 
 <article
@@ -44,37 +34,13 @@ const places = [
       ))}
     </div>
     {day.note && <p class="day-note">{day.note}</p>}
-    {places.length > 0 && (
-      <nav class="day-places" aria-label={`Place guides for day ${day.dayNumber}`}>
-        <span>Explore the stops</span>
-        {places.map((place) => (
-          <a href={place.path}>{place.name}</a>
-        ))}
-      </nav>
-    )}
     <WhatsAppLink
       class="day-enquire"
       cta="day-card"
       routeLabel={routeLabel}
       day={{ number: day.dayNumber, leg: day.mapLegLabel }}
     >
-      Ask about this day <span aria-hidden="true">↗</span>
+      Plan this day <span aria-hidden="true">↗</span>
     </WhatsAppLink>
-    {credit && (
-      <p class="photo-credit">
-        Photo:{' '}
-        <a href={credit.url} target="_blank" rel="noopener">
-          {credit.author}
-        </a>
-        ,{' '}
-        {credit.licenseUrl ? (
-          <a href={credit.licenseUrl} target="_blank" rel="noopener license">
-            {credit.license}
-          </a>
-        ) : (
-          credit.license
-        )}
-      </p>
-    )}
   </div>
 </article>

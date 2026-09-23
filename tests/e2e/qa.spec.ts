@@ -52,7 +52,7 @@ for (const width of [...MOBILE, ...DESKTOP]) {
       }, day);
       expect(r.overflow, `overflow day ${day}`).toBeLessThanOrEqual(0);
       expect(r.active, `day ${day} active`).toBe(true);
-      expect(r.askClear, `day ${day} "Ask about this day" not under the WhatsApp bar`).toBe(true);
+      expect(r.askClear, `day ${day} "Plan this day" not under the WhatsApp bar`).toBe(true);
       expect(r.headingClear, `day ${day} heading visible below the sticky map`).toBe(true);
       // Mobile: the focused day dominates the screen below the sticky map.
       if (width < 900) expect(r.share, `day ${day} share of screen`).toBeGreaterThanOrEqual(0.9);

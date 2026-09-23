@@ -13,9 +13,9 @@ const label = chipLabel(stop);
 const place = placeForStop(stop);
 ---
 
-<button
+<a
   class="stop"
-  type="button"
+  href={place?.path ?? `#day${dayNumber}`}
   data-pin={pinIndex}
   data-on-map={stop.showOnMap ? '' : undefined}
   data-place-name={place?.name}
@@ -26,4 +26,4 @@ const place = placeForStop(stop);
   aria-label={`Explore ${label} on day ${dayNumber}`}
 >
   {label}
-</button>
+</a>

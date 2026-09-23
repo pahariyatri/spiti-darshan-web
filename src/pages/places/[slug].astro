@@ -72,22 +72,6 @@ const jsonLd = graph(
     {media && (
       <figure class="place-photo">
         <Picture media={media} sizes="(max-width: 800px) 100vw, 800px" />
-        {media.credit && (
-          <figcaption>
-            Photo:{' '}
-            <a href={media.credit.url} rel="noopener">
-              {media.credit.author}
-            </a>{' '}
-            ·{' '}
-            {media.credit.licenseUrl ? (
-              <a href={media.credit.licenseUrl} rel="license">
-                {media.credit.license}
-              </a>
-            ) : (
-              media.credit.license
-            )}
-          </figcaption>
-        )}
       </figure>
     )}
     <section aria-labelledby="about-place">

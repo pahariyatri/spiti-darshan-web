@@ -52,7 +52,7 @@ export function initJourney(): void {
   // Photo parallax only on larger screens: it's decorative and costs frames on low-end phones.
   const wide = window.matchMedia('(min-width: 901px)');
   const chipsByDay = days.map((article) =>
-    Array.from(article.querySelectorAll<HTMLButtonElement>('.stop')),
+    Array.from(article.querySelectorAll<HTMLAnchorElement>('.stop')),
   );
   const photos = days.map((article) => article.querySelector<HTMLElement>('.day-photo'));
 
@@ -70,7 +70,7 @@ export function initJourney(): void {
   const cardSummary = document.getElementById('stopCardSummary');
   const cardLink = document.getElementById('stopCardLink') as HTMLAnchorElement | null;
   const cardClose = document.getElementById('stopCardClose');
-  let cardTrigger: HTMLButtonElement | null = null;
+  let cardTrigger: HTMLAnchorElement | null = null;
   card?.addEventListener('toggle', () => {
     if (!card.matches(':popover-open')) cardTrigger?.setAttribute('aria-expanded', 'false');
   });
@@ -82,7 +82,9 @@ export function initJourney(): void {
   // Keep the guide visible while scrolling the vehicle to the selected stop.
   days.slice(0, dayCount).forEach((article, d) => {
     chipsByDay[d]!.forEach((chip) => {
-      chip.addEventListener('click', () => {
+      chip.addEventListener('click', (event) => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
         if (card && cardTitle && cardSummary && cardLink && chip.dataset.placePath) {
           cardTrigger?.setAttribute('aria-expanded', 'false');
           cardTrigger = chip;

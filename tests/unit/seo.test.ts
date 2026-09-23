@@ -45,7 +45,7 @@ describe('page metadata', () => {
   it('uses the route SEO fields and canonical route path', () => {
     const meta = buildRouteMeta(route, SITE);
     expect(meta.title).toBe(
-      'Shimla to Spiti Taxi — 9-Day Private Innova Crysta Circuit | Spiti Darshan',
+      'Shimla to Spiti Taxi: 9 Day Private Innova Crysta Circuit | Spiti Darshan',
     );
     expect(meta.canonical).toBe('https://example.test/routes/shimla-to-spiti/');
     expect(meta.robots).toContain('index');

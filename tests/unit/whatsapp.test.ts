@@ -23,7 +23,7 @@ describe('WhatsApp message', () => {
       day: { number: 5, leg: 'Key → Kibber → Chicham' },
     });
     expect(msg).toContain(
-      'Route: Shimla → Spiti → Manali\nInterested in: Day 5 — Key → Kibber → Chicham',
+      'Route: Shimla → Spiti → Manali\nInterested in: Day 5: Key → Kibber → Chicham',
     );
     expect(msg.split('\n')).toHaveLength(5);
   });
