@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+uploads/
+backups/
+test-results/
+playwright-report/
+tests/screenshots/diff/
+.archive/
+*.log
+tests/screenshots/
+media-source/*.tmp
