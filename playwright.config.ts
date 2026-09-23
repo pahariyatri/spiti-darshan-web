@@ -11,10 +11,10 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: { baseURL, trace: 'retain-on-failure' },
   webServer: {
-    command: './scripts/e2e-server.sh',
+    command: 'pnpm build && pnpm preview',
     url: `${baseURL}/robots.txt`,
     reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
+    timeout: 600_000,
     stdout: 'ignore',
     stderr: 'pipe',
   },
