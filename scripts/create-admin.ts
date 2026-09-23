@@ -8,7 +8,11 @@ import { closeDb, db, schema as s } from '../src/lib/db/client';
 import { hashPassword, MIN_PASSWORD_LENGTH } from '../src/lib/auth/password';
 import { invalidateAllSessions } from '../src/lib/auth/session';
 
-const email = (process.argv.slice(2).find((a) => !a.startsWith('--')) ?? process.env.ADMIN_EMAIL ?? '')
+const email = (
+  process.argv.slice(2).find((a) => !a.startsWith('--')) ??
+  process.env.ADMIN_EMAIL ??
+  ''
+)
   .trim()
   .toLowerCase();
 const role = process.argv.includes('--role=editor') ? 'editor' : 'owner';
@@ -51,7 +55,10 @@ try {
   const passwordHash = await hashPassword(password);
   const existing = await db().query.adminUsers.findFirst({ where: eq(s.adminUsers.email, email) });
   if (existing) {
-    await db().update(s.adminUsers).set({ passwordHash, role }).where(eq(s.adminUsers.id, existing.id));
+    await db()
+      .update(s.adminUsers)
+      .set({ passwordHash, role })
+      .where(eq(s.adminUsers.id, existing.id));
     await invalidateAllSessions(existing.id);
     console.info(`admin: password reset for ${email} (all sessions signed out)`);
   } else {

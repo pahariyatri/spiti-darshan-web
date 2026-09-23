@@ -1,0 +1,28 @@
+# /etc/systemd/system/spiti-darshan.service
+[Unit]
+Description=Spiti Darshan web (Astro Node server)
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=spiti
+Group=spiti
+WorkingDirectory=/srv/spiti-darshan/current
+EnvironmentFile=/etc/spiti-darshan/env
+Environment=NODE_ENV=production HOST=127.0.0.1 PORT=4321
+ExecStart=/usr/bin/node ./dist/server/entry.mjs
+Restart=always
+RestartSec=3
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/spiti-darshan/shared/uploads
+CapabilityBoundingSet=
+LockPersonality=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target
