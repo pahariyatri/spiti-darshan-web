@@ -6,7 +6,6 @@ import { buildPageMeta } from '../../lib/seo/meta';
 import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../../lib/seo/schema';
 import { staticMedia, toMediaView } from '../../lib/media/static-media';
 
-export const prerender = true;
 const site = Astro.site ?? Astro.url;
 const hero = toMediaView(staticMedia('hero-vehicles'));
 const fleet = toMediaView(staticMedia('fleet-parked'));

@@ -5,38 +5,27 @@
   "type": "module",
   "packageManager": "pnpm@11.2.2",
   "engines": {
-    "node": ">=22.12"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "astro dev",
     "images": "tsx scripts/build-images.ts",
     "prebuild": "pnpm images",
     "build": "astro build",
-    "start": "node ./dist/server/entry.mjs",
-    "preview": "astro preview",
+    "preview": "astro preview --port 4400 --host 127.0.0.1",
     "check": "astro check",
     "typecheck": "astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx src/lib/db/migrate.ts",
-    "db:seed": "tsx src/lib/db/seed/run.ts",
-    "db:studio": "drizzle-kit studio",
-    "admin:create": "tsx scripts/create-admin.ts",
     "test": "vitest run",
-    "test:unit": "vitest run --project unit",
-    "test:integration": "vitest run --project integration",
+    "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "visual:capture": "tsx tests/visual/capture.ts",
     "visual:compare": "tsx tests/visual/compare.ts"
   },
   "dependencies": {
-    "@astrojs/node": "11.1.6",
-    "@node-rs/argon2": "^2.2.1",
     "astro": "7.3.4",
-    "drizzle-orm": "^0.45.3",
-    "postgres": "^3.4.9",
     "sharp": "^0.35.4"
   },
   "devDependencies": {
@@ -45,7 +34,6 @@
     "@playwright/test": "^1.63.0",
     "@types/node": "^22.20.4",
     "@types/pngjs": "^6.0.5",
-    "drizzle-kit": "^0.31.11",
     "eslint": "^10.11.0",
     "eslint-plugin-astro": "^3.2.1",
     "globals": "^17.12.0",

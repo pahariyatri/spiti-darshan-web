@@ -2,13 +2,13 @@
 import WhatsAppLink from './WhatsAppLink.astro';
 
 interface Props {
-  route?: string | null;
+  routeLabel?: string | null;
 }
-const { route } = Astro.props;
+const { routeLabel } = Astro.props;
 ---
 
 <div class="mobile-book">
-  <WhatsAppLink class="button button-whatsapp" cta="mobile-bar" route={route}>
+  <WhatsAppLink class="button button-whatsapp" cta="mobile-bar" routeLabel={routeLabel}>
     Plan my ride on WhatsApp ↗
   </WhatsAppLink>
 </div>

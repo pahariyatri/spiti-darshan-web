@@ -9,34 +9,25 @@ interface Props {
   title: string;
   titleAccent: string;
   media: MediaView | null;
-  route?: string | null;
+  routeLabel?: string | null;
 }
 
-const { kicker, title, titleAccent, media, route } = Astro.props;
+const { kicker, title, titleAccent, media, routeLabel } = Astro.props;
 ---
 
 <section class="hero" id="top" aria-labelledby="heroTitle">
   <div class="hero-photo">{media && <Picture media={media} sizes="100vw" priority />}</div>
-  <Header route={route} homeHref="/" />
+  <Header routeLabel={routeLabel} homeHref="/" />
   <div class="shell">
     <div class="hero-copy">
       <div class="hero-kicker">{kicker}</div>
-      <h1 id="heroTitle">
-        {title}
-        <br />
-        <em>{titleAccent}</em>
-      </h1>
+      <h1 id="heroTitle">{title}<br /><em>{titleAccent}</em></h1>
       <div class="hero-actions">
-        <WhatsAppLink class="button button-whatsapp" cta="hero" route={route}>
-          Plan my ride on WhatsApp ↗
-        </WhatsAppLink>
-        <a class="button button-outline" href="#journey">
-          Explore the itinerary ↓
-        </a>
+        <WhatsAppLink class="button button-whatsapp" cta="hero" routeLabel={routeLabel}
+          >Plan my ride on WhatsApp ↗</WhatsAppLink
+        ><a class="button button-outline" href="#journey">Explore the itinerary ↓</a>
       </div>
     </div>
   </div>
-  <a class="scroll-prompt" href="#journey">
-    Discover your route <span aria-hidden="true">↓</span>
-  </a>
+  <a class="scroll-prompt" href="#journey">Discover your route <span aria-hidden="true">↓</span></a>
 </section>

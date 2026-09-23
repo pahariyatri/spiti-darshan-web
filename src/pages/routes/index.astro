@@ -2,12 +2,9 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import { buildPageMeta, routePath } from '../../lib/seo/meta';
 import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../../lib/seo/schema';
-import { listPublishedRoutes } from '../../lib/repositories/routes';
-import { publicPageCache } from '../../lib/http/cache';
+import { getPublishedRoutes } from '../../lib/content/routes';
 
-export const prerender = false;
-
-const routes = await listPublishedRoutes();
+const routes = getPublishedRoutes();
 const site = Astro.site ?? Astro.url;
 const meta = buildPageMeta({
   title: 'Private Spiti taxi routes',
@@ -25,7 +22,6 @@ const jsonLd = graph(
   webPageSchema({ name: meta.title, description: meta.description, url: meta.canonical, site }),
   breadcrumbSchema(crumbs, site),
 );
-publicPageCache(Astro.response.headers);
 ---
 
 <PageLayout

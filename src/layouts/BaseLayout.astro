@@ -10,13 +10,11 @@ import '../styles/pages.css';
 interface Props {
   meta: PageMeta;
   jsonLd?: unknown;
-  /** Route slug for the anonymous route_view beacon. */
-  trackRoute?: string | null;
   /** LCP image to preload (hero). */
   preload?: MediaView | null;
 }
 
-const { meta, jsonLd, trackRoute, preload } = Astro.props;
+const { meta, jsonLd, preload } = Astro.props;
 const preloadSrcset = preload
   ? preload.widths.map((w) => `${preload.basePath}-${w}.avif ${w}w`).join(', ')
   : null;
@@ -53,11 +51,7 @@ const preloadSrcset = preload
     {jsonLd && <JsonLd data={jsonLd} />}
     <slot name="head" />
   </head>
-  <body data-track-route={trackRoute ?? undefined}>
+  <body>
     <slot />
-    <script>
-      import { initAttribution } from '../lib/analytics/attribution';
-      initAttribution();
-    </script>
   </body>
 </html>
