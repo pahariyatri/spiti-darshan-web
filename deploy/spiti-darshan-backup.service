@@ -1,0 +1,10 @@
+# /etc/systemd/system/spiti-darshan-backup.service
+[Unit]
+Description=Spiti Darshan daily PostgreSQL + uploads backup
+
+[Service]
+Type=oneshot
+User=spiti
+EnvironmentFile=/etc/spiti-darshan/env
+Environment=BACKUP_DIR=/var/backups/spiti-darshan
+ExecStart=/srv/spiti-darshan/current/scripts/backup-db.sh daily
