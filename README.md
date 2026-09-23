@@ -26,10 +26,10 @@ pnpm build && pnpm preview   # production build on http://127.0.0.1:4400
 
 ## Environment variables (build time)
 
-| Variable                   | Purpose                                                                                                                                                                 |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `BUSINESS_WHATSAPP_NUMBER` | Verified number, country code + digits. **Leave empty until verified**: CTAs then open WhatsApp's contact picker with the message, and the page shows a "Preview" note. |
-| `PUBLIC_SITE_URL`          | Canonical origin (canonical URLs, sitemap, social cards). On Vercel it defaults to the project's production domain. Set it once you have a custom domain.               |
+| Variable                   | Purpose                                                                                                                                                   |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BUSINESS_WHATSAPP_NUMBER` | Optional override. The verified number **+91 62300 70301** lives in `src/lib/config/site.ts` (`SITE.whatsapp`).                                           |
+| `PUBLIC_SITE_URL`          | Canonical origin (canonical URLs, sitemap, social cards). On Vercel it defaults to the project's production domain. Set it once you have a custom domain. |
 
 After changing a variable on Vercel, redeploy, because values are baked in at build time.
 
@@ -168,7 +168,7 @@ When editing content:
 
 ## Before launch — owner inputs
 
-- [ ] Verified WhatsApp number → Vercel env `BUSINESS_WHATSAPP_NUMBER`
+- [x] Verified WhatsApp number: +91 62300 70301 (`src/lib/config/site.ts`)
 - [ ] Custom domain → Vercel domains + `PUBLIC_SITE_URL`
 - [ ] Full-size originals of the two vehicle photos (current: 680×510, 510×510)
 - [ ] Replace mislocated stock day photos, **especially day 9 (Kathmandu)**

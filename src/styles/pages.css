@@ -182,3 +182,24 @@
 .route-cards .eyebrow {
   color: #8f6330;
 }
+
+/* Readability pass (owner request 2026-09-23). */
+.page-body p,
+.page-body li {
+  font-size: 16px;
+}
+.route-facts-summary {
+  font-size: 16px;
+}
+.route-facts-grid dd {
+  font-size: 15px;
+}
+.route-cards span {
+  font-size: 15px;
+}
+.breadcrumbs {
+  font-size: 13px;
+}
+.page-hero p {
+  font-size: 16px;
+}

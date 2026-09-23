@@ -1,12 +1,12 @@
 ---
-import { env } from '../../lib/config/env';
+import { businessWhatsApp } from '../../lib/config/env';
 import WhatsAppLink from './WhatsAppLink.astro';
 
 interface Props {
   routeLabel?: string | null;
 }
 const { routeLabel } = Astro.props;
-const hasNumber = Boolean(env().BUSINESS_WHATSAPP_NUMBER);
+const number = businessWhatsApp();
 ---
 
 <section class="contact" id="contact" aria-labelledby="contactTitle">
@@ -22,9 +22,13 @@ const hasNumber = Boolean(env().BUSINESS_WHATSAPP_NUMBER);
   <WhatsAppLink class="button button-whatsapp" cta="contact" routeLabel={routeLabel}>
     Start WhatsApp conversation ↗
   </WhatsAppLink>
+  <p class="contact-number">
+    WhatsApp{' '}
+    <WhatsAppLink cta="contact" routeLabel={routeLabel}>
+      {number.display}
+    </WhatsAppLink>
+  </p>
   <p class="smallprint" id="waNote">
-    {hasNumber
-      ? 'Share your dates, pickup city and traveller count on WhatsApp.'
-      : 'Preview: add the verified business number before launch. Route illustration is not live GPS.'}
+    Share your dates, pickup city and traveller count. Route illustration is not live GPS.
   </p>
 </section>

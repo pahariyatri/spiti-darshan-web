@@ -10,6 +10,7 @@ import {
 import {
   breadcrumbSchema,
   graph,
+  organizationSchema,
   serializeJsonLd,
   touristTripSchema,
 } from '../../src/lib/seo/schema';
@@ -55,11 +56,15 @@ describe('page metadata', () => {
 });
 
 describe('structured data', () => {
+  it('lists the verified WhatsApp number as the contact point', () => {
+    expect(JSON.stringify(organizationSchema(SITE))).toContain('"telephone":"+916230070301"');
+  });
+
   it('describes the trip with every day and no invented commercial facts', () => {
     const json = JSON.stringify(graph(touristTripSchema(route, SITE)));
     expect(json).toContain('"@type":"TouristTrip"');
     expect(json).toContain('Day 9: Chandratal → Manali');
-    for (const banned of ['aggregateRating', 'review', 'offers', 'price', 'telephone', 'address']) {
+    for (const banned of ['aggregateRating', 'review', 'offers', 'price', 'address']) {
       expect(json).not.toContain(banned);
     }
   });

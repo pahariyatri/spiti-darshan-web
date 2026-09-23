@@ -1,7 +1,7 @@
 ---
 /** Every WhatsApp CTA is this anchor: a real wa.me link, built at build time with the agreed message. */
 import type { HTMLAttributes } from 'astro/types';
-import { env } from '../../lib/config/env';
+import { businessWhatsApp } from '../../lib/config/env';
 import type { CtaLocation } from '../../lib/config/site';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '../../lib/whatsapp/message';
 
@@ -13,10 +13,7 @@ interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
 }
 
 const { cta, routeLabel, day, class: className, ...rest } = Astro.props;
-const href = buildWhatsAppUrl(
-  buildWhatsAppMessage({ routeLabel, day }),
-  env().BUSINESS_WHATSAPP_NUMBER,
-);
+const href = buildWhatsAppUrl(buildWhatsAppMessage({ routeLabel, day }), businessWhatsApp().digits);
 ---
 
 <a

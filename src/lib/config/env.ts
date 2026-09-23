@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { z } from 'astro/zod';
+import { SITE } from './site';
 
 // Local convenience: load `.env` without overriding variables set by the host (Vercel, CI).
 if (existsSync('.env') && typeof process.loadEnvFile === 'function') {
@@ -38,4 +39,10 @@ export function env(): Env {
   }
   cached = parsed.data;
   return cached;
+}
+
+/** The WhatsApp number every CTA uses: env override, else the verified number in SITE. */
+export function businessWhatsApp(): { digits: string; display: string } {
+  const override = env().BUSINESS_WHATSAPP_NUMBER;
+  return override ? { digits: override, display: `+${override}` } : SITE.whatsapp;
 }

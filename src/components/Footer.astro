@@ -1,12 +1,18 @@
 ---
 import { SITE } from '../lib/config/site';
+import { businessWhatsApp } from '../lib/config/env';
+import WhatsAppLink from './conversion/WhatsAppLink.astro';
 const year = new Date().getFullYear();
+const number = businessWhatsApp();
 ---
 
 <footer class="footer">
   <div class="shell footer-inner">
     <span>
       © <span id="year">{year}</span> {SITE.name} · {SITE.footerTagline}
+    </span>
+    <span>
+      WhatsApp <WhatsAppLink cta="page">{number.display}</WhatsAppLink>
     </span>
     <nav class="footer-nav" aria-label="Site">
       <a href="/routes/">Routes</a>

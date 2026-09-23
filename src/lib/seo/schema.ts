@@ -1,8 +1,9 @@
 /**
- * schema.org builders. Only facts we actually hold: no ratings, prices, addresses, phone numbers,
- * availability or fleet sizes — add those only once verified.
+ * schema.org builders. Only facts we actually hold: no ratings, prices, addresses, availability or
+ * fleet sizes — add those only once verified. (The WhatsApp number is owner-verified.)
  */
 import { SITE } from '../config/site';
+import { businessWhatsApp } from '../config/env';
 import type { RouteView } from '../domain/types';
 import { absoluteUrl, routePath } from './meta';
 
@@ -15,6 +16,12 @@ export function organizationSchema(site: string | URL): Json {
     name: SITE.name,
     url: absoluteUrl('/', site),
     description: 'Private Innova Crysta transport for Spiti Valley road journeys.',
+    // Owner-verified WhatsApp business number.
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: `+${businessWhatsApp().digits}`,
+      contactType: 'customer service',
+    },
   };
 }
 
