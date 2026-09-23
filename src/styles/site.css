@@ -4,7 +4,7 @@
  * Only change: photos are real <img> elements (responsive, lazy) instead of base64/remote
  * CSS backgrounds; the object-fit rules at the end reproduce background-size:cover exactly.
  */
-:root{--pine:#0d211b;--pine2:#142f27;--gold:#efbe7e;--sand:#f5f1e9;--ink:#10261d;--muted:#617469;--map:#dfe8df;--line:rgba(26,51,38,.14)}
+:root{--pine:#0d211b;--pine2:#142f27;--gold:#efbe7e;--sand:#f5f1e9;--ink:#10261d;--muted:#5c6e63;--map:#dfe8df;--line:rgba(26,51,38,.14)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--sand);font-family:'DM Sans',Arial,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}a{color:inherit;text-decoration:none}button{font:inherit}img{display:block;max-width:100%}
 .shell{width:min(1180px,calc(100% - 44px));margin:auto}.eyebrow{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#d2a36a}.serif{font-family:'Playfair Display',Georgia,serif}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:49px;padding:13px 22px;border-radius:99px;font-size:13px;font-weight:700;transition:transform .22s,background .22s}.button:hover{transform:translateY(-2px)}.button:focus-visible,a:focus-visible{outline:3px solid #eabb77;outline-offset:4px}.button-whatsapp{color:#0d2818;background:#40df82;box-shadow:0 14px 35px rgba(16,89,44,.24)}.button-whatsapp:hover{background:#68ec9b}.button-outline{border:1px solid rgba(255,255,255,.48);color:#fff;background:rgba(255,255,255,.07);backdrop-filter:blur(8px)}
 /* One striking image, one headline, two purposeful actions. */
@@ -70,5 +70,7 @@
 .hero-photo img{object-position:center 58%}
 @media(max-width:600px){.hero-photo img{object-position:54% center}}
 .proof-photo img{object-position:center}
+/* Accessibility: gold eyebrows on the light sand background need 4.5:1 contrast. */
+.proof .eyebrow{color:#8f6330}
 /* Visually hidden, still announced. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

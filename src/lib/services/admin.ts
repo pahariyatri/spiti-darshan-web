@@ -25,11 +25,12 @@ export class AdminError extends Error {
   }
 }
 
-const isUniqueViolation = (err: unknown) =>
-  typeof err === 'object' &&
-  err !== null &&
-  'code' in err &&
-  (err as { code: string }).code === '23505';
+/** Postgres unique_violation, whether raw or wrapped by Drizzle (DrizzleQueryError.cause). */
+function isUniqueViolation(err: unknown): boolean {
+  if (typeof err !== 'object' || err === null) return false;
+  if ('code' in err && (err as { code: unknown }).code === '23505') return true;
+  return 'cause' in err && isUniqueViolation((err as { cause: unknown }).cause);
+}
 
 async function touchRoute(tx: Tx, routeId: number) {
   const [{ n } = { n: 0 }] = await tx

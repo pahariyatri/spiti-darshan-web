@@ -177,3 +177,8 @@
 .page-section {
   margin-top: 56px;
 }
+.route-facts .eyebrow,
+.page-body .eyebrow,
+.route-cards .eyebrow {
+  color: #8f6330;
+}

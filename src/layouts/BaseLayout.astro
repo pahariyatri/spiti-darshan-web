@@ -3,6 +3,7 @@ import SeoHead from '../components/seo/SeoHead.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import type { PageMeta } from '../lib/seo/meta';
 import type { MediaView } from '../lib/domain/types';
+import '../styles/fonts.css';
 import '../styles/site.css';
 import '../styles/pages.css';
 
@@ -25,11 +26,19 @@ const preloadSrcset = preload
 <html lang="en">
   <head>
     <SeoHead meta={meta} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/playfair-display-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/dm-sans-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     {preloadSrcset && (
       <link

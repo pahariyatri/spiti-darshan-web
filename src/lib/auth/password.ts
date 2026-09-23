@@ -10,7 +10,7 @@ const OPTIONS = {
 
 export const MIN_PASSWORD_LENGTH = 12;
 
-export function hashPassword(password: string): Promise<string> {
+export async function hashPassword(password: string): Promise<string> {
   if (password.length < MIN_PASSWORD_LENGTH) {
     throw new Error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters`);
   }
