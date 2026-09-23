@@ -12,21 +12,15 @@ concurrency:
 permissions:
   contents: read
 
-env:
-  PUBLIC_SITE_URL: https://ci.example.invalid
-  SESSION_SECRET: ci-only-session-secret-not-used-anywhere-else-000
-  TEST_DATABASE_URL: postgres://spiti:spiti@localhost:5432/spiti_test
-  DATABASE_URL: postgres://spiti:spiti@localhost:5432/spiti_test
-
 jobs:
   static:
-    name: Format, lint, typecheck
+    name: Format, lint, typecheck, unit tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -34,40 +28,29 @@ jobs:
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm check
+      - run: pnpm test
 
-  test:
-    name: Migrations, unit + integration tests, build, E2E
+  e2e:
+    name: Build + Playwright
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: spiti
-          POSTGRES_PASSWORD: spiti
-          POSTGRES_DB: spiti_test
-        ports: ['5432:5432']
-        options: >-
-          --health-cmd "pg_isready -U spiti" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PUBLIC_SITE_URL: https://ci.example.invalid
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm images
-      - name: Migrations are committed and in sync with the schema
-        run: |
-          pnpm db:generate --name ci-drift-check
-          if [ -n "$(git status --porcelain drizzle)" ]; then
-            echo "::error::src/lib/db/schema.ts changed without a committed migration (run pnpm db:generate)"; git status drizzle; exit 1
-          fi
-      - run: pnpm test
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/spiti-media
+          key: media-${{ hashFiles('media-source/**', 'src/lib/media/variants.ts') }}
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: playwright-report

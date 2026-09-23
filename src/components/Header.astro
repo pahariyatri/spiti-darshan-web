@@ -11,12 +11,15 @@ const { routeLabel, homeHref = '/' } = Astro.props;
 
 <header class="header">
   <div class="shell header-inner">
-    <a class="brand" href={homeHref}
-      ><span class="brand-mark">{SITE.brandMark}</span><span
-        ><strong>{SITE.name}</strong><small>{SITE.tagline}</small></span
-      ></a
-    ><WhatsAppLink class="button button-whatsapp header-book" cta="header" routeLabel={routeLabel}
-      >Chat to book ↗</WhatsAppLink
-    >
+    <a class="brand" href={homeHref}>
+      <span class="brand-mark">{SITE.brandMark}</span>
+      <span>
+        <strong>{SITE.name}</strong>
+        <small>{SITE.tagline}</small>
+      </span>
+    </a>
+    <WhatsAppLink class="button button-whatsapp header-book" cta="header" routeLabel={routeLabel}>
+      Chat to book ↗
+    </WhatsAppLink>
   </div>
 </header>

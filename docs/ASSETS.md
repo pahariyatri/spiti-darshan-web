@@ -1,8 +1,8 @@
 # Image assets
 
 Source images live in `media-source/` (committed). `pnpm images` generates responsive variants into
-`public/media/` (git-ignored, rebuilt on every build). Provenance is also stored in the `media_assets` table
-and shown under **Admin → Media**.
+`public/media/` (git-ignored, rebuilt on every build). Provenance (credit, licence, notes) lives in
+`media-source/manifest.json`.
 
 | Asset                              | Used for                                             | Source & licence                                            | Status                                                                                                       |
 | ---------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -21,10 +21,10 @@ Alt text describes what is **visible** in each photo; it doesn't claim a locatio
 
 ## Replacing a photo
 
-1. **Admin → Media → Upload**: add your own photo (JPEG/PNG/WebP/AVIF ≤ 12 MB) with honest alt text and a credit.
-2. Choose it on the day (or as the route hero). Done: variants are generated on upload.
+1. Put your own photo (JPEG/PNG/WebP/AVIF) in `media-source/`.
+2. Add an entry to `media-source/manifest.json`: a new `stem`, honest `alt` text describing what is visible,
+   `credit` and `license`.
+3. Reference the stem from the day (`media: '<stem>'`) or route hero in `src/content/routes/<route>.ts`.
+4. `pnpm build`. Variants are generated automatically, and the build fails if a stem doesn't exist.
 
-To replace a _built-in_ image instead, put the file in `media-source/`, update `media-source/manifest.json`, and
-run `pnpm images`.
-
-Only use photos you own, or whose licence you have checked and recorded in the credit and licence fields.
+Only use photos you own, or whose licence you have checked and recorded.

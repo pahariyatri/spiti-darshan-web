@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  buildWhatsAppMessage,
-  buildWhatsAppUrl,
-  whatsappGoPath,
-} from '../../src/lib/whatsapp/message';
+import { buildWhatsAppMessage, buildWhatsAppUrl } from '../../src/lib/whatsapp/message';
 
 describe('WhatsApp message', () => {
   it('builds the route enquiry in the agreed format', () => {

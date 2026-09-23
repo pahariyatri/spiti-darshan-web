@@ -28,8 +28,6 @@ updates:
             '@playwright/test',
             'tsx',
           ]
-      database:
-        patterns: ['drizzle-*', 'postgres']
   - package-ecosystem: github-actions
     directory: /
     schedule:
