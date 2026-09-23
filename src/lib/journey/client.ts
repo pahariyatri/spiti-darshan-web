@@ -7,7 +7,6 @@
  */
 import { legRanges } from './geometry';
 import type { JourneyPayload } from './payload';
-import { trackDayInterest } from '../analytics/attribution';
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
 const clamp = (v: number, min = 0, max = 1) => Math.max(min, Math.min(max, v));
@@ -117,7 +116,6 @@ export function initJourney(): void {
           top: Math.max(0, destination),
           behavior: reduced ? 'instant' : 'smooth',
         });
-        trackDayInterest(data.route, d + 1);
       });
     });
   });

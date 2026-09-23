@@ -1,7 +1,4 @@
-/**
- * The one place WhatsApp messages and URLs are built. Components never build wa.me links;
- * they link to /go/whatsapp/ (see `whatsappGoPath`), which logs intent and redirects here.
- */
+/** The one place WhatsApp messages and URLs are built (used by WhatsAppLink at build time). */
 
 export interface WhatsAppMessageInput {
   /** Human route label, e.g. "Shimla → Spiti → Manali". */
@@ -34,19 +31,4 @@ export function buildWhatsAppUrl(
   const digits = (businessNumber ?? '').replace(/\D/g, '');
   const text = encodeURIComponent(message);
   return digits ? `https://wa.me/${digits}?text=${text}` : `https://wa.me/?text=${text}`;
-}
-
-export interface GoLinkInput {
-  route?: string | null;
-  day?: number | null;
-  cta: string;
-}
-
-/** Internal, crawl-safe link used by every CTA. Attribution params are appended client-side. */
-export function whatsappGoPath({ route, day, cta }: GoLinkInput): string {
-  const params = new URLSearchParams();
-  if (route) params.set('route', route);
-  if (day) params.set('day', String(day));
-  params.set('cta', cta);
-  return `/go/whatsapp/?${params.toString()}`;
 }

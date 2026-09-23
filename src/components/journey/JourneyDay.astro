@@ -8,12 +8,13 @@ import JourneyStop from './JourneyStop.astro';
 
 interface Props {
   day: DayView;
-  route: string;
+  routeLabel: string;
   active: boolean;
 }
 
-const { day, route, active } = Astro.props;
+const { day, routeLabel, active } = Astro.props;
 const pins = chipPinIndexes(day.stops);
+const eyebrow = `Day ${pad2(day.dayNumber)}${day.subtitle ? ` · ${day.subtitle}` : ''}`;
 ---
 
 <article
@@ -24,19 +25,18 @@ const pins = chipPinIndexes(day.stops);
 >
   <div class="day-photo">{day.media && <Picture media={day.media} sizes="100vw" />}</div>
   <div class="day-content">
-    <div class="day-eyebrow">
-      Day {pad2(day.dayNumber)} · {day.subtitle}
-    </div>
+    <div class="day-eyebrow">{eyebrow}</div>
     <h3 id={`day${day.dayNumber}-title`}>{day.title}</h3>
     <p class="day-hook">{day.shortDescription}</p>
     <div class="stops">
-      {day.stops.map((stop, i) => (
-        <JourneyStop stop={stop} dayNumber={day.dayNumber} pinIndex={pins[i] ?? 0} />
-      ))}
+      {day.stops.map((stop, i) => <JourneyStop stop={stop} dayNumber={day.dayNumber} pinIndex={pins[i] ?? 0} />)}
     </div>
     {day.note && <p class="day-note">{day.note}</p>}
-    <WhatsAppLink class="day-enquire" cta="day-card" route={route} day={day.dayNumber}>
-      Ask about this day <span aria-hidden="true">↗</span>
-    </WhatsAppLink>
+    <WhatsAppLink
+      class="day-enquire"
+      cta="day-card"
+      routeLabel={routeLabel}
+      day={{ number: day.dayNumber, leg: day.mapLegLabel }}>Ask about this day <span aria-hidden="true">↗</span></WhatsAppLink
+    >
   </div>
 </article>

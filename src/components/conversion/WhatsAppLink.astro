@@ -1,25 +1,21 @@
 ---
-/** Every WhatsApp CTA is this anchor: a real, crawl-safe link through /go/whatsapp/. */
-import { whatsappGoPath } from '../../lib/whatsapp/message';
-import type { CtaLocation } from '../../lib/config/site';
+/** Every WhatsApp CTA is this anchor: a real wa.me link, built at build time with the agreed message. */
 import type { HTMLAttributes } from 'astro/types';
+import { env } from '../../lib/config/env';
+import type { CtaLocation } from '../../lib/config/site';
+import { buildWhatsAppMessage, buildWhatsAppUrl } from '../../lib/whatsapp/message';
 
 interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
   cta: CtaLocation;
-  route?: string | null;
-  day?: number | null;
+  /** Route label for the message, e.g. "Shimla → Spiti → Manali". */
+  routeLabel?: string | null;
+  day?: { number: number; leg: string } | null;
 }
 
-const { cta, route, day, class: className, ...rest } = Astro.props;
+const { cta, routeLabel, day, class: className, ...rest } = Astro.props;
+const href = buildWhatsAppUrl(buildWhatsAppMessage({ routeLabel, day }), env().BUSINESS_WHATSAPP_NUMBER);
 ---
 
-<a
-  class:list={[className, 'whatsapp-link']}
-  href={whatsappGoPath({ route, day, cta })}
-  target="_blank"
-  rel="noopener noreferrer nofollow"
-  data-cta={cta}
-  {...rest}
+<a class:list={[className, 'whatsapp-link']} href={href} target="_blank" rel="noopener noreferrer nofollow" data-cta={cta} {...rest}
+  ><slot /></a
 >
-  <slot />
-</a>

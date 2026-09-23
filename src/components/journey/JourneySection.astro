@@ -26,7 +26,7 @@ const first = payload.days[0];
   />
   <div class="days" id="days">
     {route.days.map((day, i) => (
-      <JourneyDay day={day} route={route.slug} active={i === 0} />
+      <JourneyDay day={day} routeLabel={route.shortTitle} active={i === 0} />
     ))}
   </div>
   <script

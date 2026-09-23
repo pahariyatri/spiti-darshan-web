@@ -3,9 +3,9 @@ import { env } from '../../lib/config/env';
 import WhatsAppLink from './WhatsAppLink.astro';
 
 interface Props {
-  route?: string | null;
+  routeLabel?: string | null;
 }
-const { route } = Astro.props;
+const { routeLabel } = Astro.props;
 const hasNumber = Boolean(env().BUSINESS_WHATSAPP_NUMBER);
 ---
 
@@ -19,7 +19,7 @@ const hasNumber = Boolean(env().BUSINESS_WHATSAPP_NUMBER);
   <p>
     No form. Message us your dates and group size for a private Spiti taxi quote and route check.
   </p>
-  <WhatsAppLink class="button button-whatsapp" cta="contact" route={route}>
+  <WhatsAppLink class="button button-whatsapp" cta="contact" routeLabel={routeLabel}>
     Start WhatsApp conversation ↗
   </WhatsAppLink>
   <p class="smallprint" id="waNote">

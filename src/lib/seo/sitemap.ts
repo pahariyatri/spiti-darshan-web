@@ -33,14 +33,10 @@ export function buildSitemap(
 }
 
 export function buildRobots(site: string | URL): string {
-  // Search and AI-search crawlers are welcome on public pages; only private/utility paths are closed.
+  // Search and AI-search crawlers (Googlebot, Googlebot-Image, OAI-SearchBot…) are all welcome.
   return [
     'User-agent: *',
     'Allow: /',
-    'Disallow: /admin/',
-    'Disallow: /go/',
-    'Disallow: /api/',
-    'Disallow: /_actions/',
     '',
     `Sitemap: ${absoluteUrl('/sitemap.xml', site)}`,
     '',

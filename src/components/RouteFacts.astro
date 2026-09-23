@@ -63,7 +63,7 @@ const optional = route.days.flatMap((d) => d.stops.filter((s) => s.isOptional).m
         <dd>Yes. Stops and order are adjusted to your dates, time and road access.</dd>
       </div>
     </dl>
-    <WhatsAppLink class="button button-whatsapp" cta="route-facts" route={route.slug}>
+    <WhatsAppLink class="button button-whatsapp" cta="route-facts" routeLabel={route.shortTitle}>
       Check route for my dates ↗
     </WhatsAppLink>
   </div>
