@@ -1,5 +1,4 @@
 ---
-import { SITE } from '../lib/config/site';
 import Icon from './Icon.astro';
 import WhatsAppLink from './conversion/WhatsAppLink.astro';
 
@@ -20,11 +19,11 @@ const nav = [
 
 <header class="header">
   <div class="shell header-inner">
-    <a class="brand" href={homeHref}>
-      <span class="brand-mark">{SITE.brandMark}</span>
-      <span>
-        <strong>{SITE.name}</strong>
-        <small>{SITE.tagline}</small>
+    <a class="brand brand-logo" href={homeHref} aria-label="Spiti Darshan home">
+      <img src="/brand/spiti-darshan-mark.webp" width="56" height="56" alt="" decoding="async" />
+      <span class="brand-wordmark" aria-hidden="true">
+        <span>Spiti</span>
+        <span>Darshan</span>
       </span>
     </a>
     <nav class="header-nav" aria-label="Main">

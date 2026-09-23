@@ -3,13 +3,14 @@ export const HOME = {
   title: 'Private Shimla to Spiti Taxi & Innova Crysta | Spiti Darshan',
   description:
     'Private Shimla to Spiti taxi and Innova Crysta transport with Spiti Darshan. Explore the daily Kinnaur, Kaza and seasonal Chandratal to Manali circuit. Enquire on WhatsApp.',
-  ogTitle: 'Private Shimla to Spiti Road Trip | Spiti Darshan',
+  ogTitle: 'Explore the roof of the world | Spiti Darshan',
   ogDescription:
-    'Your road to Spiti. Explore the 9 day private transport itinerary and start a WhatsApp conversation.',
+    'Book your road trip now. Explore Spiti, Kinnaur and the seasonal road to Manali with a private Innova Crysta.',
+  primaryCta: 'Book your road trip now',
   hero: {
     kicker: 'Spiti · Private transport',
-    title: 'The road to Spiti.',
-    titleAccent: 'Your private ride.',
+    title: 'Explore the roof',
+    titleAccent: 'of the world',
     subtitle:
       'Private Innova Crysta journeys through Shimla, Kinnaur, Kaza, Chandratal and Manali.',
   },

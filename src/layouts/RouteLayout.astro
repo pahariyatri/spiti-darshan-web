@@ -23,9 +23,10 @@ interface Props {
   /** Homepage keeps the brand hero copy and hides the route-facts block (approved layout). */
   variant: 'home' | 'route';
   hero?: Partial<RouteView['hero']>;
+  primaryCta?: string;
 }
 
-const { route, meta, jsonLd, variant, hero: heroOverride } = Astro.props;
+const { route, meta, jsonLd, variant, hero: heroOverride, primaryCta } = Astro.props;
 const hero = { ...route.hero, ...heroOverride };
 const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
 ---
@@ -38,6 +39,7 @@ const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
     subtitle={hero.subtitle}
     media={hero.media}
     routeLabel={route.shortTitle}
+    primaryCta={primaryCta}
   />
   <main id="main">
     <JourneySection route={route} />

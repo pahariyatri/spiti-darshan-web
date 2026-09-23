@@ -15,6 +15,13 @@ export function organizationSchema(site: string | URL): Json {
     '@id': absoluteUrl('/#organization', site).replace(/\/$/, ''),
     name: SITE.name,
     url: absoluteUrl('/', site),
+    logo: {
+      '@type': 'ImageObject',
+      url: absoluteUrl('/brand/spiti-darshan-logo.png', site),
+      width: 512,
+      height: 512,
+      caption: SITE.name,
+    },
     description: 'Private Innova Crysta transport for Spiti Valley road journeys.',
     // Owner-verified WhatsApp business number.
     contactPoint: {

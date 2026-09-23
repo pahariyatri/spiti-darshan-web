@@ -12,9 +12,18 @@ interface Props {
   subtitle?: string | null;
   media: MediaView | null;
   routeLabel?: string | null;
+  primaryCta?: string;
 }
 
-const { kicker, title, titleAccent, subtitle, media, routeLabel } = Astro.props;
+const {
+  kicker,
+  title,
+  titleAccent,
+  subtitle,
+  media,
+  routeLabel,
+  primaryCta = 'Plan my ride on WhatsApp',
+} = Astro.props;
 /* Only verified service facts (no ratings, counts or driver claims). */
 const trust = [
   { icon: 'car', title: 'Private Innova Crysta', text: 'Just your group' },
@@ -30,14 +39,14 @@ const trust = [
     <div class="hero-copy">
       <div class="hero-kicker">{kicker}</div>
       <h1 id="heroTitle">
-        {title}
+        {title}{' '}
         <br />
         <em>{titleAccent}</em>
       </h1>
       {subtitle && <p class="hero-sub">{subtitle}</p>}
       <div class="hero-actions">
         <WhatsAppLink class="button button-whatsapp" cta="hero" routeLabel={routeLabel}>
-          <Icon name="chat" /> Plan my ride on WhatsApp
+          <Icon name="chat" /> {primaryCta}
         </WhatsAppLink>
         <a class="button button-outline" href="#journey">
           Explore the itinerary <Icon name="arrow-down" size={16} />

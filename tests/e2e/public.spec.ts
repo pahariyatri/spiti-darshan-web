@@ -21,7 +21,8 @@ test('homepage loads with the approved hero, SEO tags and structured data', asyn
   expect(response?.status()).toBe(200);
   await expect(page).toHaveTitle('Private Shimla to Spiti Taxi & Innova Crysta | Spiti Darshan');
   await expect(page.locator('h1')).toHaveCount(1);
-  await expect(page.locator('h1')).toContainText('The road to Spiti.');
+  await expect(page.locator('h1')).toHaveText('Explore the roof of the world');
+  await expect(page.locator('.hero-actions .whatsapp-link')).toHaveText('Book your road trip now');
   await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href', /\/$/);
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /-og\.jpg$/);
   const ld = JSON.parse(
