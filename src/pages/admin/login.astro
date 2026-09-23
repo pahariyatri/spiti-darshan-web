@@ -1,0 +1,49 @@
+---
+import { actions } from 'astro:actions';
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import Field from '../../components/admin/Field.astro';
+import { feedbackFrom } from '../../lib/admin/feedback';
+
+export const prerender = false;
+
+const login = Astro.getActionResult(actions.login);
+if (login?.data) return Astro.redirect(login.data.redirect, 303);
+const logout = Astro.getActionResult(actions.logout);
+if (Astro.locals.admin && !logout) return Astro.redirect('/admin/', 303);
+const feedback = feedbackFrom([login]);
+const next = Astro.url.searchParams.get('next') ?? '';
+---
+
+<AdminLayout title="Sign in" feedback={feedback} saved={false}>
+  {logout?.data && (
+    <p class="notice ok" role="status">
+      Signed out.
+    </p>
+  )}
+  <form class="card" method="POST" action={actions.login}>
+    <input type="hidden" name="next" value={next} />
+    <div class="grid">
+      <Field
+        name="email"
+        label="Email"
+        type="email"
+        required
+        autocomplete="username"
+        errors={feedback.fields.email}
+      />
+      <Field
+        name="password"
+        label="Password"
+        type="password"
+        required
+        autocomplete="current-password"
+        errors={feedback.fields.password}
+      />
+    </div>
+    <p>
+      <button class="btn" type="submit">
+        Sign in
+      </button>
+    </p>
+  </form>
+</AdminLayout>
