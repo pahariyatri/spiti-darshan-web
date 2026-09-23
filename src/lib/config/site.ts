@@ -6,7 +6,7 @@ export const SITE = {
   footerTagline: 'Private Spiti transport',
   themeColor: '#10211c',
   locale: 'en_IN',
-  defaultOgImage: '/media/hero-vehicles-1200.jpg',
+  defaultOgImage: '/media/hero-vehicles-og.jpg',
   officialRouteGuidance: {
     label: 'official district route guidance',
     url: 'https://hplahaulspiti.nic.in/how-to-reach/',

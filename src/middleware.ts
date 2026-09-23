@@ -9,10 +9,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (context.isPrerendered) return next();
 
   const { pathname } = context.url;
-  const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
-  const isAction = pathname.startsWith('/_actions/');
+  const isPrivate =
+    pathname === '/admin' || pathname.startsWith('/admin/') || pathname.startsWith('/_actions/');
 
-  if (isAdmin || isAction) {
+  // Every response leaving this middleware — including early redirects — gets the same headers.
+  const finish = (response: Response) => {
+    applySecurityHeaders(response.headers, { https: context.url.protocol === 'https:' });
+    if (isPrivate) {
+      response.headers.set('Cache-Control', 'no-store');
+      response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    }
+    return response;
+  };
+
+  if (isPrivate) {
     const token = context.cookies.get(sessionCookieName())?.value;
     try {
       context.locals.admin = await validateSession(token);
@@ -20,17 +30,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
       console.error('[auth] session lookup failed', err instanceof Error ? err.message : err);
       context.locals.admin = null; // fail closed
     }
-    if (isAdmin && !context.locals.admin && !PUBLIC_ADMIN_PATHS.has(pathname)) {
+    const needsLogin = pathname.startsWith('/admin') && !PUBLIC_ADMIN_PATHS.has(pathname);
+    if (needsLogin && !context.locals.admin) {
       const nextUrl = encodeURIComponent(pathname + context.url.search);
-      return context.redirect(`/admin/login/?next=${nextUrl}`, 303);
+      return finish(
+        new Response(null, { status: 303, headers: { Location: `/admin/login/?next=${nextUrl}` } }),
+      );
     }
   }
 
-  const response = await next();
-  applySecurityHeaders(response.headers, { https: context.url.protocol === 'https:' });
-  if (isAdmin || isAction) {
-    response.headers.set('Cache-Control', 'no-store');
-    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
-  }
-  return response;
+  return finish(await next());
 });
