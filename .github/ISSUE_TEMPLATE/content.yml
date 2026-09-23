@@ -1,0 +1,18 @@
+name: Route or content change
+description: New route, itinerary change, photo or copy update
+labels: [content]
+body:
+  - type: textarea
+    id: change
+    attributes:
+      label: What should change?
+      description: Routes and itineraries are edited in /admin — use this only for changes the admin can't make.
+    validations:
+      required: true
+  - type: checkboxes
+    id: verified
+    attributes:
+      label: Facts
+      options:
+        - label: All facts (timings, seasonality, prices, contact details) are verified by the business
+          required: true

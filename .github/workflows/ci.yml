@@ -12,14 +12,17 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  PUBLIC_SITE_URL: https://ci.example.invalid
+  SESSION_SECRET: ci-only-session-secret-not-used-anywhere-else-000
+  TEST_DATABASE_URL: postgres://spiti:spiti@localhost:5432/spiti_test
+  DATABASE_URL: postgres://spiti:spiti@localhost:5432/spiti_test
+
 jobs:
-  verify:
-    name: Lint, typecheck, build
+  static:
+    name: Format, lint, typecheck
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    env:
-      PUBLIC_SITE_URL: https://ci.example.invalid
-      SESSION_SECRET: ci-only-session-secret-not-used-anywhere-else-000
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -31,4 +34,42 @@ jobs:
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm check
-      - run: pnpm build
+
+  test:
+    name: Migrations, unit + integration tests, build, E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: spiti
+          POSTGRES_PASSWORD: spiti
+          POSTGRES_DB: spiti_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U spiti" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm images
+      - name: Migrations are committed and in sync with the schema
+        run: |
+          pnpm db:generate --name ci-drift-check
+          if [ -n "$(git status --porcelain drizzle)" ]; then
+            echo "::error::src/lib/db/schema.ts changed without a committed migration (run pnpm db:generate)"; git status drizzle; exit 1
+          fi
+      - run: pnpm test
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
