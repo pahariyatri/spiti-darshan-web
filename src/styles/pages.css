@@ -245,3 +245,141 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* Compact stop preview stays readable while the route scrolls to its pin. */
+.day-places {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  max-width: 760px;
+  margin: 18px 0 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #f3cc96;
+}
+.day-places span {
+  flex-basis: 100%;
+  color: #cbd8d0;
+  font-size: 11px;
+}
+.day-places a {
+  text-underline-offset: 4px;
+}
+.stop-card {
+  position: fixed;
+  inset: auto 24px 24px auto;
+  width: min(390px, calc(100vw - 32px));
+  margin: 0;
+  padding: 24px;
+  border: 1px solid #d5c9b7;
+  border-radius: 18px;
+  background: #fffaf1;
+  color: #183d2c;
+  box-shadow: 0 14px 50px #071e1840;
+  max-height: 55svh;
+  overflow: auto;
+}
+.stop-card h2 {
+  font:
+    600 28px/1.15 'Playfair Display',
+    serif;
+  margin: 12px 36px 10px 0;
+}
+.stop-card p {
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0 0 16px;
+}
+.stop-card a {
+  font-weight: 700;
+  text-underline-offset: 4px;
+}
+.stop-card button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.stop-card button:hover {
+  background: #eae4d9;
+}
+.place-guide {
+  max-width: 800px;
+  color: var(--ink);
+  line-height: 1.8;
+}
+.place-guide section,
+.place-related {
+  margin-bottom: 36px;
+}
+.place-guide h2 {
+  font:
+    600 clamp(25px, 4vw, 34px)/1.2 'Playfair Display',
+    serif;
+  margin: 0 0 18px;
+}
+.place-guide a {
+  text-underline-offset: 4px;
+}
+.place-photo {
+  margin: 0 0 36px;
+}
+.place-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.place-photo figcaption {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.place-visits {
+  padding: 0;
+  list-style: none;
+}
+.place-visits li {
+  border: 1px solid var(--line);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.place-visits a {
+  font-weight: 700;
+}
+.place-visits p {
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+.place-related ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding: 0;
+  list-style: none;
+}
+.place-guide-note {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.day {
+  scroll-margin-top: 130px;
+}
+@media (max-width: 600px) {
+  .stop-card {
+    inset: auto 16px calc(90px + env(safe-area-inset-bottom, 0px)) 16px;
+    padding: 20px;
+  }
+  .day-places a {
+    padding: 5px 0;
+  }
+}

@@ -1,8 +1,10 @@
 import { absoluteUrl, routePath } from './meta';
+import { places } from '../content/places';
 
 const STATIC_INDEXABLE_PATHS = [
   '/',
   '/routes/',
+  '/places/',
   '/vehicles/innova-crysta/',
   '/spiti-road-guide/',
   '/contact/',
@@ -15,6 +17,7 @@ export function buildSitemap(
   routes: { slug: string; updatedAt: Date }[],
 ): string {
   const urls = [
+    ...places.map((p) => ({ loc: absoluteUrl(p.path, site), lastmod: null })),
     ...STATIC_INDEXABLE_PATHS.map((p) => ({
       loc: absoluteUrl(p, site),
       lastmod: null as string | null,

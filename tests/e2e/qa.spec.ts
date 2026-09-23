@@ -60,7 +60,9 @@ for (const width of [...MOBILE, ...DESKTOP]) {
   });
 }
 
-test('whole road is active; stop labels never cover the car or each other', async ({ page }) => {
+test('track shows only the road and car, with the car visible throughout the journey', async ({
+  page,
+}) => {
   test.setTimeout(120_000); // 80 scroll positions × 2 widths
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 850 });
@@ -84,31 +86,18 @@ test('whole road is active; stop labels never cover the car or each other', asyn
         await page.waitForTimeout(120);
         const r = await page.evaluate(() => {
           const car = document.getElementById('mapCar')!.getBoundingClientRect();
-          const labels = [
-            ...document.querySelectorAll('#pinLayer .map-pin.show-label .pin-label'),
-          ].map((l) => l.getBoundingClientRect());
-          const hit = (a: DOMRect, b: DOMRect, pad = 0) =>
-            a.left < b.right - pad &&
-            a.right > b.left + pad &&
-            a.top < b.bottom - pad &&
-            a.bottom > b.top + pad;
-          // Car body only (the SVG box includes transparent shadow margins).
-          const body = new DOMRect(
-            car.left + car.width * 0.15,
-            car.top,
-            car.width * 0.7,
-            car.height,
-          );
+          const track = document.getElementById('navMap')!.getBoundingClientRect();
           return {
-            count: labels.length,
-            onCar: labels.some((l) => hit(l, body)),
-            overlap: labels.length === 2 && hit(labels[0]!, labels[1]!),
+            markers: document.querySelectorAll('#navMap .map-pin, #navMap .pin-label').length,
+            visible:
+              car.left >= track.left &&
+              car.right <= track.right &&
+              car.top >= track.top &&
+              car.bottom <= track.bottom,
           };
         });
-        expect(r.count, `labels day ${day} @${f} ${width}px`).toBeGreaterThanOrEqual(1);
-        expect(r.count).toBeLessThanOrEqual(2);
-        expect(r.onCar, `label covers car: day ${day} @${f} ${width}px`).toBe(false);
-        expect(r.overlap, `labels overlap: day ${day} @${f} ${width}px`).toBe(false);
+        expect(r.markers).toBe(0);
+        expect(r.visible, `car visible: day ${day} @${f} ${width}px`).toBe(true);
       }
     }
   }

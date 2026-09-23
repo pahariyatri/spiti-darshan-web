@@ -16,6 +16,77 @@ export interface PlaceGuide {
 }
 
 export const placeGuides: Record<string, PlaceGuide> = {
+  kufri: {
+    summary: 'A stop on the first day’s drive from Shimla towards Sangla.',
+    body: [
+      'Kufri comes early in the journey, before Narkanda and the longer drive through Rampur. Treat it as a short break along the route rather than a separate overnight stay.',
+      'Agree on the length of the stop with your driver so there is time for the onward journey to Sangla.',
+    ],
+  },
+  rampur: {
+    summary: 'A waypoint between Narkanda and Karcham on the Shimla–Sangla travel day.',
+    body: [
+      'Rampur breaks up the first day’s journey from Shimla. From here, the itinerary continues towards Karcham before turning towards Sangla for the night.',
+      'This is a transit stop in the circuit. Ask about a meal or rest break when planning the day; a longer visit needs extra time.',
+    ],
+  },
+  karcham: {
+    summary: 'The route junction on the first day before the drive into Sangla.',
+    body: [
+      'Karcham marks the transition from the main approach through Rampur to the Sangla section of the itinerary. Sangla is the overnight destination on this day.',
+      'Use the itinerary to understand the order of stops. The illustrated road is not a navigation map, and your driver will follow the accessible route.',
+    ],
+  },
+  rakcham: {
+    summary: 'A Baspa valley village visited between Sangla and the optional Chitkul excursion.',
+    body: [
+      'Rakcham is part of day 2, after leaving Sangla and before the optional visit to Chitkul. The day then continues towards Reckong Peo and Kalpa.',
+      'Allow time for a village stop without rushing the onward drive. Chitkul remains an optional extension, depending on the day’s conditions.',
+    ],
+  },
+  'reckong-peo': {
+    summary:
+      'Kinnaur’s district headquarters, on the itinerary before the overnight stop in Kalpa.',
+    body: [
+      'Reckong Peo appears on day 2 after the Baspa valley section. It is the town stop before the journey continues to Kalpa for the night.',
+      'If you need time in town, mention it while planning this day. The circuit combines this stop with the drive from Sangla, rather than a separate overnight stay here.',
+    ],
+  },
+  pooh: {
+    summary: 'A transit stop on the drive from Kalpa towards Nako and Tabo.',
+    body: [
+      'Pooh is part of day 3’s journey into Spiti. The itinerary places it after Kalpa and before Nako, with Tabo as the overnight destination.',
+      'Keep this stop flexible: the same day includes Nako and an optional detour to Gue. Discuss breaks and detours before setting off.',
+    ],
+  },
+  losar: {
+    summary: 'A stop between Kaza and Kunzum Pass on the seasonal road to Chandratal.',
+    body: [
+      'Losar appears on day 8 after leaving Kaza, before crossing Kunzum Pass towards Chandratal. It belongs to the seasonal part of the circuit.',
+      'The onward road and the Chandratal overnight arrangement need confirmation for your dates. An open road from Shimla to Kaza does not establish that this crossing is accessible.',
+    ],
+  },
+  batal: {
+    summary: 'A waypoint on the final travel day from Chandratal towards Manali.',
+    body: [
+      'Batal is the first named stop after Chandratal on day 9. The route continues through Gramphu and the Atal Tunnel before reaching Manali.',
+      'This day follows a rough mountain-road section. Leave room in your onward plans for changes to the driving schedule.',
+    ],
+  },
+  gramphu: {
+    summary: 'A waypoint between Batal and the Atal Tunnel on the journey to Manali.',
+    body: [
+      'Gramphu appears on day 9, after the Batal section of the drive from Chandratal. The itinerary then passes through the Atal Tunnel to finish in Manali.',
+      'Treat this as part of the final travel day rather than a separate sightseeing excursion. Confirm road access and your Manali drop-off when arranging the trip.',
+    ],
+  },
+  'tabo-monastery': {
+    summary: 'Tabo’s historic Buddhist monastery, visited before leaving for Dhankar and Kaza.',
+    body: [
+      'The monastery’s mud-walled halls preserve murals and sculptures, with meditation caves in the hillside above Tabo. It is the main cultural visit at the start of day 4.',
+      'Stay overnight in Tabo on day 3, then allow time for the monastery before continuing to Dhankar. Follow the monastery’s rules for entry and photography.',
+    ],
+  },
   shimla: {
     summary:
       'Himachal Pradesh’s capital and the usual starting point for the drive to Spiti through Kinnaur.',
@@ -26,14 +97,16 @@ export const placeGuides: Record<string, PlaceGuide> = {
     tips: ['Pickups can usually be arranged from your hotel, the railway station or the airport.'],
   },
   narkanda: {
-    summary: 'A small hill town above the Sutlej valley, known for orchards and wide views of the Himalayan ranges.',
+    summary:
+      'A small hill town above the Sutlej valley, known for orchards and wide views of the Himalayan ranges.',
     body: [
       'Narkanda sits on the highway between Shimla and Rampur, among apple orchards and deodar forest. It is a natural first break on day 1, with views across the ranges to the north.',
       'Hatu Peak, with its small temple, is a short drive up from the town if you have time and the road is open.',
     ],
   },
   sangla: {
-    summary: 'The main village of Kinnaur’s Baspa valley, with wooden houses, orchards and the river below.',
+    summary:
+      'The main village of Kinnaur’s Baspa valley, with wooden houses, orchards and the river below.',
     body: [
       'Sangla lies in the Baspa valley, reached by a side road that leaves the main highway at Karcham. The valley is greener than Spiti, with apple orchards, pine forest and traditional wood-and-stone houses.',
       'The old Kamru fort sits above Sangla. It is the overnight stop on day 1 and the base for the drive up the valley to Rakcham and Chitkul.',
@@ -49,7 +122,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     tips: ['Evenings are cold even in summer; carry a warm layer.'],
   },
   kalpa: {
-    summary: 'A village above Reckong Peo facing the Kinner Kailash range, the overnight stop on day 2.',
+    summary:
+      'A village above Reckong Peo facing the Kinner Kailash range, the overnight stop on day 2.',
     body: [
       'Kalpa sits on a slope above Reckong Peo, Kinnaur’s district headquarters, and looks straight across the valley at the Kinner Kailash range. The views are best early in the morning, when the peaks catch the first light.',
       'The old village has traditional houses and temples among apple orchards, and makes a calm overnight stop before the drier country beyond Pooh.',
@@ -57,7 +131,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     media: 'day-kalpa-kinner-kailash',
   },
   nako: {
-    summary: 'A stone village beside a small lake near the Kinnaur–Spiti border, with an old monastery complex.',
+    summary:
+      'A stone village beside a small lake near the Kinnaur–Spiti border, with an old monastery complex.',
     body: [
       'Nako lies high above the Sutlej, close to where Kinnaur meets Spiti. The landscape here is noticeably drier, a first taste of the cold desert. The village has stone houses, prayer flags, a small lake and an old monastery complex.',
       'It is a stop on day 3 between Kalpa and Tabo, a good place to stretch your legs and walk through the village lanes.',
@@ -65,7 +140,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     media: 'day-nako',
   },
   gue: {
-    summary: 'A small village off the Sumdo–Tabo road, known for a naturally mummified monk kept in a shrine.',
+    summary:
+      'A small village off the Sumdo–Tabo road, known for a naturally mummified monk kept in a shrine.',
     body: [
       'Gue is reached by a short side road off the main route into Spiti. The village is known for a naturally preserved mummy of a monk, kept in a small shrine and said to be several centuries old.',
       'On our itinerary Gue is an optional detour on day 3, subject to timing and road conditions.',
@@ -80,7 +156,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     ],
   },
   dhankar: {
-    summary: 'Spiti’s former capital, with a monastery perched on a crumbling spur above the valley.',
+    summary:
+      'Spiti’s former capital, with a monastery perched on a crumbling spur above the valley.',
     body: [
       'Dhankar was once the capital of Spiti. Its monastery clings to an eroded spur high above the meeting of the Spiti and Pin rivers, one of the most striking sights in the valley.',
       'We stop here on day 4 between Tabo and Kaza. A walk up to Dhankar lake above the village is possible if you have time and feel well at the altitude.',
@@ -104,7 +181,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     media: 'day-kaza',
   },
   'key-monastery': {
-    summary: 'Spiti’s largest monastery, stacked on a hill above the Spiti river a short drive from Kaza.',
+    summary:
+      'Spiti’s largest monastery, stacked on a hill above the Spiti river a short drive from Kaza.',
     body: [
       'Key Monastery rises in white-walled tiers above Key village and the Spiti river. It is the largest monastery in the valley and home to a community of monks.',
       'It is the first visit on day 5, followed by Kibber and Chicham. Please be respectful during prayers and follow the monastery’s photography rules.',
@@ -119,14 +197,16 @@ export const placeGuides: Record<string, PlaceGuide> = {
     ],
   },
   'chicham-bridge': {
-    summary: 'A bridge high above a deep gorge linking Kibber and Chicham, often called one of the highest in Asia.',
+    summary:
+      'A bridge high above a deep gorge linking Kibber and Chicham, often called one of the highest in Asia.',
     body: [
       'The Chicham bridge spans a narrow, deep gorge between Kibber and Chicham villages. Before it was built, crossing the gorge meant a long detour.',
       'It is the last stop on day 5 before returning to Kaza. Stay behind the railings for photographs; the drop is very steep.',
     ],
   },
   langza: {
-    summary: 'A high village known for fossils in the area and a large Buddha statue overlooking the valley.',
+    summary:
+      'A high village known for fossils in the area and a large Buddha statue overlooking the valley.',
     body: [
       'Langza is a small village on a high meadow above Kaza. A large Buddha statue looks out over the valley, and marine fossils found around the village are a reminder that this land was once under the sea.',
       'It is the first stop on day 6’s high-village circuit, with Hikkim and Komic nearby.',
@@ -135,7 +215,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     media: 'day-langza',
   },
   hikkim: {
-    summary: 'A tiny high village whose post office is often described as one of the highest in the world.',
+    summary:
+      'A tiny high village whose post office is often described as one of the highest in the world.',
     body: [
       'Hikkim is a small village between Langza and Komic. Its post office is often described as one of the highest in the world, and many travellers send a postcard home from here.',
       'We stop here on day 6. Post office opening depends on local timings and the season.',
@@ -149,7 +230,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     ],
   },
   'kunzum-pass': {
-    summary: 'The high pass between Spiti and Lahaul, at around 4,550 m, open only in the warmer months.',
+    summary:
+      'The high pass between Spiti and Lahaul, at around 4,550 m, open only in the warmer months.',
     body: [
       'Kunzum Pass links Spiti with Lahaul on the road from Kaza towards Manali. At the top, travellers traditionally circle the small Kunzum Mata temple and stupa before continuing.',
       'The pass is usually open only from early summer to autumn and closes with snow. It is crossed on day 8, and we confirm its status for your dates before booking.',
@@ -161,7 +243,10 @@ export const placeGuides: Record<string, PlaceGuide> = {
       'Chandratal is a clear, crescent-shaped lake surrounded by high mountains, reached by a side road beyond Kunzum Pass and a short walk. Its colour changes through the day with the light.',
       'The road and the camps near the lake are seasonal. On our itinerary it is the overnight stop on day 8, confirmed for your dates.',
     ],
-    tips: ['Nights at the lake are very cold, even in summer.', 'Keep the lake clean: carry back everything you bring.'],
+    tips: [
+      'Nights at the lake are very cold, even in summer.',
+      'Keep the lake clean: carry back everything you bring.',
+    ],
     media: 'day-chandratal',
   },
   'atal-tunnel': {
@@ -173,7 +258,8 @@ export const placeGuides: Record<string, PlaceGuide> = {
     media: 'day-atal-tunnel',
   },
   manali: {
-    summary: 'The Kullu valley town where the circuit ends, after crossing into the Manali side on day 9.',
+    summary:
+      'The Kullu valley town where the circuit ends, after crossing into the Manali side on day 9.',
     body: [
       'Manali sits in the Kullu valley beside the Beas river, among pine and deodar forest. It is where our Shimla → Spiti circuit ends.',
       'From Manali you can continue onward by road, or we can discuss drop-off arrangements when you enquire.',

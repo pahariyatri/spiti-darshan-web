@@ -1,0 +1,46 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { places } from '../../lib/content/places';
+import { buildPageMeta } from '../../lib/seo/meta';
+import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../../lib/seo/schema';
+const site = Astro.site ?? Astro.url;
+const meta = buildPageMeta({
+  title: 'Places on the Shimla to Spiti route',
+  description:
+    'Explore the villages, monasteries and mountain stops on the Shimla to Spiti circuit. Read destination guides and find each place in the day-by-day itinerary.',
+  path: '/places/',
+  site,
+});
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Places', path: '/places/' },
+];
+const jsonLd = graph(
+  organizationSchema(site),
+  webPageSchema({ name: meta.title, description: meta.description, url: meta.canonical, site }),
+  breadcrumbSchema(crumbs, site),
+);
+---
+
+<PageLayout
+  meta={meta}
+  jsonLd={jsonLd}
+  eyebrow="Know the places along the way"
+  title="Every stop has a story."
+  intro="From Kinnaur’s valley villages to Spiti’s monasteries, explore the places that shape your journey."
+  breadcrumbs={crumbs}
+>
+  <div class="shell">
+    <ul class="route-cards">
+      {places.map((place) => (
+        <li>
+          <a href={place.path}>
+            <div class="eyebrow">{place.region}</div>
+            <strong>{place.name}</strong>
+            <span>{place.summary}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</PageLayout>

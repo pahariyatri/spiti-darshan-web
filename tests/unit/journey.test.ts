@@ -148,6 +148,24 @@ describe('seeded journey reproduces the approved map', () => {
     expect(payload.days[6]!.restLabel).toBe('REST / KAZA');
   });
 
+  it('never doubles back or overlaps, including both Kaza return days', () => {
+    let previousX = 30;
+    let previousY = 58;
+    for (const segment of payload.segments) {
+      if (!segment) continue;
+      const coordinates = segment.match(/-?\d+(?:\.\d+)?/g)!.map(Number);
+      const [x, y, c1x, , c2x, , endX, endY] = coordinates;
+      expect(x).toBe(previousX);
+      expect(y).toBe(previousY);
+      expect(c1x).toBeGreaterThan(x!);
+      expect(c2x).toBeGreaterThan(c1x!);
+      expect(endX).toBeGreaterThan(c2x!);
+      previousX = endX!;
+      previousY = endY!;
+    }
+    expect(previousX).toBe(3170);
+  });
+
   it('maps days onto the same path ranges as the original legRanges table', () => {
     const lengths = payload.segments.map((s) => (s ? 1 : null)); // equal lengths are enough for index mapping
     const ranges = legRanges(lengths);

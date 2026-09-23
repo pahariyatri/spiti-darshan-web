@@ -1,0 +1,142 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Picture from '../../components/Picture.astro';
+import { places, placeForStop } from '../../lib/content/places';
+import { getPublishedRoutes } from '../../lib/content/routes';
+import { staticMedia, toMediaView } from '../../lib/media/static-media';
+import { buildPageMeta, routePath } from '../../lib/seo/meta';
+import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../../lib/seo/schema';
+
+export const getStaticPaths = (() =>
+  places.map((place) => ({
+    params: { slug: place.slug },
+    props: { place },
+  }))) satisfies GetStaticPaths;
+interface Props {
+  place: (typeof places)[number];
+}
+const { place } = Astro.props;
+const site = Astro.site ?? Astro.url;
+const media = place.media ? toMediaView(staticMedia(place.media)) : null;
+const meta = buildPageMeta({
+  title: `${place.name} travel guide & itinerary stop`,
+  description: place.summary,
+  path: place.path,
+  site,
+  ogImage: media,
+});
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Places', path: '/places/' },
+  { name: place.name, path: place.path },
+];
+const visits = getPublishedRoutes().flatMap((route) =>
+  route.days
+    .filter((day) => day.stops.some((s) => placeForStop(s)?.slug === place.slug))
+    .map((day) => ({ route, day })),
+);
+const nearby = [
+  ...new Map(
+    visits.flatMap(({ day }) =>
+      day.stops.flatMap((s) => {
+        const p = placeForStop(s);
+        return p && p.slug !== place.slug ? [[p.slug, p] as const] : [];
+      }),
+    ),
+  ).values(),
+];
+const jsonLd = graph(
+  organizationSchema(site),
+  webPageSchema({ name: meta.title, description: meta.description, url: meta.canonical, site }),
+  breadcrumbSchema(crumbs, site),
+  {
+    '@type': 'Place',
+    '@id': `${meta.canonical}#place`,
+    name: place.name,
+    description: place.summary,
+    url: meta.canonical,
+  },
+);
+---
+
+<PageLayout
+  meta={meta}
+  jsonLd={jsonLd}
+  eyebrow={place.region}
+  title={place.name}
+  intro={place.summary}
+  breadcrumbs={crumbs}
+>
+  <article class="shell place-guide">
+    {media && (
+      <figure class="place-photo">
+        <Picture media={media} sizes="(max-width: 800px) 100vw, 800px" />
+        {media.credit && (
+          <figcaption>
+            Photo:{' '}
+            <a href={media.credit.url} rel="noopener">
+              {media.credit.author}
+            </a>{' '}
+            ·{' '}
+            {media.credit.licenseUrl ? (
+              <a href={media.credit.licenseUrl} rel="license">
+                {media.credit.license}
+              </a>
+            ) : (
+              media.credit.license
+            )}
+          </figcaption>
+        )}
+      </figure>
+    )}
+    <section aria-labelledby="about-place">
+      <h2 id="about-place">About {place.name}</h2>
+      {place.body.map((text) => (
+        <p>{text}</p>
+      ))}
+    </section>
+    {place.tips?.length && (
+      <section aria-labelledby="visit-notes">
+        <h2 id="visit-notes">For your visit</h2>
+        <ul>
+          {place.tips.map((tip) => (
+            <li>{tip}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+    <section aria-labelledby="place-itinerary">
+      <h2 id="place-itinerary">Where it fits in your journey</h2>
+      <ul class="place-visits">
+        {visits.map(({ route, day }) => (
+          <li>
+            <a href={`${routePath(route.slug)}#day${day.dayNumber}`}>
+              Day {day.dayNumber}: {day.title}
+            </a>
+            <p>
+              {route.shortTitle} · {day.shortDescription}
+            </p>
+            {day.note && <p>{day.note}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+    {nearby.length > 0 && (
+      <nav class="place-related" aria-label="More places on these travel days">
+        <h2>On the same travel days</h2>
+        <ul>
+          {nearby.map((p) => (
+            <li>
+              <a href={p.path}>{p.name}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+    <p class="place-guide-note">
+      Planning your dates? Read our <a href="/spiti-road-guide/">Spiti road guide</a> for seasonal
+      route planning, or <a href="/contact/">ask about your trip</a>.
+    </p>
+  </article>
+</PageLayout>

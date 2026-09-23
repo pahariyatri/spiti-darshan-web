@@ -38,13 +38,15 @@ test('the route animation initialises and follows the scroll', async ({ page }) 
   const car = page.locator('#mapCar');
   const before = await car.evaluate((el) => el.style.left);
   expect(before).not.toBe('');
-  await expect(page.locator('#pinLayer .map-pin')).toHaveCount(6);
+  await expect(page.locator('#pinLayer .map-pin')).toHaveCount(0);
   await scrollToDay(page, 1, 0.9);
   expect(await car.evaluate((el) => el.style.left)).not.toBe(before);
   await expect(page.locator('#mapCar svg > *')).toHaveCount(14); // the original Innova SVG, element for element
 });
 
-test('scrolling through days updates the active day, pins and aria-current', async ({ page }) => {
+test('scrolling through days updates the active day, location and aria-current', async ({
+  page,
+}) => {
   await page.goto('/');
   await scrollToDay(page, 5, 0.55);
   await expect(page.locator('#dayCounter')).toHaveText('DAY 05 / 09');
@@ -52,12 +54,11 @@ test('scrolling through days updates the active day, pins and aria-current', asy
   await expect(page.locator('#day5')).toHaveClass(/is-active/);
   await expect(page.locator('#day5 .stop[aria-current="step"]')).toHaveCount(1);
   await expect(page.locator('.stop[aria-current="step"]')).toHaveCount(1);
-  await expect(page.locator('#pinLayer .map-pin')).toHaveCount(5);
-  await expect(page.locator('#pinLayer .map-pin.is-current .pin-label')).toBeVisible();
+  await expect(page.locator('#navMap .map-pin, #navMap .pin-label')).toHaveCount(0);
 
   await scrollToDay(page, 7, 0.5);
   await expect(page.locator('#stopCounter')).toHaveText('REST / KAZA');
-  await expect(page.locator('#pinLayer .map-pin')).toHaveCount(1);
+  await expect(page.locator('#currentPlace')).toHaveText('Kaza · rest day');
 });
 
 test('tapping a stop chip moves the journey to that stop', async ({ page }) => {

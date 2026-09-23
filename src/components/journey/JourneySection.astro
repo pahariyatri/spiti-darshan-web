@@ -36,6 +36,18 @@ const first = payload.days[0];
   ></script>
 </section>
 
+<aside id="stopCard" class="stop-card" popover="auto" aria-labelledby="stopCardTitle">
+  <button type="button" id="stopCardClose" aria-label="Close place details">
+    ✕
+  </button>
+  <span class="eyebrow">Along your route</span>
+  <h2 id="stopCardTitle"></h2>
+  <p id="stopCardSummary"></p>
+  <a id="stopCardLink">
+    Read more <span aria-hidden="true">→</span>
+  </a>
+</aside>
+
 <script>
   import { initJourney } from '../../lib/journey/client';
   initJourney();
