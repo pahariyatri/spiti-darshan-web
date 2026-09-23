@@ -54,11 +54,4 @@ describe('WhatsApp URL', () => {
     const url = buildWhatsAppUrl('a\nb → c', '911234567890');
     expect(decodeURIComponent(url.split('text=')[1]!)).toBe('a\nb → c');
   });
-
-  it('builds internal redirect links for CTAs', () => {
-    expect(whatsappGoPath({ route: 'shimla-to-spiti', day: 5, cta: 'day-card' })).toBe(
-      '/go/whatsapp/?route=shimla-to-spiti&day=5&cta=day-card',
-    );
-    expect(whatsappGoPath({ cta: 'header' })).toBe('/go/whatsapp/?cta=header');
-  });
 });

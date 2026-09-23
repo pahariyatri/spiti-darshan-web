@@ -14,11 +14,11 @@ import {
   touristTripSchema,
 } from '../../src/lib/seo/schema';
 import { buildRobots, buildSitemap } from '../../src/lib/seo/sitemap';
-import { seedRouteToView } from '../../src/lib/db/seed/to-view';
-import { shimlaToSpiti } from '../../src/lib/db/seed/data';
+import { toRouteView } from '../../src/lib/content/routes';
+import { shimlaToSpiti } from '../../src/content/routes/shimla-to-spiti';
 
 const SITE = 'https://example.test';
-const route = seedRouteToView(shimlaToSpiti);
+const route = toRouteView(shimlaToSpiti);
 
 describe('page metadata', () => {
   it('builds absolute canonical URLs with trailing slashes', () => {
@@ -84,7 +84,7 @@ describe('robots and sitemap', () => {
     const robots = buildRobots(SITE);
     expect(robots).toContain('User-agent: *\nAllow: /');
     expect(robots).not.toMatch(/User-agent: (Googlebot|OAI-SearchBot)/);
-    expect(robots).toContain('Disallow: /admin/');
+    expect(robots).not.toContain('Disallow');
     expect(robots).toContain('Sitemap: https://example.test/sitemap.xml');
   });
 
@@ -97,6 +97,5 @@ describe('robots and sitemap', () => {
     );
     expect(xml).toContain('<loc>https://example.test/</loc>');
     expect(xml).not.toContain('/about/');
-    expect(xml).not.toContain('/admin/');
   });
 });
