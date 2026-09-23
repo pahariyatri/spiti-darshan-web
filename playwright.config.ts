@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: { baseURL, trace: 'retain-on-failure' },
   webServer: {
-    command: 'pnpm build && pnpm preview',
+    command: 'pnpm build && pnpm exec astro preview --port 4400 --host 127.0.0.1 --ignore-lock',
     url: `${baseURL}/robots.txt`,
     reuseExistingServer: !process.env.CI,
     timeout: 600_000,

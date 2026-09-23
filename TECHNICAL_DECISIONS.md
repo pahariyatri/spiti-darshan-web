@@ -3,6 +3,28 @@
 Short records of the choices that shape this codebase. Each says what was decided, why, and what
 would make us revisit it. Dates are when the decision was made.
 
+## 0. Static site on Vercel, no database (2026-09-23, supersedes 1, 5, 6, 7 and the logging part of 8)
+
+**Decision.** The owner chose a fully static site. Routes are typed content files (`src/content/`)
+validated at build time; Astro builds every page to HTML (`output: 'static'`, no adapter), and Vercel serves it.
+WhatsApp CTAs are direct `wa.me` links built at build time.
+
+**Why.** The business flow (search → route page → WhatsApp) needs no server. Static means no hosting costs
+beyond Vercel's free tier, no database to secure, back up or migrate, the fastest possible delivery, and
+nothing that can go down.
+
+**Given up** (restorable from tag `v0.1-postgres-admin`): the admin panel (routes are now edited in code and
+deployed by a push), the anonymous server-side click log (count enquiries in WhatsApp Business; optionally
+enable Vercel Web Analytics), and live publishing without a rebuild (a Vercel build takes about 1 minute once
+images are cached).
+
+**Still true:** decisions 2, 3, 4, 9, 10 and 12, and the message format and "never invent a number" rule
+from 8. CSP (11) is Astro's hash-based `<meta>`, with `frame-ancestors` and other headers in `vercel.json`.
+
+---
+
+The records below describe the original PostgreSQL + admin architecture.
+
 ## 1. Astro 7 + Node adapter, hybrid rendering (2026-09-23)
 
 **Decision.** Astro with `output: 'static'` and the official `@astrojs/node` adapter (standalone).

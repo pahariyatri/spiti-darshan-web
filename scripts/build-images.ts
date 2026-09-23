@@ -27,7 +27,10 @@ await mkdir(OUT, { recursive: true });
 
 for (const entry of manifest) {
   const source = path.join('media-source', entry.file);
-  const hash = createHash('sha256').update(await readFile(source)).digest('hex').slice(0, 16);
+  const hash = createHash('sha256')
+    .update(await readFile(source))
+    .digest('hex')
+    .slice(0, 16);
   const dir = path.join(CACHE, `${entry.stem}-${hash}`);
   const metaFile = path.join(dir, 'meta.json');
   let result: VariantResult;
@@ -37,8 +40,11 @@ for (const entry of manifest) {
     result = await generateVariants(source, dir, entry.stem);
     await writeFile(metaFile, JSON.stringify(result));
   }
-  for (const f of await readdir(dir)) if (f !== 'meta.json') await cp(path.join(dir, f), path.join(OUT, f));
+  for (const f of await readdir(dir))
+    if (f !== 'meta.json') await cp(path.join(dir, f), path.join(OUT, f));
   generated[entry.stem] = { ...entry, basePath: `/media/${entry.stem}`, ...result };
-  console.info(`media: ${entry.stem} ${result.width}×${result.height} → ${result.widths.join(', ')}`);
+  console.info(
+    `media: ${entry.stem} ${result.width}×${result.height} → ${result.widths.join(', ')}`,
+  );
 }
 await writeFile('media-source/generated.json', JSON.stringify(generated, null, 2) + '\n');

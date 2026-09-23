@@ -13,9 +13,19 @@ interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
 }
 
 const { cta, routeLabel, day, class: className, ...rest } = Astro.props;
-const href = buildWhatsAppUrl(buildWhatsAppMessage({ routeLabel, day }), env().BUSINESS_WHATSAPP_NUMBER);
+const href = buildWhatsAppUrl(
+  buildWhatsAppMessage({ routeLabel, day }),
+  env().BUSINESS_WHATSAPP_NUMBER,
+);
 ---
 
-<a class:list={[className, 'whatsapp-link']} href={href} target="_blank" rel="noopener noreferrer nofollow" data-cta={cta} {...rest}
-  ><slot /></a
+<a
+  class:list={[className, 'whatsapp-link']}
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer nofollow"
+  data-cta={cta}
+  {...rest}
 >
+  <slot />
+</a>

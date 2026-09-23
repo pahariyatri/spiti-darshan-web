@@ -158,7 +158,13 @@ No IP addresses, no names/phones: the conversation itself stays on WhatsApp.
    active day's chip is marked now.
 9. Performance: fonts are self-hosted (same families) and CSS is inlined. Journey screenshots are unchanged.
 
-## Status (2026-09-23)
+## Update (2026-09-23): static site
+
+At the owner's request the site became fully static on Vercel. The PostgreSQL schema, admin and click logging
+described in §4–5 were removed (preserved at tag `v0.1-postgres-admin`), and routes are now typed content in
+`src/content/`. Also by owner request: the journey intro block was removed and day photos are taller.
+
+## Status (2026-09-23, before the static switch)
 
 All ten phases are implemented and verified: typecheck and lint clean, 59 unit and integration tests,
 30 Playwright E2E tests (desktop and mobile), migrations applied from an empty database, and the seed checked

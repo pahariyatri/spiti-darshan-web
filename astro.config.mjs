@@ -8,7 +8,9 @@ if (existsSync('.env')) process.loadEnvFile('.env');
 // Canonical origin: explicit PUBLIC_SITE_URL, else Vercel's production domain, else local.
 const site =
   process.env.PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '') ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : '') ||
   'http://localhost:4321';
 
 // Fully static site: every page is HTML generated at build time from src/content.

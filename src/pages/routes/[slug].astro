@@ -3,12 +3,21 @@
 import type { GetStaticPaths } from 'astro';
 import RouteLayout from '../../layouts/RouteLayout.astro';
 import { buildRouteMeta, routePath } from '../../lib/seo/meta';
-import { breadcrumbSchema, graph, organizationSchema, touristTripSchema, webPageSchema } from '../../lib/seo/schema';
+import {
+  breadcrumbSchema,
+  graph,
+  organizationSchema,
+  touristTripSchema,
+  webPageSchema,
+} from '../../lib/seo/schema';
 import { getPublishedRoutes } from '../../lib/content/routes';
 import type { RouteView } from '../../lib/domain/types';
 
 export const getStaticPaths = (() =>
-  getPublishedRoutes().map((route) => ({ params: { slug: route.slug }, props: { route } }))) satisfies GetStaticPaths;
+  getPublishedRoutes().map((route) => ({
+    params: { slug: route.slug },
+    props: { route },
+  }))) satisfies GetStaticPaths;
 
 interface Props {
   route: RouteView;

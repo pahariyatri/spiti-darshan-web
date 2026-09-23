@@ -28,7 +28,12 @@ export function toRouteView(route: RouteContent): RouteView {
     seasonality: route.seasonality,
     status: route.status,
     isFeatured: route.isFeatured,
-    hero: { kicker: route.hero.kicker, title: route.hero.title, titleAccent: route.hero.titleAccent, media: media(route.hero.media) },
+    hero: {
+      kicker: route.hero.kicker,
+      title: route.hero.title,
+      titleAccent: route.hero.titleAccent,
+      media: media(route.hero.media),
+    },
     days: route.days.map((d) => ({
       dayNumber: d.dayNumber,
       title: d.title,
@@ -53,7 +58,12 @@ export function toRouteView(route: RouteContent): RouteView {
     })),
     vehicles: vehicles
       .filter((v) => route.vehicles.includes(v.slug))
-      .map((v) => ({ slug: v.slug, name: v.name, vehicleType: v.vehicleType, media: media(v.media) })),
+      .map((v) => ({
+        slug: v.slug,
+        name: v.name,
+        vehicleType: v.vehicleType,
+        media: media(v.media),
+      })),
     seo: {
       metaTitle: route.seo.metaTitle,
       metaDescription: route.seo.metaDescription,
@@ -78,27 +88,35 @@ export function contentProblems(routes: RouteContent[]): string[] {
   const published = routes.filter((r) => r.status === 'published');
 
   if (published.filter((r) => r.isFeatured).length !== 1) {
-    problems.push('Exactly one published route must have isFeatured: true (it powers the homepage).');
+    problems.push(
+      'Exactly one published route must have isFeatured: true (it powers the homepage).',
+    );
   }
   for (const r of routes) {
     const at = `Route "${r.slug}"`;
     const before = problems.length;
-    if (!SLUG.test(r.slug)) problems.push(`${at}: slug must be lowercase words joined by single dashes.`);
+    if (!SLUG.test(r.slug))
+      problems.push(`${at}: slug must be lowercase words joined by single dashes.`);
     if (seen.has(r.slug)) problems.push(`${at}: duplicate slug.`);
     seen.add(r.slug);
-    if (!mediaStems.has(r.hero.media)) problems.push(`${at}: unknown hero image "${r.hero.media}".`);
-    for (const v of r.vehicles) if (!vehicleSlugs.has(v)) problems.push(`${at}: unknown vehicle "${v}".`);
+    if (!mediaStems.has(r.hero.media))
+      problems.push(`${at}: unknown hero image "${r.hero.media}".`);
+    for (const v of r.vehicles)
+      if (!vehicleSlugs.has(v)) problems.push(`${at}: unknown vehicle "${v}".`);
     for (const d of r.days) {
       const day = `${at} day ${d.dayNumber}`;
       if (d.media && !mediaStems.has(d.media)) problems.push(`${day}: unknown image "${d.media}".`);
-      if (d.overnight && !destSlugs.has(d.overnight)) problems.push(`${day}: unknown overnight destination "${d.overnight}".`);
+      if (d.overnight && !destSlugs.has(d.overnight))
+        problems.push(`${day}: unknown overnight destination "${d.overnight}".`);
       if (d.mapSegment && !/^[MmLlHhVvCcSsQqTtAaZz0-9.,\-\s]+$/.test(d.mapSegment)) {
         problems.push(`${day}: mapSegment may only contain SVG path commands and numbers.`);
       }
       for (const s of d.stops) {
         if (!STOP_TYPES.includes(s.type)) problems.push(`${day}: unknown stop type "${s.type}".`);
-        if (s.destination && !destSlugs.has(s.destination)) problems.push(`${day}: unknown destination "${s.destination}".`);
-        if (s.attraction && !attrSlugs.has(s.attraction)) problems.push(`${day}: unknown attraction "${s.attraction}".`);
+        if (s.destination && !destSlugs.has(s.destination))
+          problems.push(`${day}: unknown destination "${s.destination}".`);
+        if (s.attraction && !attrSlugs.has(s.attraction))
+          problems.push(`${day}: unknown attraction "${s.attraction}".`);
       }
     }
     // Completeness rules need a renderable view, so only check them when references resolve.
