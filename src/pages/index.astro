@@ -1,14 +1,24 @@
 ---
+/**
+ * Homepage — prerendered at build time from the featured published route. The build fails loudly
+ * if there is none (no silent fallback content). Edits to the featured route appear on /routes/…
+ * immediately and on the homepage at the next deploy.
+ */
 import RouteLayout from '../layouts/RouteLayout.astro';
 import { buildPageMeta } from '../lib/seo/meta';
 import { graph, organizationSchema, touristTripSchema, webPageSchema } from '../lib/seo/schema';
 import { HOME } from '../lib/home';
-import { seedRouteToView } from '../lib/db/seed/to-view';
-import { shimlaToSpiti } from '../lib/db/seed/data';
+import { findFeaturedRoute } from '../lib/repositories/routes';
 
-// Phase 3: rendered from typed data; switched to the database in phase 5.
-const route = seedRouteToView(shimlaToSpiti);
-const site = Astro.site!;
+export const prerender = true;
+
+const route = await findFeaturedRoute();
+if (!route) {
+  throw new Error(
+    'Homepage build: no published featured route. Run `pnpm db:seed` or feature a route in /admin.',
+  );
+}
+const site = Astro.site ?? Astro.url;
 const meta = buildPageMeta({
   title: HOME.title,
   description: HOME.description,

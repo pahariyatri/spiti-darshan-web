@@ -1,0 +1,44 @@
+---
+/*
+ * About — deliberately minimal and NOINDEX until the owner provides their own story
+ * (founding, drivers, base). Do not fill with invented facts.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import WhatsAppLink from '../components/conversion/WhatsAppLink.astro';
+import { buildPageMeta } from '../lib/seo/meta';
+
+export const prerender = true;
+const meta = buildPageMeta({
+  title: 'About Spiti Darshan',
+  description: 'Spiti Darshan arranges private Innova Crysta road journeys to Spiti Valley.',
+  path: '/about/',
+  site: Astro.site ?? Astro.url,
+  robots: 'noindex,follow',
+});
+---
+
+<PageLayout
+  meta={meta}
+  eyebrow="About"
+  title="Spiti Darshan."
+  titleAccent="Private road journeys."
+  breadcrumbs={[
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about/' },
+  ]}
+>
+  <div class="shell prose">
+    <p>
+      Spiti Darshan arranges private Innova Crysta transport for road journeys to Spiti Valley —
+      through Kinnaur and Kaza, and over the seasonal Kunzum–Chandratal road to Manali when it is
+      open.
+    </p>
+    <p>
+      We plan each drive around your dates, the stops you care about and the road conditions at the
+      time.
+    </p>
+    <p>
+      <WhatsAppLink cta="page">Message us on WhatsApp ↗</WhatsAppLink>
+    </p>
+  </div>
+</PageLayout>

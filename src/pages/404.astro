@@ -1,0 +1,35 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import WhatsAppLink from '../components/conversion/WhatsAppLink.astro';
+import { buildPageMeta, NOINDEX } from '../lib/seo/meta';
+
+export const prerender = true;
+const meta = buildPageMeta({
+  title: 'Page not found',
+  description:
+    'This page does not exist. Explore private Spiti taxi routes or message Spiti Darshan on WhatsApp.',
+  path: '/404/',
+  site: Astro.site ?? Astro.url,
+  robots: NOINDEX,
+});
+---
+
+<PageLayout
+  meta={meta}
+  eyebrow="404"
+  title="This road doesn't go anywhere."
+  titleAccent="Let's get you back on route."
+>
+  <div class="shell prose">
+    <p>The page may have moved. The itinerary and routes are still here:</p>
+    <p class="hero-actions">
+      <a class="button button-whatsapp" href="/">
+        Back to the journey
+      </a>
+    </p>
+    <p>
+      <a href="/routes/">See all routes</a> ·{' '}
+      <WhatsAppLink cta="page">Ask us on WhatsApp ↗</WhatsAppLink>
+    </p>
+  </div>
+</PageLayout>

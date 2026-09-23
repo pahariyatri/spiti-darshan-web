@@ -1,0 +1,59 @@
+---
+/** Supporting pages: compact pine header band in the landing page's visual language. */
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileWhatsAppCTA from '../components/conversion/MobileWhatsAppCTA.astro';
+import type { PageMeta } from '../lib/seo/meta';
+
+interface Props {
+  meta: PageMeta;
+  jsonLd?: unknown;
+  eyebrow: string;
+  title: string;
+  titleAccent?: string;
+  intro?: string;
+  breadcrumbs?: { name: string; path: string }[];
+}
+const { meta, jsonLd, eyebrow, title, titleAccent, intro, breadcrumbs } = Astro.props;
+---
+
+<BaseLayout meta={meta} jsonLd={jsonLd}>
+  <section class="page-hero" aria-labelledby="pageTitle">
+    <Header />
+    <div class="shell">
+      {breadcrumbs && (
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            {breadcrumbs.map((b, i) =>
+              i === breadcrumbs.length - 1 ? (
+                <li aria-current="page">{b.name}</li>
+              ) : (
+                <li>
+                  <a href={b.path}>{b.name}</a>
+                </li>
+              ),
+            )}
+          </ol>
+        </nav>
+      )}
+      <div class="eyebrow">{eyebrow}</div>
+      <h1 id="pageTitle">
+        {title}
+        {titleAccent && (
+          <>
+            <br />
+            <em>{titleAccent}</em>
+          </>
+        )}
+      </h1>
+      {intro && <p>{intro}</p>}
+      <slot name="hero-actions" />
+    </div>
+  </section>
+  <main class="page-body">
+    <slot />
+  </main>
+  <Footer />
+  <MobileWhatsAppCTA />
+</BaseLayout>
