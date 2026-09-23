@@ -208,3 +208,40 @@
   color: #8f6330;
   font-size: 11px;
 }
+
+/* Road guide */
+.guide {
+  max-width: 720px;
+}
+.guide h2 {
+  margin-top: 40px;
+}
+.guide a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.guide .button {
+  text-decoration: none;
+}
+.guide-updated {
+  font-size: 14px;
+}
+.guide-cta {
+  margin-top: 48px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.guide-cta h2 {
+  margin-top: 0;
+}
+.route-facts-more {
+  margin: 18px 0 0;
+  font-size: 15px;
+}
+.route-facts-more a,
+.faq details p a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

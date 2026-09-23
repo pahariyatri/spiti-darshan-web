@@ -24,10 +24,10 @@ pnpm build && pnpm preview   # production build on http://127.0.0.1:4400
 
 ## Environment variables (build time)
 
-| Variable                   | Purpose                                                                                                                                                   |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `BUSINESS_WHATSAPP_NUMBER` | Optional override. The verified number **+91 62300 70301** lives in `src/lib/config/site.ts` (`SITE.whatsapp`).                                           |
-| `PUBLIC_SITE_URL`          | Canonical origin (canonical URLs, sitemap, social cards). On Vercel it defaults to the project's production domain. Set it once you have a custom domain. |
+| Variable                   | Purpose                                                                                                                                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `BUSINESS_WHATSAPP_NUMBER` | **Required.** The single business WhatsApp number (`916230070301`) used by every CTA, the footer and structured data. The build fails if it's missing. Set on Vercel (Production/Preview/Development). |
+| `PUBLIC_SITE_URL`          | Canonical origin (canonical URLs, sitemap, social cards). On Vercel it defaults to the project's production domain. Set it once you have a custom domain.                                              |
 
 After changing a variable on Vercel, redeploy, because values are baked in at build time.
 
@@ -48,7 +48,7 @@ src/styles/site.css     the approved stylesheet, verbatim
 media-source/           original photos + manifest (alt text, credit, licence)
 ```
 
-Pages: `/`, `/routes/`, `/routes/<slug>/` (one per published route), `/vehicles/innova-crysta/`,
+Pages: `/`, `/routes/`, `/routes/<slug>/` (one per published route), `/spiti-road-guide/`, `/vehicles/innova-crysta/`,
 `/contact/`, `/about/` (noindex until the owner writes it), `/404`, `/sitemap.xml`, `/robots.txt`.
 
 ## Adding a route (e.g. "Chandigarh to Spiti")
@@ -116,27 +116,25 @@ must be replaced.
 
 ## WhatsApp
 
-Every CTA is a direct `https://wa.me/<number>?text=…` link built at build time
-(`src/components/conversion/WhatsAppLink.astro`), so it works without JavaScript and needs no server:
+Every CTA is a direct `https://wa.me/916230070301?text=…` link built at build time
+(`src/components/conversion/WhatsAppLink.astro`), so it works without JavaScript. Messages are short:
 
 ```
-Hello Spiti Darshan,
-I am interested in a private Spiti taxi.
-
-I am interested in Day 5:          ← only on "Ask about this day"
-Key → Kibber → Chicham
-
+Hello Spiti Darshan! I'd like a quote for a private Spiti taxi.
 Route: Shimla → Spiti → Manali
-Travel dates:
+Interested in: Day 5 — Key → Kibber → Chicham   ← only on "Ask about this day"
+Dates:
 Travellers:
-Pickup city:
-
-Please confirm route availability and price.
 ```
 
-**Measuring leads:** a static site has no click log. Count enquiries where they happen: WhatsApp Business
-labels (enquiry → quote → booked), or a simple sheet. For traffic, Vercel Web Analytics is cookieless and can be
-enabled in the dashboard. Clicks aren't bookings; track qualified enquiries, quotes, bookings and revenue.
+### Click tracking
+
+`src/lib/analytics/whatsapp-tracking.ts` records every WhatsApp click as a `whatsapp_click` event with
+`cta_location` (header, hero, day-card, contact, mobile-bar, route-facts, page), `page_path`, `route`, `day`
+and the visit's UTM tags (kept for the session). Events are pushed to `window.dataLayer` (usable with Google Tag
+Manager) and sent to GA4 when `PUBLIC_GA4_ID` is set. The tracker never calls `preventDefault` and swallows its
+own errors, so WhatsApp always opens (tested). A click is intent, not a booking: track enquiries, quotes and
+bookings in WhatsApp Business.
 
 ## Commands
 

@@ -57,7 +57,14 @@ export interface RouteContent {
   endingLocation: string;
   seasonality: string;
   isFeatured: boolean;
-  hero: { kicker: string; title: string; titleAccent: string; media: string };
+  hero: {
+    kicker: string;
+    title: string;
+    titleAccent: string;
+    /** One short supporting line under the title. */
+    subtitle?: string;
+    media: string;
+  };
   seo: { metaTitle: string; metaDescription: string; ogTitle: string; ogDescription: string };
   vehicles: string[];
   days: DayContent[];

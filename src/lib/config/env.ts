@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { z } from 'astro/zod';
-import { SITE } from './site';
+import { formatPhone } from '../whatsapp/message';
 
 // Local convenience: load `.env` without overriding variables set by the host (Vercel, CI).
 if (existsSync('.env') && typeof process.loadEnvFile === 'function') {
@@ -12,22 +12,28 @@ if (existsSync('.env') && typeof process.loadEnvFile === 'function') {
 }
 
 const EnvSchema = z.object({
-  /** Optional override of the verified business WhatsApp number in SITE.whatsapp. */
+  /** The business WhatsApp number (country code + digits). Required: every CTA depends on it. */
   BUSINESS_WHATSAPP_NUMBER: z
-    .string()
-    .optional()
-    .transform((v) => (v ?? '').replace(/\D/g, ''))
-    .refine((v) => v === '' || (v.length >= 8 && v.length <= 15), {
-      message: 'BUSINESS_WHATSAPP_NUMBER must be country code + 8–15 digits, or empty',
+    .string({
+      error: 'BUSINESS_WHATSAPP_NUMBER is required (e.g. 916230070301). Set it in .env or Vercel.',
+    })
+    .transform((v) => v.replace(/\D/g, ''))
+    .refine((v) => v.length >= 10 && v.length <= 15, {
+      message: 'BUSINESS_WHATSAPP_NUMBER must be country code + number, 10–15 digits',
     }),
+  /** Optional Google Analytics 4 measurement ID (G-XXXXXXX) for WhatsApp click tracking. */
+  PUBLIC_GA4_ID: z
+    .string()
+    .regex(/^G-[A-Z0-9]{4,12}$/)
+    .optional()
+    .or(z.literal('').transform(() => undefined)),
 });
 
 type Env = z.infer<typeof EnvSchema>;
-
 let cached: Env | undefined;
 
-/** Validated build-time environment. Throws a readable error on misconfiguration. */
-function env(): Env {
+/** Validated build-time environment. A missing/invalid number fails the build with a clear message. */
+export function env(): Env {
   if (cached) return cached;
   const parsed = EnvSchema.safeParse(process.env);
   if (!parsed.success) {
@@ -38,8 +44,8 @@ function env(): Env {
   return cached;
 }
 
-/** The WhatsApp number every CTA uses: env override, else the verified number in SITE. */
+/** The single business WhatsApp number every CTA, the footer and structured data use. */
 export function businessWhatsApp(): { digits: string; display: string } {
-  const override = env().BUSINESS_WHATSAPP_NUMBER;
-  return override ? { digits: override, display: `+${override}` } : SITE.whatsapp;
+  const digits = env().BUSINESS_WHATSAPP_NUMBER;
+  return { digits, display: formatPhone(digits) };
 }

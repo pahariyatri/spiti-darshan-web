@@ -1,0 +1,161 @@
+---
+/* Concise road guide for the Shimla → Kinnaur → Spiti → Manali circuit. Facts are kept general and
+   hedged; timings, openings and permits are always confirmed for the traveller's dates. */
+import PageLayout from '../layouts/PageLayout.astro';
+import WhatsAppLink from '../components/conversion/WhatsAppLink.astro';
+import { buildPageMeta } from '../lib/seo/meta';
+import { articleSchema, breadcrumbSchema, graph, organizationSchema } from '../lib/seo/schema';
+import { SITE } from '../lib/config/site';
+
+const UPDATED = '2026-09-24';
+const site = Astro.site ?? Astro.url;
+const title = 'Spiti road guide: Shimla, Kinnaur, Kaza, Kunzum & Manali';
+const description =
+  'How the Spiti circuit works by road: the Kinnaur route from Shimla, Kaza and its villages, the seasonal Kunzum–Chandratal–Manali side, when to go and what it means for your vehicle.';
+const meta = buildPageMeta({
+  title,
+  description,
+  path: '/spiti-road-guide/',
+  site,
+  ogType: 'article',
+});
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Spiti road guide', path: '/spiti-road-guide/' },
+];
+const jsonLd = graph(
+  organizationSchema(site),
+  articleSchema({ headline: title, description, url: meta.canonical, dateModified: UPDATED, site }),
+  breadcrumbSchema(crumbs, site),
+);
+const route = 'Shimla → Spiti → Manali';
+---
+
+<PageLayout
+  meta={meta}
+  jsonLd={jsonLd}
+  eyebrow="Spiti road guide"
+  title="The road to Spiti,"
+  titleAccent="section by section."
+  intro="What each part of the Shimla → Kinnaur → Kaza → Manali circuit is like by road, and what changes with the season."
+  breadcrumbs={crumbs}
+>
+  <WhatsAppLink slot="hero-actions" class="button button-whatsapp" cta="page" routeLabel={route}>
+    Check the road for my dates ↗
+  </WhatsAppLink>
+  <article class="shell prose guide">
+    <p class="guide-updated">
+      Updated {UPDATED}. Road and weather conditions change; we confirm them for your dates.
+    </p>
+
+    <h2>Two ways in, one circuit</h2>
+    <p>
+      Spiti can be reached from Shimla through Kinnaur, or from Manali over Kunzum Pass. Our
+      <a href="/routes/shimla-to-spiti/">9-day private circuit</a> goes in through Kinnaur and comes
+      out via Kunzum, Chandratal and Manali. Going in from the Shimla side gains height gradually,
+      which gives your body time to adjust before the high villages around Kaza.
+    </p>
+
+    <h2>Shimla to Kinnaur</h2>
+    <p>
+      The road follows the Sutlej valley on NH-5 through Narkanda and Rampur to Karcham, where the
+      Baspa river joins the Sutlej. From there a side road climbs into the Sangla valley, with
+      Rakcham and Chitkul further up (<a href="/routes/shimla-to-spiti/#day1">day 1</a> and{' '}
+      <a href="/routes/shimla-to-spiti/#day2">day 2</a>). Reckong Peo is Kinnaur's main town; Kalpa
+      sits above it with wide mountain views.
+    </p>
+    <p>
+      Beyond Pooh the valley narrows and the road is cut into the cliffs, with landslide-prone and
+      under-repair stretches. It is driven in daylight and at an unhurried pace. Nako, and the
+      optional detour to Gue, lead to Tabo on the Spiti side (
+      <a href="/routes/shimla-to-spiti/#day3">day 3</a>).
+    </p>
+
+    <h2>Tabo, Kaza and the high villages</h2>
+    <p>
+      Tabo's old monastery, Dhankar on its ridge and the optional Pin Valley detour lead to Kaza,
+      the main town of Spiti and the base for local days (
+      <a href="/routes/shimla-to-spiti/#day4">day 4</a>). From Kaza, short drives reach Key
+      Monastery, Kibber and Chicham Bridge (<a href="/routes/shimla-to-spiti/#day5">day 5</a>), and
+      the villages of Langza, Hikkim and Komic (<a href="/routes/shimla-to-spiti/#day6">day 6</a>).
+      A slow day in Kaza (<a href="/routes/shimla-to-spiti/#day7">day 7</a>) helps with altitude and
+      gives a weather buffer.
+    </p>
+
+    <h2>Kunzum Pass and Chandratal (seasonal)</h2>
+    <p>
+      West of Kaza the road passes Losar and climbs over Kunzum Pass, at around 4,550 m. A side road
+      beyond the pass leads to Chandratal lake (<a href="/routes/shimla-to-spiti/#day8">day 8</a>).
+      This section is usually open only in the warmer months, roughly from early summer to autumn,
+      and closes with snow. Camps near the lake are seasonal too.
+    </p>
+
+    <h2>Batal to Manali</h2>
+    <p>
+      From Chandratal the road runs through Batal to Gramphu, a rough stretch with stream crossings
+      whose water level changes through the day. At Gramphu it joins the Manali road, and the Atal
+      Tunnel leads down to the Manali side (<a href="/routes/shimla-to-spiti/#day9">day 9</a>). When
+      Kunzum is closed, the return goes back through Kinnaur instead.
+    </p>
+
+    <h2>When to go</h2>
+    <ul>
+      <li>
+        <strong>Full circuit via Kunzum and Chandratal:</strong> only while the pass is open,
+        usually summer to early autumn.
+      </li>
+      <li>
+        <strong>Kinnaur route to Kaza:</strong> used through most of the year, but snow, landslides
+        and road work can still cause closures.
+      </li>
+      <li>
+        <strong>Monsoon months:</strong> the Kinnaur side can see landslides; build in buffer time.
+      </li>
+    </ul>
+    <p>We check the current status of each section before confirming a trip.</p>
+
+    <h2>What it means for your vehicle</h2>
+    <p>
+      We travel in a private <a href="/vehicles/innova-crysta/">Innova Crysta</a>: comfortable on
+      the long Kinnaur drive with room for luggage. It is not a 4×4 snow-expedition vehicle, so
+      high-pass and stream-crossing sections are confirmed trip by trip for the conditions at the
+      time.
+    </p>
+
+    <h2>Before you travel</h2>
+    <ul>
+      <li>
+        <strong>Altitude:</strong> take it slow, drink water and keep the rest day. Tell us if
+        anyone has health concerns.
+      </li>
+      <li>
+        <strong>Permits:</strong> foreign nationals need a permit for the border stretch between
+        Kinnaur and Spiti. Check the current rules before you travel.
+      </li>
+      <li>
+        <strong>Connectivity and cash:</strong> mobile network is patchy beyond the main towns and
+        ATMs are few, so carry some cash.
+      </li>
+      <li>
+        <strong>Official updates:</strong> see the
+        <a href={SITE.officialRouteGuidance.url} target="_blank" rel="noopener">
+          {SITE.officialRouteGuidance.label}
+        </a>
+        .
+      </li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Plan the drive for your dates</h2>
+      <p>
+        Send your dates and group size. We confirm which sections are open and suggest the route.
+      </p>
+      <WhatsAppLink class="button button-whatsapp" cta="page" routeLabel={route}>
+        Start WhatsApp conversation ↗
+      </WhatsAppLink>
+      <p>
+        <a href="/routes/shimla-to-spiti/">See the full 9-day itinerary →</a>
+      </p>
+    </div>
+  </article>
+</PageLayout>

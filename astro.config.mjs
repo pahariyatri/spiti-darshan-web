@@ -13,6 +13,12 @@ const site =
     : '') ||
   'http://localhost:4321';
 
+// Optional GA4 (whatsapp_click events): only when an ID is configured does the CSP allow Google.
+const ga4 = process.env.PUBLIC_GA4_ID;
+const google = ga4
+  ? ' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com'
+  : '';
+
 // Fully static site: every page is HTML generated at build time from src/content.
 export default defineConfig({
   site,
@@ -23,11 +29,14 @@ export default defineConfig({
   server: { port: 4321, host: true },
   security: {
     csp: {
+      ...(ga4
+        ? { scriptDirective: { resources: ["'self'", 'https://www.googletagmanager.com'] } }
+        : {}),
       directives: [
         "default-src 'self'",
-        "img-src 'self' data:",
+        `img-src 'self' data:${google}`,
         "font-src 'self'",
-        "connect-src 'self'",
+        `connect-src 'self'${google}`,
         "form-action 'self'",
         "base-uri 'self'",
         "object-src 'none'",

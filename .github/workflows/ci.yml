@@ -12,6 +12,9 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  BUSINESS_WHATSAPP_NUMBER: '916230070301'
+
 jobs:
   static:
     name: Format, lint, typecheck, unit tests

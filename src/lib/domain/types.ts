@@ -84,6 +84,7 @@ export interface RouteView {
     kicker: string;
     title: string;
     titleAccent: string;
+    subtitle?: string | null;
     media: MediaView | null;
   };
   days: DayView[];

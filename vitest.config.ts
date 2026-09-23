@@ -4,6 +4,6 @@ export default defineConfig({
   test: {
     include: ['tests/unit/**/*.test.ts'],
     environment: 'node',
-    env: { BUSINESS_WHATSAPP_NUMBER: '' },
+    env: { BUSINESS_WHATSAPP_NUMBER: '916230070301' },
   },
 });

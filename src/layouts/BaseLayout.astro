@@ -3,6 +3,7 @@ import SeoHead from '../components/seo/SeoHead.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import type { PageMeta } from '../lib/seo/meta';
 import type { MediaView } from '../lib/domain/types';
+import { env } from '../lib/config/env';
 import '../styles/fonts.css';
 import '../styles/site.css';
 import '../styles/pages.css';
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const { meta, jsonLd, preload } = Astro.props;
+const ga4 = env().PUBLIC_GA4_ID;
 const preloadSrcset = preload
   ? preload.widths.map((w) => `${preload.basePath}-${w}.avif ${w}w`).join(', ')
   : null;
@@ -49,6 +51,7 @@ const preloadSrcset = preload
       />
     )}
     {jsonLd && <JsonLd data={jsonLd} />}
+    {ga4 && <meta name="ga4-id" content={ga4} />}
     <slot name="head" />
   </head>
   <body>
@@ -56,5 +59,9 @@ const preloadSrcset = preload
       Skip to content
     </a>
     <slot />
+    <script>
+      import { initWhatsAppTracking } from '../lib/analytics/whatsapp-tracking';
+      initWhatsAppTracking();
+    </script>
   </body>
 </html>

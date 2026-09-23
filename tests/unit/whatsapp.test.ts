@@ -1,53 +1,51 @@
 import { describe, expect, it } from 'vitest';
-import { buildWhatsAppMessage, buildWhatsAppUrl } from '../../src/lib/whatsapp/message';
+import {
+  buildWhatsAppMessage,
+  buildWhatsAppUrl,
+  formatPhone,
+} from '../../src/lib/whatsapp/message';
 
 describe('WhatsApp message', () => {
-  it('builds the route enquiry in the agreed format', () => {
+  it('builds a short route booking message', () => {
     expect(buildWhatsAppMessage({ routeLabel: 'Shimla → Spiti → Manali' })).toBe(
       [
-        'Hello Spiti Darshan,',
-        'I am interested in a private Spiti taxi.',
-        '',
+        "Hello Spiti Darshan! I'd like a quote for a private Spiti taxi.",
         'Route: Shimla → Spiti → Manali',
-        'Travel dates:',
+        'Dates:',
         'Travellers:',
-        'Pickup city:',
-        '',
-        'Please confirm route availability and price.',
       ].join('\n'),
     );
   });
 
-  it('adds day context for day-specific CTAs', () => {
+  it('adds the day and leg for day-specific CTAs', () => {
     const msg = buildWhatsAppMessage({
       routeLabel: 'Shimla → Spiti → Manali',
       day: { number: 5, leg: 'Key → Kibber → Chicham' },
     });
-    expect(msg).toContain('I am interested in Day 5:\nKey → Kibber → Chicham');
-    expect(msg.indexOf('Day 5')).toBeLessThan(msg.indexOf('Route:'));
+    expect(msg).toContain(
+      'Route: Shimla → Spiti → Manali\nInterested in: Day 5 — Key → Kibber → Chicham',
+    );
+    expect(msg.split('\n')).toHaveLength(5);
   });
 
-  it('omits the route line when no route is known and fills a pickup city', () => {
-    const msg = buildWhatsAppMessage({ pickup: 'Chandigarh' });
-    expect(msg).not.toContain('Route:');
-    expect(msg).toContain('Pickup city: Chandigarh');
+  it('omits the route line when there is no route context', () => {
+    expect(buildWhatsAppMessage()).not.toContain('Route:');
   });
 });
 
 describe('WhatsApp URL', () => {
-  it('uses the configured number, digits only', () => {
-    expect(buildWhatsAppUrl('hi there', '+91 98-765 43210')).toBe(
-      'https://wa.me/919876543210?text=hi%20there',
-    );
-  });
-
-  it('never invents a number: falls back to the contact picker', () => {
-    expect(buildWhatsAppUrl('hi', '')).toBe('https://wa.me/?text=hi');
-    expect(buildWhatsAppUrl('hi', undefined)).toBe('https://wa.me/?text=hi');
-  });
-
-  it('encodes newlines and arrows', () => {
-    const url = buildWhatsAppUrl('a\nb → c', '911234567890');
+  it('uses the business number, digits only, and encodes the message', () => {
+    const url = buildWhatsAppUrl('a\nb → c', '+91 62300-70301');
+    expect(url.startsWith('https://wa.me/916230070301?text=')).toBe(true);
     expect(decodeURIComponent(url.split('text=')[1]!)).toBe('a\nb → c');
+  });
+
+  it('refuses to build a link without a number', () => {
+    expect(() => buildWhatsAppUrl('hi', '')).toThrow();
+  });
+
+  it('formats the number for display', () => {
+    expect(formatPhone('916230070301')).toBe('+91 62300 70301');
+    expect(formatPhone('447700900123')).toBe('+447700900123');
   });
 });

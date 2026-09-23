@@ -10,6 +10,6 @@ export const HOME = {
     kicker: 'Spiti · Private transport',
     title: 'The road to Spiti.',
     titleAccent: 'Your private ride.',
-    note: 'The Chandratal–Manali section is seasonal. We confirm the route for your travel dates.',
+    subtitle: 'Private Innova Crysta from Shimla to Kaza and Manali, planned around your dates.',
   },
 } as const;

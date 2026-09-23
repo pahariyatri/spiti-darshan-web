@@ -33,6 +33,8 @@ export function initJourney(): void {
   const counterEl = document.getElementById('dayCounter');
   const stopCounter = document.getElementById('stopCounter');
   const live = document.getElementById('journeyLive');
+  const activeAsphalt = document.getElementById('activeLegAsphalt');
+  const activeLane = document.getElementById('activeLegLane');
   if (!dataEl || !days.length || !sticky || !viewport || !world || !path || !car || !pinLayer)
     return;
   if (!legEl || !placeEl || !counterEl || !stopCounter) return;
@@ -79,6 +81,11 @@ export function initJourney(): void {
 
   const renderPins = (dayIndex: number, worldW: number) => {
     renderedDay = dayIndex;
+    // Highlight only this day's stretch of road; the rest of the route is dimmed by CSS.
+    const leg = data.segments[dayIndex] ?? '';
+    activeAsphalt?.setAttribute('d', leg);
+    activeLane?.setAttribute('d', leg);
+    viewport.classList.toggle('has-active-leg', Boolean(leg));
     renderedWorldW = worldW;
     pinLayer.replaceChildren();
     dayPins = [];
@@ -185,20 +192,14 @@ export function initJourney(): void {
     const pan = Math.min(maxPan, Math.max(0, x - viewW * 0.44));
     world.style.transform = `translate3d(${-pan}px,0,0)`;
 
-    const current = dayPins[currentIndex];
+    // Only the current stop is labelled; other pins of the day stay as quiet dots.
     dayPins.forEach(({ pin, x: px, i }) => {
       pin.classList.toggle('is-current', i === currentIndex);
       pin.classList.toggle('is-passed', i < currentIndex);
       const sx = px - pan;
       pin.classList.toggle('label-left', sx < 95);
       pin.classList.toggle('label-right', sx >= 95 && sx > viewW - 95);
-      const nearby = i === currentIndex + 1;
-      const labelVisible = sx > 85 && sx < viewW - 85;
-      const separated = current ? Math.abs(px - current.x) > 125 : false;
-      pin.classList.toggle(
-        'show-label',
-        i === currentIndex || (nearby && labelVisible && separated),
-      );
+      pin.classList.toggle('show-label', i === currentIndex);
     });
 
     chipsByDay[d]!.forEach((chip) => {
@@ -236,5 +237,11 @@ export function initJourney(): void {
   };
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
+
+  // Day sections size themselves to "one screen below the sticky bar" via this variable.
+  const setStickyHeight = () =>
+    document.documentElement.style.setProperty('--route-sticky-h', `${sticky.offsetHeight}px`);
+  setStickyHeight();
+  new ResizeObserver(setStickyHeight).observe(sticky);
   update();
 }

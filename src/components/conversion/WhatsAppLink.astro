@@ -22,6 +22,8 @@ const href = buildWhatsAppUrl(buildWhatsAppMessage({ routeLabel, day }), busines
   target="_blank"
   rel="noopener noreferrer nofollow"
   data-cta={cta}
+  data-route={routeLabel ?? undefined}
+  data-day={day?.number}
   {...rest}
 >
   <slot />

@@ -32,6 +32,7 @@ export const shimlaToSpiti: RouteContent = {
     kicker: 'Spiti · Private transport',
     title: 'Shimla → Spiti → Manali.',
     titleAccent: 'Your private ride.',
+    subtitle: '9 days by private Innova Crysta via Kinnaur, Kaza and the seasonal Kunzum road.',
     media: 'hero-vehicles',
   },
   seo: {

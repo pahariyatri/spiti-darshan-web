@@ -8,11 +8,12 @@ interface Props {
   kicker: string;
   title: string;
   titleAccent: string;
+  subtitle?: string | null;
   media: MediaView | null;
   routeLabel?: string | null;
 }
 
-const { kicker, title, titleAccent, media, routeLabel } = Astro.props;
+const { kicker, title, titleAccent, subtitle, media, routeLabel } = Astro.props;
 ---
 
 <section class="hero" id="top" aria-labelledby="heroTitle">
@@ -26,6 +27,7 @@ const { kicker, title, titleAccent, media, routeLabel } = Astro.props;
         <br />
         <em>{titleAccent}</em>
       </h1>
+      {subtitle && <p class="hero-sub">{subtitle}</p>}
       <div class="hero-actions">
         <WhatsAppLink class="button button-whatsapp" cta="hero" routeLabel={routeLabel}>
           Plan my ride on WhatsApp ↗
@@ -36,7 +38,4 @@ const { kicker, title, titleAccent, media, routeLabel } = Astro.props;
       </div>
     </div>
   </div>
-  <a class="scroll-prompt" href="#journey">
-    Discover your route <span aria-hidden="true">↓</span>
-  </a>
 </section>

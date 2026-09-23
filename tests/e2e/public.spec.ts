@@ -109,7 +109,7 @@ test.describe('without JavaScript', () => {
     await expect(page.locator('.route-facts')).toContainText('Days 8, 9');
     await expect(page.locator('a.day-enquire').nth(4)).toHaveAttribute(
       'href',
-      /^https:\/\/wa\.me\/.*Day%205%3A%0AKey%20%E2%86%92%20Kibber/,
+      /^https:\/\/wa\.me\/916230070301\?.*Day%205%20%E2%80%94%20Key%20%E2%86%92%20Kibber/,
     );
   });
 });
@@ -120,10 +120,10 @@ test('WhatsApp CTAs are direct wa.me links with the agreed message', async ({ pa
     decodeURIComponent((await page.locator(sel).first().getAttribute('href')) ?? '');
   const day5 = await decode('#day5 a.day-enquire');
   expect(day5).toMatch(/^https:\/\/wa\.me\//);
-  expect(day5).toContain('I am interested in Day 5:\nKey → Kibber → Chicham');
+  expect(day5).toContain('Interested in: Day 5 — Key → Kibber → Chicham');
   expect(day5).toContain('Route: Shimla → Spiti → Manali');
   expect(await decode('.hero-actions a.whatsapp-link')).toContain(
-    'Please confirm route availability and price.',
+    "I'd like a quote for a private Spiti taxi.",
   );
   await expect(page.locator('a.whatsapp-link').first()).toHaveAttribute('target', '_blank');
 });

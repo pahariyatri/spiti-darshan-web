@@ -75,6 +75,25 @@ export function touristTripSchema(route: RouteView, site: string | URL, url?: st
   };
 }
 
+export function articleSchema(opts: {
+  headline: string;
+  description: string;
+  url: string;
+  dateModified: string;
+  site: string | URL;
+}): Json {
+  const org = { '@id': organizationSchema(opts.site)['@id'] };
+  return {
+    '@type': 'Article',
+    headline: opts.headline,
+    description: opts.description,
+    mainEntityOfPage: opts.url,
+    dateModified: opts.dateModified,
+    author: org,
+    publisher: org,
+  };
+}
+
 /** Wraps nodes in one @graph document. */
 export function graph(...nodes: Json[]): Json {
   return { '@context': 'https://schema.org', '@graph': nodes };

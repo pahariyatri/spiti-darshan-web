@@ -29,6 +29,7 @@ export function toRouteView(route: RouteContent): RouteView {
       kicker: route.hero.kicker,
       title: route.hero.title,
       titleAccent: route.hero.titleAccent,
+      subtitle: route.hero.subtitle ?? null,
       media: media(route.hero.media),
     },
     days: route.days.map((d) => ({

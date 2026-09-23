@@ -1,6 +1,12 @@
 import { absoluteUrl, routePath } from './meta';
 
-const STATIC_INDEXABLE_PATHS = ['/', '/routes/', '/vehicles/innova-crysta/', '/contact/'] as const;
+const STATIC_INDEXABLE_PATHS = [
+  '/',
+  '/routes/',
+  '/vehicles/innova-crysta/',
+  '/spiti-road-guide/',
+  '/contact/',
+] as const;
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
