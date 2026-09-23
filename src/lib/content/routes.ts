@@ -82,6 +82,7 @@ export function contentProblems(routes: RouteContent[]): string[] {
   }
   for (const r of routes) {
     const at = `Route "${r.slug}"`;
+    const before = problems.length;
     if (!SLUG.test(r.slug)) problems.push(`${at}: slug must be lowercase words joined by single dashes.`);
     if (seen.has(r.slug)) problems.push(`${at}: duplicate slug.`);
     seen.add(r.slug);
@@ -100,7 +101,8 @@ export function contentProblems(routes: RouteContent[]): string[] {
         if (s.attraction && !attrSlugs.has(s.attraction)) problems.push(`${day}: unknown attraction "${s.attraction}".`);
       }
     }
-    if (r.status === 'published') {
+    // Completeness rules need a renderable view, so only check them when references resolve.
+    if (r.status === 'published' && problems.length === before) {
       for (const p of publishProblems(toRouteView(r))) problems.push(`${at}: ${p}`);
     }
   }

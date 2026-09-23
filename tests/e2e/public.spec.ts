@@ -114,25 +114,17 @@ test.describe('without JavaScript', () => {
   });
 });
 
-test('WhatsApp CTA redirects with the day-specific message', async ({ page, request }) => {
+test('WhatsApp CTAs are direct wa.me links with the agreed message', async ({ page }) => {
   await page.goto('/');
-  const href = await page.locator('#day5 a.day-enquire').getAttribute('href');
-  expect(href).toContain('/go/whatsapp/?route=shimla-to-spiti&day=5&cta=day-card');
-  const res = await request.get(href!, { maxRedirects: 0 });
-  expect(res.status()).toBe(302);
-  const location = decodeURIComponent(res.headers()['location'] ?? '');
-  expect(location).toMatch(/^https:\/\/wa\.me\//);
-  expect(location).toContain('I am interested in Day 5:\nKey → Kibber → Chicham');
-  expect(location).toContain('Route: Shimla → Spiti → Manali');
+  const decode = async (sel: string) => decodeURIComponent((await page.locator(sel).first().getAttribute('href')) ?? '');
+  const day5 = await decode('#day5 a.day-enquire');
+  expect(day5).toMatch(/^https:\/\/wa\.me\//);
+  expect(day5).toContain('I am interested in Day 5:\nKey → Kibber → Chicham');
+  expect(day5).toContain('Route: Shimla → Spiti → Manali');
+  expect(await decode('.hero-actions a.whatsapp-link')).toContain('Please confirm route availability and price.');
+  await expect(page.locator('a.whatsapp-link').first()).toHaveAttribute('target', '_blank');
 });
 
-test('attribution is appended to CTA links', async ({ page }) => {
-  await page.goto('/?utm_source=instagram&utm_campaign=autumn');
-  await expect(page.locator('.hero-actions a.whatsapp-link')).toHaveAttribute(
-    'href',
-    /utm_source=instagram.*utm_campaign=autumn|utm_campaign=autumn.*utm_source=instagram/,
-  );
-});
 
 test('mobile sticky WhatsApp bar', async ({ page, isMobile }) => {
   await page.goto('/');
@@ -164,7 +156,7 @@ test('sitemap and robots', async ({ request }) => {
   const sitemap = await (await request.get('/sitemap.xml')).text();
   expect(sitemap).toContain('/routes/shimla-to-spiti/</loc>');
   const robots = await (await request.get('/robots.txt')).text();
-  expect(robots).toContain('Disallow: /admin/');
+  expect(robots).not.toContain('Disallow');
   expect(robots).toContain('Sitemap:');
 });
 
