@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { publishProblems } from '../../src/lib/services/publish';
-import { seedRouteToView } from '../../src/lib/db/seed/to-view';
-import { shimlaToSpiti } from '../../src/lib/db/seed/data';
+import { publishProblems } from '../../src/lib/content/publish';
+import { toRouteView } from '../../src/lib/content/routes';
+import { shimlaToSpiti } from '../../src/content/routes/shimla-to-spiti';
 
-const route = seedRouteToView(shimlaToSpiti);
+const route = toRouteView(shimlaToSpiti);
 
 describe('publish rules', () => {
   it('accepts the complete seeded route', () => {

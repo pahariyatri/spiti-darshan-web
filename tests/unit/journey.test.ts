@@ -11,8 +11,8 @@ import {
   resolveSegments,
 } from '../../src/lib/journey/geometry';
 import { buildJourneyPayload } from '../../src/lib/journey/payload';
-import { seedRouteToView } from '../../src/lib/db/seed/to-view';
-import { shimlaToSpiti } from '../../src/lib/db/seed/data';
+import { toRouteView } from '../../src/lib/content/routes';
+import { shimlaToSpiti } from '../../src/content/routes/shimla-to-spiti';
 import type { StopView } from '../../src/lib/domain/types';
 
 // Verbatim from reference/original.html: the approved map pins, per day.
@@ -128,7 +128,7 @@ const stop = (over: Partial<StopView> = {}): StopView => ({
 });
 
 describe('seeded journey reproduces the approved map', () => {
-  const payload = buildJourneyPayload(seedRouteToView(shimlaToSpiti));
+  const payload = buildJourneyPayload(toRouteView(shimlaToSpiti));
 
   it('has the same legs, pins and pin labels as the original script', () => {
     expect(payload.days).toHaveLength(9);
