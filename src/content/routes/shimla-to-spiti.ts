@@ -53,7 +53,7 @@ export const shimlaToSpiti: RouteContent = {
       shortDescription: 'Pine forests give way to the Baspa Valley.',
       note: 'Overnight: Sangla',
       overnight: 'sangla',
-      media: 'hero-vehicles',
+      media: 'day-kinnaur-valley',
       mapSegment: SEG[0],
       stops: [
         { name: 'Shimla', type: 'start', destination: 'shimla' },
@@ -72,7 +72,7 @@ export const shimlaToSpiti: RouteContent = {
       shortDescription: "Chitkul's river valley, then Kalpa's mountain views.",
       note: 'Chitkul side trip depends on time and access. Overnight: Kalpa.',
       overnight: 'kalpa',
-      media: 'day-kinnaur-valley',
+      media: 'day-kalpa-kinner-kailash',
       mapSegment: SEG[1],
       stops: [
         { name: 'Sangla', type: 'start', destination: 'sangla' },
@@ -90,7 +90,7 @@ export const shimlaToSpiti: RouteContent = {
       shortDescription: 'The landscape changes at every bend.',
       note: 'Gue is an optional detour, subject to timing. Overnight: Tabo.',
       overnight: 'tabo',
-      media: 'day-cold-desert',
+      media: 'day-nako',
       mapSegment: SEG[2],
       stops: [
         { name: 'Kalpa', type: 'start', destination: 'kalpa' },
@@ -108,7 +108,7 @@ export const shimlaToSpiti: RouteContent = {
       shortDescription: 'Ancient monasteries and a valley of dramatic cliffs.',
       note: 'Pin Valley is an optional diversion. Overnight: Kaza.',
       overnight: 'kaza',
-      media: 'day-old-spiti',
+      media: 'day-dhankar',
       mapSegment: SEG[3],
       stops: [
         {
@@ -130,7 +130,7 @@ export const shimlaToSpiti: RouteContent = {
       shortDescription: 'A monastery, high villages and a spectacular bridge.',
       note: 'A local sightseeing loop; overnight: Kaza.',
       overnight: 'kaza',
-      media: 'fleet-parked',
+      media: 'day-key-monastery',
       mapSegment: SEG[4],
       stops: [
         { name: 'Kaza', type: 'start', destination: 'kaza' },
@@ -153,9 +153,7 @@ export const shimlaToSpiti: RouteContent = {
       shortDescription: 'Small villages. Big Himalayan skies.',
       note: 'Local conditions and altitude may change the order of stops.',
       overnight: 'kaza',
-      // The approved page's day-6 remote photo no longer exists upstream (HTTP 404), so it has
-      // always rendered its CSS fallback — the hero vehicle photo. Kept identical.
-      media: 'hero-vehicles',
+      media: 'day-langza',
       mapSegment: SEG[5],
       stops: [
         { name: 'Kaza', type: 'start', destination: 'kaza' },
@@ -178,7 +176,7 @@ export const shimlaToSpiti: RouteContent = {
       shortDescription: 'A little breathing room makes a better road trip.',
       note: 'Flexible time for rest, local walks or a weather buffer.',
       overnight: 'kaza',
-      media: 'hero-vehicles',
+      media: 'day-kaza',
       mapSegment: null,
       stops: [
         { name: 'Kaza', type: 'overnight', destination: 'kaza', mapLabel: 'Kaza · rest day' },
@@ -196,7 +194,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'Seasonal road and accommodation must be confirmed before booking.',
       isSeasonal: true,
       overnight: 'chandratal',
-      media: 'day-high-pass',
+      media: 'day-chandratal',
       mapSegment: SEG[6],
       stops: [
         { name: 'Kaza', type: 'start', destination: 'kaza' },
@@ -221,7 +219,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'Seasonal circuit only. When Kunzum is closed, ask about returning via Kinnaur.',
       isSeasonal: true,
       overnight: 'manali',
-      media: 'day-chandra-valley',
+      media: 'day-atal-tunnel',
       mapSegment: SEG[7],
       stops: [
         { name: 'Chandratal', type: 'start', destination: 'chandratal', seasonal: true },

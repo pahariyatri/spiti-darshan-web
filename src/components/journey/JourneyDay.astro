@@ -15,6 +15,7 @@ interface Props {
 const { day, routeLabel, active } = Astro.props;
 const pins = chipPinIndexes(day.stops);
 const eyebrow = `Day ${pad2(day.dayNumber)}${day.subtitle ? ` · ${day.subtitle}` : ''}`;
+const credit = day.media?.credit;
 ---
 
 <article
@@ -42,5 +43,21 @@ const eyebrow = `Day ${pad2(day.dayNumber)}${day.subtitle ? ` · ${day.subtitle}
     >
       Ask about this day <span aria-hidden="true">↗</span>
     </WhatsAppLink>
+    {credit && (
+      <p class="photo-credit">
+        Photo:{' '}
+        <a href={credit.url} target="_blank" rel="noopener">
+          {credit.author}
+        </a>
+        ,{' '}
+        {credit.licenseUrl ? (
+          <a href={credit.licenseUrl} target="_blank" rel="noopener license">
+            {credit.license}
+          </a>
+        ) : (
+          credit.license
+        )}
+      </p>
+    )}
   </div>
 </article>

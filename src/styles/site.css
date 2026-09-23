@@ -200,5 +200,7 @@
 .proof-features li>span:last-child{font-size:15px;line-height:1.55;color:var(--muted)}
 .proof-icon{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:1.5px solid #d9b27a;color:#8f6330;background:#fbf6ec}
 @media(max-width:900px){.proof-features{grid-template-columns:1fr;gap:12px;margin-top:30px}.proof-features li{padding:18px}}
+.photo-credit{margin:16px 0 0;font-size:11px;line-height:1.4;color:rgba(236,242,238,.72)}
+.photo-credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 /* Visually hidden, still announced. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

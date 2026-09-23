@@ -14,7 +14,12 @@ async function focusDay(page: Page, day: number) {
       behavior: 'instant',
     });
   }, day);
-  await page.waitForTimeout(200);
+  // The map updates on the next animation frame; wait for it instead of a fixed delay.
+  await page.waitForFunction(
+    (d) => document.getElementById(`day${d}`)?.classList.contains('is-active'),
+    day,
+  );
+  await page.waitForTimeout(50);
 }
 
 for (const width of [...MOBILE, ...DESKTOP]) {
@@ -56,6 +61,7 @@ for (const width of [...MOBILE, ...DESKTOP]) {
 }
 
 test('whole road is active; stop labels never cover the car or each other', async ({ page }) => {
+  test.setTimeout(120_000); // 80 scroll positions × 2 widths
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 850 });
     await page.goto('/');
@@ -172,7 +178,7 @@ test('road guide: SEO basics, schema, internal links and CTA', async ({ page }) 
     await expect(page.getByRole('heading', { name: h })).toBeVisible();
   }
   await expect(page.locator('a[href="/routes/shimla-to-spiti/#day8"]')).toHaveCount(1);
-  await expect(page.locator('a[href="/vehicles/innova-crysta/"]').first()).toBeVisible();
+  await expect(page.locator('.guide a[href="/vehicles/innova-crysta/"]').first()).toBeVisible();
   await expect(
     page.locator('a.whatsapp-link[href^="https://wa.me/916230070301"]').first(),
   ).toBeVisible();

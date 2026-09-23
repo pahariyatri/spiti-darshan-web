@@ -35,30 +35,32 @@ const features = [
     </div>
     <div>
       <div class="eyebrow">Travel in comfort</div>
-      <h2 id="proofTitle">The right car<br /><em>for higher roads.</em></h2>
+      <h2 id="proofTitle">
+        The right car
+        <br />
+        <em>for higher roads.</em>
+      </h2>
       <p>
-        Private Innova Crysta transport, stops you choose and a route matched to your dates. Ask about hotels if
-        you need them.
+        Private Innova Crysta transport, stops you choose and a route matched to your dates. Ask
+        about hotels if you need them.
       </p>
       <p class="safety-note">
-        Innova Crysta is not a 4×4 snow-expedition vehicle. Vehicle suitability and high-pass access are
-        confirmed trip by trip.
+        Innova Crysta is not a 4×4 snow-expedition vehicle. Vehicle suitability and high-pass access
+        are confirmed trip by trip.
       </p>
     </div>
   </div>
   <ul class="shell proof-features">
-    {
-      features.map((f) => (
-        <li>
-          <span class="proof-icon">
-            <Icon name={f.icon} size={26} />
-          </span>
-          <span>
-            <strong>{f.title}</strong>
-            {f.text}
-          </span>
-        </li>
-      ))
-    }
+    {features.map((f) => (
+      <li>
+        <span class="proof-icon">
+          <Icon name={f.icon} size={26} />
+        </span>
+        <span>
+          <strong>{f.title}</strong>
+          {f.text}
+        </span>
+      </li>
+    ))}
   </ul>
 </section>

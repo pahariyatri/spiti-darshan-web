@@ -2,10 +2,12 @@
 import generated from '../../../media-source/generated.json';
 import type { MediaView } from '../domain/types';
 
-export interface StaticMediaRecord extends MediaView {
+export interface StaticMediaRecord extends Omit<MediaView, 'credit'> {
   credit: string;
   license: string;
   sourceUrl: string | null;
+  creditUrl: string | null;
+  licenseUrl: string | null;
   note: string;
 }
 
@@ -22,5 +24,8 @@ export const allStaticMedia = () =>
 
 export function toMediaView(rec: StaticMediaRecord): MediaView {
   const { basePath, alt, width, height, widths, formats, fallbackFormat } = rec;
-  return { basePath, alt, width, height, widths, formats, fallbackFormat };
+  const credit = rec.creditUrl
+    ? { author: rec.credit, license: rec.license, url: rec.creditUrl, licenseUrl: rec.licenseUrl }
+    : null;
+  return { basePath, alt, width, height, widths, formats, fallbackFormat, credit };
 }

@@ -27,6 +27,8 @@ export interface MediaView {
   formats: string[];
   /** Fallback raster format available at every width (`jpg` or `webp`). */
   fallbackFormat: string;
+  /** Attribution for third-party photos (shown on the page, as their licence requires). */
+  credit?: { author: string; license: string; url: string; licenseUrl: string | null } | null;
 }
 
 export interface StopView {
