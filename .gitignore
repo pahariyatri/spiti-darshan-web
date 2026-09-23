@@ -13,3 +13,4 @@ tests/screenshots/diff/
 *.log
 tests/screenshots/
 media-source/*.tmp
+public/media/
