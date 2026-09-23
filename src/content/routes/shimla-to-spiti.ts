@@ -1,20 +1,8 @@
 /**
- * The flagship 9-day Shimla → Spiti → Manali itinerary (the homepage route). Map segments are the
- * eight hand-drawn road curves of the approved design.
+ * The flagship 9-day Shimla → Spiti → Manali itinerary (the homepage route). The map road is
+ * generated from the days (one forward stretch per travel day).
  */
 import type { RouteContent } from '../types';
-
-// The eight hand-drawn road segments of the approved map (viewBox 3200×110).
-const SEG = [
-  'M 30 58 C 98 27 142 81 210 62 C 290 40 360 30 485 56',
-  'M 485 56 C 560 85 612 16 691 45 C 774 75 821 32 896 58',
-  'M 896 58 C 975 90 1041 28 1125 48 C 1203 74 1280 20 1387 56',
-  'M 1387 56 C 1482 93 1535 19 1615 43 C 1673 61 1711 81 1765 56',
-  'M 1765 56 C 1805 20 1900 8 1970 39 C 2017 70 1840 96 1765 56',
-  'M 1765 56 C 1818 94 2058 102 2140 79 C 2202 41 1910 12 1765 56',
-  'M 1765 56 C 1892 22 2185 75 2330 58 C 2456 47 2498 22 2590 54',
-  'M 2590 54 C 2700 91 2765 22 2862 43 C 2963 67 3068 25 3170 53',
-] as const;
 
 export const shimlaToSpiti: RouteContent = {
   slug: 'shimla-to-spiti',
@@ -54,7 +42,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'Overnight: Sangla',
       overnight: 'sangla',
       media: 'day-kinnaur-valley',
-      mapSegment: SEG[0],
+      mapSegment: null,
       stops: [
         { name: 'Shimla', type: 'start', destination: 'shimla' },
         { name: 'Kufri', type: 'viewpoint', destination: 'kufri' },
@@ -73,7 +61,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'Chitkul side trip depends on time and access. Overnight: Kalpa.',
       overnight: 'kalpa',
       media: 'day-kalpa-kinner-kailash',
-      mapSegment: SEG[1],
+      mapSegment: null,
       stops: [
         { name: 'Sangla', type: 'start', destination: 'sangla' },
         { name: 'Rakcham', type: 'stop', destination: 'rakcham' },
@@ -91,7 +79,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'Gue is an optional detour, subject to timing. Overnight: Tabo.',
       overnight: 'tabo',
       media: 'day-nako',
-      mapSegment: SEG[2],
+      mapSegment: null,
       stops: [
         { name: 'Kalpa', type: 'start', destination: 'kalpa' },
         { name: 'Pooh', type: 'stop', destination: 'pooh' },
@@ -109,7 +97,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'Pin Valley is an optional diversion. Overnight: Kaza.',
       overnight: 'kaza',
       media: 'day-dhankar',
-      mapSegment: SEG[3],
+      mapSegment: null,
       stops: [
         {
           name: 'Tabo Monastery',
@@ -131,7 +119,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'A local sightseeing loop; overnight: Kaza.',
       overnight: 'kaza',
       media: 'day-key-monastery',
-      mapSegment: SEG[4],
+      mapSegment: null,
       stops: [
         { name: 'Kaza', type: 'start', destination: 'kaza' },
         { name: 'Key Monastery', type: 'monastery', attraction: 'key-monastery' },
@@ -154,7 +142,7 @@ export const shimlaToSpiti: RouteContent = {
       note: 'Local conditions and altitude may change the order of stops.',
       overnight: 'kaza',
       media: 'day-langza',
-      mapSegment: SEG[5],
+      mapSegment: null,
       stops: [
         { name: 'Kaza', type: 'start', destination: 'kaza' },
         { name: 'Langza', type: 'attraction', destination: 'langza' },
@@ -195,7 +183,7 @@ export const shimlaToSpiti: RouteContent = {
       isSeasonal: true,
       overnight: 'chandratal',
       media: 'day-chandratal',
-      mapSegment: SEG[6],
+      mapSegment: null,
       stops: [
         { name: 'Kaza', type: 'start', destination: 'kaza' },
         { name: 'Losar', type: 'stop', destination: 'losar' },
@@ -220,7 +208,7 @@ export const shimlaToSpiti: RouteContent = {
       isSeasonal: true,
       overnight: 'manali',
       media: 'day-atal-tunnel',
-      mapSegment: SEG[7],
+      mapSegment: null,
       stops: [
         { name: 'Chandratal', type: 'start', destination: 'chandratal', seasonal: true },
         { name: 'Batal', type: 'stop', destination: 'batal' },

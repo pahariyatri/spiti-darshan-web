@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   chipLabel,
   chipPinIndexes,
-  isLoopDay,
   isStationaryDay,
   joinSegments,
   legRanges,
@@ -143,7 +142,7 @@ describe('seeded journey reproduces the approved map', () => {
     });
   });
 
-  it('keeps day 7 stationary and uses the 8 hand-drawn segments for the other days', () => {
+  it('keeps day 7 stationary and gives the 8 travel days one forward stretch each', () => {
     expect(payload.segments.filter(Boolean)).toHaveLength(8);
     expect(payload.segments[6]).toBeNull();
     expect(payload.days[6]!.restLabel).toBe('REST / KAZA');
@@ -168,18 +167,9 @@ describe('seeded journey reproduces the approved map', () => {
 });
 
 describe('geometry helpers', () => {
-  it('detects stationary and loop days', () => {
+  it('detects stationary days', () => {
     expect(isStationaryDay({ stops: [stop(), stop({ showOnMap: false })] })).toBe(true);
-    expect(
-      isLoopDay({
-        stops: [stop({ destinationSlug: 'kaza' }), stop(), stop({ destinationSlug: 'kaza' })],
-      }),
-    ).toBe(true);
-    expect(
-      isLoopDay({
-        stops: [stop({ destinationSlug: 'kaza' }), stop(), stop({ destinationSlug: 'tabo' })],
-      }),
-    ).toBe(false);
+    expect(isStationaryDay({ stops: [stop(), stop()] })).toBe(false);
   });
 
   it('generates continuous segments for routes without hand-drawn geometry', () => {
