@@ -420,3 +420,127 @@
     padding: 9px 14px;
   }
 }
+
+.driver-intro {
+  padding: 72px 0;
+  background: #102b23;
+  color: #f7f2e8;
+}
+.driver-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: start;
+}
+.driver-copy {
+  max-width: 470px;
+}
+.driver-intro h2 {
+  font:
+    600 clamp(34px, 4vw, 48px)/1.1 'Playfair Display',
+    serif;
+  letter-spacing: -0.035em;
+  margin: 14px 0 22px;
+}
+.driver-intro h2 em {
+  color: #f3cc96;
+  font-style: normal;
+}
+.driver-intro p,
+.page-body .driver-intro p {
+  font-size: 16px;
+  color: #dce6de;
+  line-height: 1.75;
+}
+.driver-intro .eyebrow,
+.page-body .driver-intro .eyebrow {
+  color: #f3cc96;
+}
+.driver-topics {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.driver-topics li {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid #ffffff24;
+}
+.driver-topics li:first-child {
+  padding-top: 0;
+}
+.driver-topics li > span {
+  color: #f3cc96;
+  font-size: 12px;
+  padding-top: 5px;
+}
+.driver-topics h3 {
+  color: #f7f2e8;
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+.driver-topics p {
+  margin: 0;
+}
+.driver-story {
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid #ffffff24;
+}
+.driver-story a {
+  display: inline-block;
+  color: #f3cc96;
+  text-underline-offset: 4px;
+}
+.page-body > .driver-intro {
+  margin-top: 60px;
+}
+.founder-story {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 70px;
+  align-items: center;
+}
+.founder-note {
+  padding: 42px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #eae5d7;
+}
+.founder-note p {
+  font:
+    600 clamp(30px, 4vw, 44px)/1.2 'Playfair Display',
+    serif;
+  color: #17372d;
+  margin: 20px 0;
+}
+.founder-note > span:last-child {
+  font-size: 13px;
+  color: var(--muted);
+}
+.about-invite {
+  max-width: 760px;
+  padding-top: 60px;
+}
+.about-invite p {
+  margin-bottom: 26px;
+}
+@media (max-width: 900px) {
+  .driver-grid,
+  .founder-story {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .driver-copy {
+    max-width: 620px;
+  }
+}
+@media (max-width: 600px) {
+  .driver-intro {
+    padding: 48px 0;
+  }
+  .founder-note {
+    padding: 28px;
+  }
+}

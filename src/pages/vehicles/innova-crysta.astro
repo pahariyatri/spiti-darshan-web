@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import DriverIntro from '../../components/team/DriverIntro.astro';
 import Picture from '../../components/Picture.astro';
 import WhatsAppLink from '../../components/conversion/WhatsAppLink.astro';
 import { buildPageMeta } from '../../lib/seo/meta';
@@ -71,4 +72,5 @@ const jsonLd = graph(
       <span>Your private ride, on the real road.</span>
     </div>
   </div>
+  <DriverIntro />
 </PageLayout>

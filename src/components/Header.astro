@@ -13,6 +13,7 @@ const nav = [
   { href: '/routes/', label: 'Routes' },
   { href: '/spiti-road-guide/', label: 'Road guide' },
   { href: '/vehicles/innova-crysta/', label: 'Innova Crysta' },
+  { href: '/about/', label: 'Our story' },
   { href: '/contact/', label: 'Contact' },
 ];
 ---
@@ -31,7 +32,12 @@ const nav = [
         <a href={n.href}>{n.label}</a>
       ))}
     </nav>
-    <WhatsAppLink class="button button-whatsapp header-book" cta="header" routeLabel={routeLabel}>
+    <WhatsAppLink
+      class="button button-whatsapp header-book"
+      aria-label="Chat on WhatsApp"
+      cta="header"
+      routeLabel={routeLabel}
+    >
       <Icon name="chat" size={16} />{' '}
       <span>
         Chat<span class="header-book-extra"> to book</span>

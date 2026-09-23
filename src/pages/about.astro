@@ -1,43 +1,75 @@
 ---
-/*
- * About — deliberately minimal and NOINDEX until the owner provides their own story
- * (founding, drivers, base). Do not fill with invented facts.
- */
 import PageLayout from '../layouts/PageLayout.astro';
 import WhatsAppLink from '../components/conversion/WhatsAppLink.astro';
+import DriverIntro from '../components/team/DriverIntro.astro';
+import { foundersStory } from '../content/team';
 import { buildPageMeta } from '../lib/seo/meta';
-
+import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../lib/seo/schema';
+const site = Astro.site ?? Astro.url;
 const meta = buildPageMeta({
-  title: 'About Spiti Darshan',
-  description: 'Spiti Darshan arranges private Innova Crysta road journeys to Spiti Valley.',
+  title: 'Our story and the people behind Spiti Darshan',
+  description:
+    'Three friends became like brothers and started Spiti Darshan together. Read our story and learn about the people behind your private Spiti road journey.',
   path: '/about/',
-  site: Astro.site ?? Astro.url,
-  robots: 'noindex,follow',
+  site,
 });
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Our story', path: '/about/' },
+];
+const jsonLd = graph(
+  organizationSchema(site),
+  {
+    ...webPageSchema({
+      name: meta.title,
+      description: meta.description,
+      url: meta.canonical,
+      site,
+    }),
+    '@type': 'AboutPage',
+  },
+  breadcrumbSchema(crumbs, site),
+);
 ---
 
 <PageLayout
   meta={meta}
-  eyebrow="About"
-  title="Spiti Darshan."
-  titleAccent="Private road journeys."
-  breadcrumbs={[
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about/' },
-  ]}
+  jsonLd={jsonLd}
+  eyebrow="The people behind Spiti Darshan"
+  title="Three friends."
+  titleAccent="One shared journey."
+  intro={foundersStory.intro}
+  breadcrumbs={crumbs}
 >
-  <div class="shell prose">
+  <section class="shell founder-story" aria-labelledby="founderTitle">
+    <div class="founder-note">
+      <span class="eyebrow">Our beginning</span>
+      <p>
+        Friends first.
+        <br />
+        Family in spirit.
+      </p>
+      <span>Built together at Spiti Darshan.</span>
+    </div>
+    <div class="prose">
+      <h2 id="founderTitle">{foundersStory.title}</h2>
+      {foundersStory.paragraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+      <p>
+        <a href="/routes/">Explore our journeys →</a>
+      </p>
+    </div>
+  </section>
+  <DriverIntro showStory={false} />
+  <section class="shell about-invite" aria-labelledby="inviteTitle">
+    <h2 id="inviteTitle">Let’s talk about your journey.</h2>
     <p>
-      Spiti Darshan arranges private Innova Crysta transport for road journeys to Spiti Valley
-      through Kinnaur and Kaza, and over the seasonal Kunzum to Chandratal road to Manali when it is
-      open.
+      Share your dates, group size and the places you want to see. We can discuss the route, vehicle
+      and driver together.
     </p>
-    <p>
-      We plan each drive around your dates, the stops you care about and the road conditions at the
-      time.
-    </p>
-    <p>
-      <WhatsAppLink cta="page">Message us on WhatsApp ↗</WhatsAppLink>
-    </p>
-  </div>
+    <WhatsAppLink class="button button-whatsapp" cta="page">
+      Chat with our team ↗
+    </WhatsAppLink>
+  </section>
 </PageLayout>

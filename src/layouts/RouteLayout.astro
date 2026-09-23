@@ -7,6 +7,7 @@ import BaseLayout from './BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import JourneySection from '../components/journey/JourneySection.astro';
 import RouteFacts from '../components/RouteFacts.astro';
+import DriverIntro from '../components/team/DriverIntro.astro';
 import VehicleProof from '../components/vehicles/VehicleProof.astro';
 import ContactSection from '../components/conversion/ContactSection.astro';
 import FaqSection from '../components/FaqSection.astro';
@@ -42,6 +43,7 @@ const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
     <JourneySection route={route} />
     {variant !== 'home' && <RouteFacts route={route} />}
     <VehicleProof media={proofMedia} />
+    <DriverIntro />
     <ContactSection routeLabel={route.shortTitle} />
     <FaqSection />
   </main>

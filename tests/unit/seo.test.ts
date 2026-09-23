@@ -98,6 +98,6 @@ describe('robots and sitemap', () => {
       '<loc>https://example.test/routes/shimla-to-spiti/</loc><lastmod>2026-09-01</lastmod>',
     );
     expect(xml).toContain('<loc>https://example.test/</loc>');
-    expect(xml).not.toContain('/about/');
+    expect(xml).toContain('/about/');
   });
 });

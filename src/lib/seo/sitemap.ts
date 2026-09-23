@@ -8,6 +8,7 @@ const STATIC_INDEXABLE_PATHS = [
   '/vehicles/innova-crysta/',
   '/spiti-road-guide/',
   '/contact/',
+  '/about/',
 ] as const;
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
