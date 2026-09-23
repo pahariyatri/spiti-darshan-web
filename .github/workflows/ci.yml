@@ -44,7 +44,7 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: node_modules/.cache/spiti-media
           key: media-${{ hashFiles('media-source/**', 'src/lib/media/variants.ts') }}
