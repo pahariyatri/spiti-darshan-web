@@ -1,7 +1,6 @@
 ---
 import type { StopView } from '../../lib/domain/types';
 import { chipLabel } from '../../lib/journey/geometry';
-import { placeForStop } from '../../lib/content/places';
 
 interface Props {
   stop: StopView;
@@ -10,19 +9,13 @@ interface Props {
 }
 const { stop, dayNumber, pinIndex } = Astro.props;
 const label = chipLabel(stop);
-const place = placeForStop(stop);
 ---
 
 <a
   class="stop"
-  href={place?.path ?? `#day${dayNumber}`}
+  href={`#day${dayNumber}`}
   data-pin={pinIndex}
   data-on-map={stop.showOnMap ? '' : undefined}
-  data-place-name={place?.name}
-  data-place-summary={place?.summary}
-  data-place-path={place?.path}
-  aria-controls={place ? 'stopCard' : undefined}
-  aria-expanded={place ? 'false' : undefined}
   aria-label={`Explore ${label} on day ${dayNumber}`}
 >
   {label}

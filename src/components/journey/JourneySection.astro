@@ -3,6 +3,7 @@ import type { RouteView } from '../../lib/domain/types';
 import { buildJourneyPayload, journeyPath } from '../../lib/journey/payload';
 import JourneyMap from './JourneyMap.astro';
 import JourneyDay from './JourneyDay.astro';
+import WhatsAppLink from '../conversion/WhatsAppLink.astro';
 
 interface Props {
   route: RouteView;
@@ -17,7 +18,17 @@ const first = payload.days[0];
   <div class="journey-intro">
     <div class="eyebrow">A little inspiration for the road</div>
     <h2 id="journeyTitle">Your journey, stop by stop.</h2>
-    <p>A sample {route.days.length}-day circuit. We'll shape your own route around your dates and the season.</p>
+    <p>
+      A sample {route.days.length}-day circuit. We'll shape your own route around your dates and the
+      season. Get your full trip plan on WhatsApp.
+    </p>
+    <WhatsAppLink
+      class="button button-whatsapp journey-enquire"
+      cta="page"
+      routeLabel={route.shortTitle}
+    >
+      Plan this route on WhatsApp ↗
+    </WhatsAppLink>
   </div>
   <JourneyMap
     path={journeyPath(route)}
@@ -37,18 +48,6 @@ const first = payload.days[0];
     set:html={JSON.stringify(payload).replace(/</g, '\\u003c')}
   ></script>
 </section>
-
-<aside id="stopCard" class="stop-card" popover="auto" aria-labelledby="stopCardTitle">
-  <button type="button" id="stopCardClose" aria-label="Close place details">
-    ✕
-  </button>
-  <span class="eyebrow">Along your route</span>
-  <h2 id="stopCardTitle"></h2>
-  <p id="stopCardSummary"></p>
-  <a id="stopCardLink">
-    Read more <span aria-hidden="true">→</span>
-  </a>
-</aside>
 
 <script>
   import { initJourney } from '../../lib/journey/client';

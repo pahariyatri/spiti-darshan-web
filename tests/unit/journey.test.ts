@@ -43,7 +43,7 @@ const ORIGINAL_ROUTE_DAYS = [
       ['Kalpa', 'start'],
       ['Pooh', 'stop'],
       ['Nako', 'attraction'],
-      ['Gue · optional', 'detour'],
+      ['Gue', 'attraction'],
       ['Tabo', 'stay'],
     ],
   },
@@ -217,7 +217,7 @@ describe('geometry helpers', () => {
   });
 
   it('labels optional stops and honours map-label overrides', () => {
-    expect(chipLabel({ name: 'Gue', isOptional: true })).toBe('Gue · optional');
+    expect(chipLabel({ name: 'Chitkul', isOptional: true })).toBe('Chitkul · optional');
     expect(mapLabel({ name: 'Kaza', mapLabel: 'Kaza · return', isOptional: false })).toBe(
       'Kaza · return',
     );

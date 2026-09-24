@@ -1,6 +1,6 @@
 /**
  * Browser-only journey: a clear road and moving car, with stop context in the header
- * and place guides opened from the itinerary chips. Driven by server-rendered route data.
+ * and itinerary chips that focus the selected stop. Driven by server-rendered route data.
  *
  * Per animation frame: all layout reads happen first (one layout pass), then all writes —
  * no read/write interleaving. Stop markers and floating labels are not rendered.
@@ -65,37 +65,12 @@ export function initJourney(): void {
     return range[0] + clamp(progress) * (range[1] - range[0]);
   };
 
-  const card = document.getElementById('stopCard');
-  const cardTitle = document.getElementById('stopCardTitle');
-  const cardSummary = document.getElementById('stopCardSummary');
-  const cardLink = document.getElementById('stopCardLink') as HTMLAnchorElement | null;
-  const cardClose = document.getElementById('stopCardClose');
-  let cardTrigger: HTMLAnchorElement | null = null;
-  card?.addEventListener('toggle', () => {
-    if (!card.matches(':popover-open')) cardTrigger?.setAttribute('aria-expanded', 'false');
-  });
-  cardClose?.addEventListener('click', () => {
-    card?.hidePopover();
-    cardTrigger?.focus({ preventScroll: true });
-  });
-
-  // Keep the guide visible while scrolling the vehicle to the selected stop.
+  // Stop chips focus the route without opening another page or interrupting the journey.
   days.slice(0, dayCount).forEach((article, d) => {
     chipsByDay[d]!.forEach((chip) => {
       chip.addEventListener('click', (event) => {
         if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
-        if (card && cardTitle && cardSummary && cardLink && chip.dataset.placePath) {
-          cardTrigger?.setAttribute('aria-expanded', 'false');
-          cardTrigger = chip;
-          cardTitle.textContent = chip.dataset.placeName ?? '';
-          cardSummary.textContent = chip.dataset.placeSummary ?? '';
-          cardLink.href = chip.dataset.placePath;
-          cardLink.setAttribute('aria-label', `Read more about ${chip.dataset.placeName}`);
-          card.showPopover();
-          chip.setAttribute('aria-expanded', 'true');
-          cardClose?.focus({ preventScroll: true });
-        } else card?.hidePopover();
         const count = data.days[d]?.pins.length ?? 1;
         const index = Math.min(Number(chip.dataset.pin ?? 0), count - 1);
         const local = count === 1 ? 0.5 : clamp((index + 0.08) / (count - 1));

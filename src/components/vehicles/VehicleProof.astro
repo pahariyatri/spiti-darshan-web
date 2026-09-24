@@ -31,11 +31,18 @@ const features = [
 <section class="proof" aria-labelledby="proofTitle">
   <div class="shell proof-grid">
     <div class="proof-visual">
-    <div class="proof-photo">
-      {media && <Picture media={media} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />}
-      <span>Our Innova Crysta, on the real road.</span>
-    </div>
-    <div class="vehicle-plaque"><Icon name="car" size={26} /><div><strong>Innova Crysta</strong><span>Your people. Your pace.</span></div><span class="plaque-label">SPITI DARSHAN</span></div>
+      <div class="proof-photo">
+        {media && <Picture media={media} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />}
+        <span>Our Innova Crysta, on the real road.</span>
+      </div>
+      <div class="vehicle-plaque">
+        <Icon name="car" size={26} />
+        <div>
+          <strong>Innova Crysta</strong>
+          <span>Your people. Your pace.</span>
+        </div>
+        <span class="plaque-label">SPITI DARSHAN</span>
+      </div>
     </div>
     <div class="proof-copy">
       <div class="eyebrow">Travel in comfort</div>
@@ -49,8 +56,12 @@ const features = [
         homestays with breakfast and dinner.
       </p>
       <div class="proof-actions">
-        <WhatsAppLink class="button button-whatsapp" cta="page">Plan my drive <Icon name="chat" size={18} /></WhatsAppLink>
-        <a class="text-link" href="/vehicles/innova-crysta/">Meet your ride <span aria-hidden="true">↗</span></a>
+        <WhatsAppLink class="button button-whatsapp" cta="page">
+          Plan my drive <Icon name="chat" size={18} />
+        </WhatsAppLink>
+        <a class="text-link" href="/vehicles/innova-crysta/">
+          Meet your ride <span aria-hidden="true">↗</span>
+        </a>
       </div>
       <p class="safety-note">
         Innova Crysta is not a 4×4 snow expedition vehicle. Vehicle suitability and high pass access

@@ -38,11 +38,7 @@ describe('route content', () => {
       'Chandratal → Manali',
     ]);
     const stops = route.days.flatMap((d) => d.stops);
-    expect(stops.filter((s) => s.isOptional).map((s) => s.name)).toEqual([
-      'Chitkul',
-      'Gue',
-      'Pin Valley',
-    ]);
+    expect(stops.filter((s) => s.isOptional).map((s) => s.name)).toEqual(['Chitkul', 'Pin Valley']);
     expect(route.days.filter((d) => d.isSeasonal).map((d) => d.dayNumber)).toEqual([8, 9]);
     expect(route.days[6]!.overnight).toBe('Kaza');
   });

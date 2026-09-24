@@ -99,7 +99,7 @@ test.describe('without JavaScript', () => {
       'Key Monastery',
       'Chicham Bridge',
       'Kunzum Pass',
-      'Gue · optional',
+      'Gue',
       'Pin Valley · optional',
       'Atal Tunnel',
     ]) {

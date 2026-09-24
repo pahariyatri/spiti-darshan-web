@@ -1,36 +1,34 @@
 import { expect, test } from '@playwright/test';
 
-test('stop preview preserves map movement and links to a destination guide', async ({ page }) => {
+test('stop clicks stay on the route with direct WhatsApp enquiries', async ({ page }) => {
   await page.goto('/');
+  await expect(page.locator('#your-driver')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Explore Gue on day 3', exact: true })).toHaveText(
+    'Gue',
+  );
   const chip = page.getByRole('link', { name: 'Explore Komic on day 6', exact: true });
   await chip.click();
-  const card = page.locator('#stopCard');
-  await expect(card).toBeVisible();
-  await expect(chip).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('#currentPlace')).toHaveText('Komic');
-  await expect(page.locator('#stopCardTitle')).toHaveText('Komic');
-  const bounds = await card.boundingBox();
-  expect(bounds!.x).toBeGreaterThanOrEqual(0);
-  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
-  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
-  await page.keyboard.press('Escape');
-  await expect(card).toBeHidden();
-  await expect(chip).toHaveAttribute('aria-expanded', 'false');
-  await chip.click();
-  await page.getByRole('link', { name: 'Read more about Komic' }).click();
-  await expect(page).toHaveURL(/\/places\/komic\/$/);
-  await expect(page.locator('h1')).toHaveText('Komic');
-  await expect(page.getByRole('link', { name: 'Day 6: Langza → Hikkim → Komic' })).toHaveAttribute(
+  await expect(page.locator('#stopCard')).toHaveCount(0);
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator('#day6 .day-enquire')).toHaveAttribute(
     'href',
-    '/routes/shimla-to-spiti/#day6',
+    /^https:\/\/wa\.me\/916230070301\?text=.*Day%206/,
   );
+  await page.goto('/vehicles/innova-crysta/');
+  await expect(page.locator('#your-driver')).toContainText('Mukul');
 });
 
-test('guides and itinerary links work without JavaScript', async ({ browser }) => {
+test('itinerary stays on page without JavaScript; destination guides remain accessible directly', async ({
+  browser,
+}) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/routes/shimla-to-spiti/');
   await page.getByRole('link', { name: 'Explore Komic on day 6', exact: true }).click();
+  await expect(page).toHaveURL(/\/routes\/shimla-to-spiti\/#day6$/);
+  await expect(page.locator('#day6 .day-enquire')).toHaveAttribute('href', /^https:\/\/wa\.me\//);
+  await page.goto('/places/komic/');
   await expect(page.locator('h1')).toHaveText('Komic');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/places\/komic\/$/);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /high village/);

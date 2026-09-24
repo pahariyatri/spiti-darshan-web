@@ -56,7 +56,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
     summary: 'A transit stop on the drive from Kalpa towards Nako and Tabo.',
     body: [
       'Pooh is part of day 3’s journey into Spiti. The itinerary places it after Kalpa and before Nako, with Tabo as the overnight destination.',
-      'Keep this stop flexible: the same day includes Nako and an optional detour to Gue. Discuss breaks and detours before setting off.',
+      'Keep this stop flexible: the same day includes Nako and a visit to Gue. Discuss breaks and detours before setting off.',
     ],
   },
   losar: {
@@ -144,7 +144,7 @@ export const placeGuides: Record<string, PlaceGuide> = {
       'A small village off the Sumdo to Tabo road, known for a naturally mummified monk kept in a shrine.',
     body: [
       'Gue is reached by a short side road off the main route into Spiti. The village is known for a naturally preserved mummy of a monk, kept in a small shrine and said to be several centuries old.',
-      'On our itinerary Gue is an optional detour on day 3, subject to timing and road conditions.',
+      'On our itinerary Gue is a planned stop on day 3, before the overnight stay in Tabo.',
     ],
   },
   tabo: {

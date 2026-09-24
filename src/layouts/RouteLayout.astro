@@ -47,7 +47,7 @@ const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
     <JourneySection route={route} />
     {variant !== 'home' && <RouteFacts route={route} />}
     <VehicleProof media={proofMedia} />
-    <DriverIntro />
+    {variant !== 'home' && <DriverIntro />}
     <ContactSection routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle} />
     <FaqSection />
   </main>
