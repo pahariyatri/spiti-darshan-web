@@ -46,7 +46,7 @@ const optional = route.days.flatMap((d) => d.stops.filter((s) => s.isOptional).m
       )}
       {optional.length > 0 && (
         <div>
-          <dt>Optional detours</dt>
+          <dt>Side trips</dt>
           <dd>{optional.join(' · ')}</dd>
         </div>
       )}

@@ -100,7 +100,7 @@ test.describe('without JavaScript', () => {
       'Chicham Bridge',
       'Kunzum Pass',
       'Gue',
-      'Pin Valley · optional',
+      'Pin Valley',
       'Atal Tunnel',
     ]) {
       await expect(page.locator('.stop', { hasText: text }).first()).toBeAttached();

@@ -11,6 +11,8 @@ interface Props {
 }
 
 const { path, firstLeg, firstPlace, firstStopCount, totalDays } = Astro.props;
+/* Day segments join end to end; one continuous path lets the trail's dash run the whole road. */
+const trailPath = path.replace(/ M [\d.-]+ [\d.-]+(?= C)/g, '');
 ---
 
 <div class="route-sticky" id="routeSticky" role="region" aria-label="Animated itinerary map">
@@ -32,6 +34,10 @@ const { path, firstLeg, firstPlace, firstStopCount, totalDays } = Astro.props;
   </div>
   <p class="sr-only" id="journeyLive" aria-live="polite" aria-atomic="true"></p>
   <div class="nav-map" id="navMap">
+    <div class="map-stars" aria-hidden="true"></div>
+    <div class="map-sun" aria-hidden="true"></div>
+    <div class="map-moon" aria-hidden="true"></div>
+    <div class="map-sky" id="mapSky" aria-hidden="true"></div>
     <div class="map-world" id="mapWorld">
       <svg
         class="route-svg"
@@ -45,6 +51,7 @@ const { path, firstLeg, firstPlace, firstStopCount, totalDays } = Astro.props;
           <path class="road-asphalt" d={path}></path>
           <path class="road-lane" d={path}></path>
         </g>
+        <path class="road-trail" id="routeTrail" d={trailPath} pathLength="1"></path>
         <path id="routePath" d={path} fill="none" stroke="none"></path>
       </svg>
       <VehicleMarker />

@@ -6,19 +6,21 @@ import Picture from '../Picture.astro';
 
 interface Props {
   media: MediaView | null;
+  /** A second real fleet photo for the collage. */
+  secondary?: MediaView | null;
 }
-const { media } = Astro.props;
+const { media, secondary = null } = Astro.props;
 /* Verified service facts only — no fleet size, ratings or driver claims. */
 const features = [
   {
     icon: 'seat',
     title: 'Your own car',
-    text: 'An Innova Crysta for your group.',
+    text: 'The whole Innova Crysta is yours: your group, your luggage.',
   },
   {
     icon: 'route',
     title: 'Your kind of trip',
-    text: 'Choose your stops and pace.',
+    text: 'Stop for monasteries, villages and photos at your pace.',
   },
   {
     icon: 'shield',
@@ -32,32 +34,48 @@ const features = [
   <div class="shell proof-grid">
     <div class="proof-visual">
       <div class="proof-photo">
-        {media && <Picture media={media} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />}
-        <span>Our Innova Crysta, on the real road.</span>
+        {media && <Picture media={media} sizes="(max-width: 900px) calc(100vw - 40px), 520px" />}
+        <span class="proof-badge">
+          <Icon name="check" size={14} /> Real photo · Our fleet in Spiti
+        </span>
       </div>
-      <div class="vehicle-plaque">
-        <Icon name="car" size={26} />
-        <div>
-          <strong>Innova Crysta</strong>
-          <span>Your people. Your pace.</span>
+      {secondary && (
+        <div class="proof-photo-2">
+          <Picture media={secondary} sizes="(max-width: 600px) 55vw, 300px" />
         </div>
-        <span class="plaque-label">SPITI DARSHAN</span>
+      )}
+      <div class="vehicle-plate" aria-hidden="true">
+        <span>HP</span>
+        <strong>SPITI DARSHAN</strong>
       </div>
     </div>
     <div class="proof-copy">
-      <div class="eyebrow">Travel in comfort</div>
+      <div class="eyebrow">The real vehicle</div>
       <h2 id="proofTitle">
         The right car
         <br />
         <em>for higher roads.</em>
       </h2>
       <p>
-        Travel with Spiti Darshan in an Innova Crysta. Your driver and route are confirmed for your
-        dates.
+        No stock photos. This is our Innova Crysta on the Spiti road, with a driver for your group
+        and a route confirmed for your dates.
       </p>
+      <ul class="proof-features">
+        {features.map((f) => (
+          <li>
+            <span class="proof-icon">
+              <Icon name={f.icon} size={22} />
+            </span>
+            <span>
+              <strong>{f.title}</strong>
+              {f.text}
+            </span>
+          </li>
+        ))}
+      </ul>
       <div class="proof-actions">
         <WhatsAppLink class="button button-whatsapp" cta="page">
-          Get my trip plan <Icon name="chat" size={18} />
+          <Icon name="chat" size={18} /> Get my trip plan
         </WhatsAppLink>
         <a class="text-link" href="/vehicles/innova-crysta/">
           Meet your ride <span aria-hidden="true">↗</span>
@@ -69,17 +87,4 @@ const features = [
       </p>
     </div>
   </div>
-  <ul class="shell proof-features">
-    {features.map((f) => (
-      <li>
-        <span class="proof-icon">
-          <Icon name={f.icon} size={26} />
-        </span>
-        <span>
-          <strong>{f.title}</strong>
-          {f.text}
-        </span>
-      </li>
-    ))}
-  </ul>
 </section>

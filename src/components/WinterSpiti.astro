@@ -1,49 +1,128 @@
 ---
+/* The winter offer: a snowy first impression, the sample winter road and two car prices. */
+import Icon from './Icon.astro';
+import Picture from './Picture.astro';
 import WhatsAppLink from './conversion/WhatsAppLink.astro';
+import { staticMedia, toMediaView } from '../lib/media/static-media';
+
+const photo = toMediaView(staticMedia('day-kalpa-kinner-kailash'));
+
+const moments = [
+  { icon: 'snow', title: 'White Spiti', text: 'Villages and monasteries under fresh snow.' },
+  { icon: 'paw', title: 'Snow leopard expedition', text: 'Look for the ghost of the mountains.' },
+  { icon: 'cup', title: 'Ice Cafe Lingti', text: 'A hot cup of tea in the frozen valley.' },
+  { icon: 'chain', title: 'Snow chain drive', text: 'Winter roads, driven the winter way.' },
+] as const;
+
+/* Winter access is via Kinnaur both ways; Kaza is the base for the high villages. */
+const winterRoute = [
+  { name: 'Shimla', note: 'Start' },
+  { name: 'Kalpa', note: 'Kinner Kailash' },
+  { name: 'Nako', note: 'Frozen lake' },
+  { name: 'Tabo', note: 'Old monastery' },
+  { name: 'Kaza', note: 'Winter base', base: true },
+  { name: 'Langza · Kibber', note: 'Snow villages' },
+  { name: 'Back via Kinnaur', note: 'Return' },
+];
 
 const packages = [
-  { duration: '6 nights / 7 days', price: '₹35,000' },
-  { duration: '7 nights / 8 days', price: '₹40,000' },
+  { nights: 6, days: 7, price: '₹35,000' },
+  { nights: 7, days: 8, price: '₹40,000' },
 ];
 ---
 
-<section id="winter" class="winter-spiti" aria-labelledby="winterTitle">
-  <div class="shell winter-grid">
-    <div class="winter-intro">
-      <div class="eyebrow">Your winter escape</div>
-      <h2 id="winterTitle">Experience White Spiti.</h2>
-      <p class="winter-description">Innova Crysta with a driver, for your group.</p>
-      <ul class="winter-highlights" aria-label="Winter Spiti highlights">
-        <li>White Spiti</li>
-        <li>Snow leopard expedition</li>
-        <li>Ice Cafe Lingti</li>
-        <li>Snow chain drive</li>
-      </ul>
-    </div>
-    <div class="winter-offer">
-      <div class="winter-packages">
-        {packages.map((trip) => (
-          <article>
-            <h3>{trip.duration}</h3>
-            <p>
-              <strong>{trip.price}</strong> <span>Car price · for your group</span>
-            </p>
-          </article>
-        ))}
+<section id="winter" class="winter" aria-labelledby="winterTitle">
+  <div class="winter-bg" aria-hidden="true">
+    <Picture media={photo} sizes="100vw" alt="" />
+  </div>
+  <div class="snowfall" aria-hidden="true"></div>
+
+  <div class="shell winter-inner">
+    <header class="winter-head">
+      <div class="eyebrow">This winter · Spiti in snow</div>
+      <h2 id="winterTitle">
+        Experience <em>White Spiti.</em>
+      </h2>
+      <p>
+        Frozen rivers, quiet snow villages and the Himalaya at its most dramatic. An Innova Crysta
+        with a driver, just for your group.
+      </p>
+    </header>
+
+    <ul class="winter-moments" aria-label="Winter Spiti highlights">
+      {moments.map((m) => (
+        <li>
+          <span class="winter-moment-icon">
+            <Icon name={m.icon} size={24} />
+          </span>
+          <strong>{m.title}</strong>
+          <span>{m.text}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="winter-route" aria-labelledby="winterRouteTitle">
+      <div class="winter-route-head">
+        <h3 id="winterRouteTitle">Sample winter route</h3>
+        <p>In through Kinnaur, out through Kinnaur. Kaza is your winter base.</p>
       </div>
+      <ol class="winter-road">
+        {winterRoute.map((stop) => (
+          <li class:list={{ 'is-base': stop.base }}>
+            <span class="winter-road-dot" aria-hidden="true">
+              {stop.base && <Icon name="snow" size={14} />}
+            </span>
+            <strong>{stop.name}</strong>
+            <span>{stop.note}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="winter-tickets">
+      {packages.map((trip) => {
+        const label = `${trip.nights} nights / ${trip.days} days`;
+        return (
+          <article class="winter-ticket">
+            <div class="ticket-top">
+              <span class="ticket-tag">Winter Spiti</span>
+              <h3>
+                <span aria-hidden="true">
+                  <b>{trip.nights}N</b> / {trip.days}D
+                </span>
+                <span class="sr-only">{label}</span>
+              </h3>
+              <p class="ticket-sub">{label} · Innova Crysta with driver</p>
+            </div>
+            <div class="ticket-bottom">
+              <p class="ticket-price">
+                <strong>{trip.price}</strong>
+                <span>Car price for your group</span>
+              </p>
+              <WhatsAppLink
+                class="button button-whatsapp ticket-cta"
+                cta="page"
+                routeLabel={`Winter Spiti — ${label}`}
+              >
+                <Icon name="chat" size={18} /> Send me this package
+              </WhatsAppLink>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="winter-foot">
       <p class="winter-stay">
-        <strong>Homestay extra: ₹1,500 per person.</strong> Breakfast &amp; dinner included (MAP).
+        <Icon name="home" size={20} />
+        <span>
+          <strong>Homestay ₹1,500 per person</strong> · breakfast &amp; dinner included, priced
+          separately from the car.
+        </span>
       </p>
       <p class="winter-note">
         Winter activities depend on weather and access; wildlife sightings vary.
       </p>
-      <WhatsAppLink
-        class="button button-whatsapp"
-        cta="page"
-        routeLabel="Winter Spiti — 6 nights / 7 days or 7 nights / 8 days"
-      >
-        Get my trip plan on WhatsApp ↗
-      </WhatsAppLink>
     </div>
   </div>
 </section>

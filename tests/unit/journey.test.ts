@@ -32,7 +32,7 @@ const ORIGINAL_ROUTE_DAYS = [
     stops: [
       ['Sangla', 'start'],
       ['Rakcham', 'stop'],
-      ['Chitkul · optional', 'detour'],
+      ['Chitkul', 'detour'],
       ['Reckong Peo', 'stop'],
       ['Kalpa', 'stay'],
     ],
@@ -52,7 +52,7 @@ const ORIGINAL_ROUTE_DAYS = [
     stops: [
       ['Tabo Monastery', 'monastery'],
       ['Dhankar', 'monastery'],
-      ['Pin Valley · optional', 'detour'],
+      ['Pin Valley', 'detour'],
       ['Kaza', 'stay'],
     ],
   },
@@ -105,7 +105,7 @@ const originalKindLabel = (k: string) =>
     : k === 'start'
       ? 'depart'
       : k === 'detour'
-        ? 'optional'
+        ? 'detour'
         : k === 'monastery'
           ? 'monastery'
           : k === 'lake'
@@ -216,11 +216,9 @@ describe('geometry helpers', () => {
     ).toEqual([0, 0, 0, 1]);
   });
 
-  it('labels optional stops and honours map-label overrides', () => {
-    expect(chipLabel({ name: 'Chitkul', isOptional: true })).toBe('Chitkul · optional');
-    expect(mapLabel({ name: 'Kaza', mapLabel: 'Kaza · return', isOptional: false })).toBe(
-      'Kaza · return',
-    );
+  it('labels side trips plainly and honours map-label overrides', () => {
+    expect(chipLabel({ name: 'Chitkul' })).toBe('Chitkul');
+    expect(mapLabel({ name: 'Kaza', mapLabel: 'Kaza · return' })).toBe('Kaza · return');
     expect(pinKindLabel('viewpoint')).toBe('stop');
   });
 });

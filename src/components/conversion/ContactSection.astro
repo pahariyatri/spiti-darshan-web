@@ -1,5 +1,11 @@
 ---
+/* The closing invitation: what happens after one tap, shown as the WhatsApp chat itself. */
 import { businessWhatsApp } from '../../lib/config/env';
+import { buildWhatsAppMessage } from '../../lib/whatsapp/message';
+import { staticMedia, toMediaView } from '../../lib/media/static-media';
+import { SITE } from '../../lib/config/site';
+import Icon from '../Icon.astro';
+import Picture from '../Picture.astro';
 import WhatsAppLink from './WhatsAppLink.astro';
 
 interface Props {
@@ -7,29 +13,90 @@ interface Props {
 }
 const { routeLabel } = Astro.props;
 const number = businessWhatsApp();
+const backdrop = toMediaView(staticMedia('day-langza'));
+const preview = buildWhatsAppMessage({ routeLabel }).split('\n');
+const packageName = routeLabel ? `${routeLabel} package` : 'Spiti trip plan';
+
+const steps = [
+  { title: 'Tap the button', text: 'WhatsApp opens with your message ready. Add your dates.' },
+  { title: 'Get your package', text: 'Route, car, stays and price, sent to you on WhatsApp.' },
+  { title: 'Confirm and go', text: 'We confirm every detail with you before you book.' },
+];
 ---
 
 <section class="contact" id="contact" aria-labelledby="contactTitle">
-  <div class="eyebrow">Ready for the road?</div>
-  <h2 id="contactTitle">
-    Tell us your dates.
-    <br />
-    We'll plan the drive.
-  </h2>
-  <p>
-    Send your dates, group size and pickup city. Get a trip plan and quote from Spiti Darshan on
-    WhatsApp.
-  </p>
-  <WhatsAppLink class="button button-whatsapp" cta="contact" routeLabel={routeLabel}>
-    Get my trip plan on WhatsApp ↗
-  </WhatsAppLink>
-  <p class="contact-number">
-    WhatsApp{' '}
-    <WhatsAppLink cta="contact" routeLabel={routeLabel}>
-      {number.display}
-    </WhatsAppLink>
-  </p>
-  <p class="smallprint" id="waNote">
-    We’ll confirm the route, car and stay details before you book.
-  </p>
+  <div class="contact-bg" aria-hidden="true">
+    <Picture media={backdrop} sizes="100vw" alt="" />
+  </div>
+  <div class="shell contact-grid">
+    <div class="contact-copy">
+      <div class="eyebrow">Ready for the road?</div>
+      <h2 id="contactTitle">
+        One message.
+        <br />
+        <em>Your Spiti package on WhatsApp.</em>
+      </h2>
+      <ol class="contact-steps">
+        {steps.map((s) => (
+          <li>
+            <strong>{s.title}</strong>
+            <span>{s.text}</span>
+          </li>
+        ))}
+      </ol>
+      <WhatsAppLink
+        class="button button-whatsapp contact-cta"
+        cta="contact"
+        routeLabel={routeLabel}
+      >
+        <Icon name="chat" size={20} /> Get my trip plan on WhatsApp
+      </WhatsAppLink>
+      <p class="contact-number">
+        Or save our number:{' '}
+        <WhatsAppLink cta="contact" routeLabel={routeLabel}>
+          {number.display}
+        </WhatsAppLink>
+      </p>
+    </div>
+
+    <figure class="chat-phone" aria-labelledby="chatCaption">
+      <div class="chat-screen" aria-hidden="true">
+        <div class="chat-bar">
+          <img src="/brand/spiti-darshan-mark.webp" alt="" width="36" height="36" />
+          <span>
+            <strong>{SITE.name}</strong>
+            <small>WhatsApp</small>
+          </span>
+        </div>
+        <div class="chat-body">
+          <p class="bubble bubble-out">
+            {preview.map((line) => (
+              <span>{line}</span>
+            ))}
+          </p>
+          <div class="bubble bubble-in">
+            <span>Here’s your trip plan 🏔️</span>
+            <div class="chat-doc">
+              <Icon name="doc" size={26} />
+              <span>
+                <strong>{packageName}</strong>
+                <small>Route · Innova Crysta · Stays · Price</small>
+              </span>
+            </div>
+            <span>Tell us if you’d like to change any stop.</span>
+          </div>
+        </div>
+        <div class="chat-input">
+          <span>Message</span>
+          <span class="chat-send">
+            <Icon name="chat" size={16} />
+          </span>
+        </div>
+      </div>
+      <figcaption id="chatCaption">
+        How it works on WhatsApp (illustration). We confirm the route, car and stay details before
+        you book.
+      </figcaption>
+    </figure>
+  </div>
 </section>

@@ -12,6 +12,42 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 
 const clamp = (v: number, min = 0, max = 1) => Math.max(min, Math.min(max, v));
 
+/* Each day on the map runs from sunrise to night: [day progress, sky top, sky bottom]. */
+const SKY: [number, string, string][] = [
+  [0, '#27305a', '#e9875a'],
+  [0.12, '#4c79aa', '#f5c48c'],
+  [0.3, '#5e9dcc', '#c4e2ef'],
+  [0.62, '#5891c0', '#d3e5ec'],
+  [0.78, '#3c3f6d', '#ee9160'],
+  [0.88, '#111b38', '#27345a'],
+  [1, '#070d1f', '#131f3a'],
+];
+
+const hex = (c: string) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+const mix = (a: string, b: string, t: number) => {
+  const [x, y] = [hex(a), hex(b)];
+  return `rgb(${x.map((v, i) => Math.round(v + (y[i]! - v) * t)).join(',')})`;
+};
+
+/** Sky colours, sun arc, moon and headlight level for a point in the day (0 = sunrise). */
+function paintSky(el: HTMLElement, t: number): void {
+  const k = Math.max(0, SKY.findIndex(([at]) => at >= t) - 1);
+  const [a, top1, bot1] = SKY[k]!;
+  const [b, top2, bot2] = SKY[k + 1] ?? SKY[k]!;
+  const f = b === a ? 0 : (t - a) / (b - a);
+  const sunT = clamp(t / 0.84);
+  const night = clamp((t - 0.76) / 0.12);
+  const s = el.style;
+  s.setProperty('--sky-top', mix(top1, top2, f));
+  s.setProperty('--sky-bot', mix(bot1, bot2, f));
+  s.setProperty('--sun-x', `${6 + sunT * 88}%`);
+  s.setProperty('--sun-y', `${60 - Math.sin(Math.PI * sunT) * 44}%`);
+  s.setProperty('--sun-glow', String(1 - Math.sin(Math.PI * sunT) * 0.6));
+  s.setProperty('--sun-on', String(1 - clamp((t - 0.8) / 0.06)));
+  s.setProperty('--night', night.toFixed(3));
+  s.setProperty('--land', String(1.08 - night * 0.55));
+}
+
 export function initJourney(): void {
   const dataEl = document.getElementById('journeyData');
   const days = Array.from(document.querySelectorAll<HTMLElement>('.day'));
@@ -25,6 +61,8 @@ export function initJourney(): void {
   const counterEl = document.getElementById('dayCounter');
   const stopCounter = document.getElementById('stopCounter');
   const live = document.getElementById('journeyLive');
+  const trail = document.getElementById('routeTrail');
+  const sky = document.getElementById('mapSky');
   if (!dataEl || !days.length || !sticky || !viewport || !world || !path || !car) return;
   if (!legEl || !placeEl || !counterEl || !stopCounter) return;
 
@@ -58,6 +96,9 @@ export function initJourney(): void {
 
   let announcedDay = -1;
   let ticking = false;
+  // Scrolling back up turns the car around, so it always drives the way the page moves.
+  let lastScrollY = window.scrollY;
+  let reversing = false;
 
   const pointAt = (f: number) => path.getPointAtLength(clamp(f) * totalLength);
   const dayFraction = (dayIndex: number, progress: number) => {
@@ -125,8 +166,14 @@ export function initJourney(): void {
     const ahead = pointAt(clamp(fraction + 0.00015));
     const dx = ((ahead.x - pt.x) / W) * worldW;
     const dy = ((ahead.y - pt.y) / H) * worldH;
-    const heading =
-      Math.abs(dx) + Math.abs(dy) < 0.02 ? 0 : (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+    const scrollY = window.scrollY;
+    if (Math.abs(scrollY - lastScrollY) > 2) {
+      reversing = scrollY < lastScrollY;
+      lastScrollY = scrollY;
+    }
+    const forward =
+      Math.abs(dx) + Math.abs(dy) < 0.02 ? 90 : (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+    const heading = reversing ? forward + 180 : forward;
     car.style.left = `${x}px`;
     car.style.top = `${y}px`;
     car.style.transform = `translate(-50%,-50%) rotate(${heading}deg)`;
@@ -145,6 +192,10 @@ export function initJourney(): void {
     const maxPan = Math.max(0, worldW - viewW);
     const pan = Math.min(maxPan, Math.max(0, x - viewW * 0.44));
     world.style.transform = `translate3d(${-pan}px,0,0)`;
+    // The mountains drift slower than the road, and the road behind the car lights up.
+    if (sky) sky.style.backgroundPositionX = `${-pan * 0.35}px`;
+    if (trail) trail.style.strokeDashoffset = String(1 - fraction);
+    paintSky(viewport, local);
 
     chipsByDay[d]!.forEach((chip) => {
       const on = chip.hasAttribute('data-on-map') && Number(chip.dataset.pin) === currentIndex;

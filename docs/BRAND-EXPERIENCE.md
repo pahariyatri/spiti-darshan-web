@@ -20,9 +20,9 @@ The original hero text is owner-approved and should remain unchanged unless expl
 
 ## Landing-page order
 
-Hero → winter offer → real vehicle → sample route → booking questions → WhatsApp invitation.
+Hero → winter offer (with the sample winter route) → the whole route → real vehicle → booking questions → WhatsApp invitation.
 
-Show the offer and proof before the long itinerary. Stop clicks stay on the route. Keep team biographies and extended destination guides off the main conversion path.
+The page is a scroll story: the visitor sees the offer, drives the whole route on the map, meets the real car, then sees exactly what one WhatsApp message gets them. Stops are named plainly (no “optional” labels); timing and access are handled in the WhatsApp plan. Stop clicks stay on the route. Keep team biographies and extended destination guides off the main conversion path.
 
 ## Less-is-more copy rules
 

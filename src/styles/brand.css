@@ -166,98 +166,6 @@ p {
   display: none;
 }
 
-/* Winter invitation: one compact offer, with a clear distinction between car and stay. */
-.winter-spiti {
-  padding: var(--section-space) 0;
-  background: #eeeade;
-  scroll-margin-top: 24px;
-}
-.winter-grid {
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: clamp(32px, 6vw, 88px);
-  align-items: center;
-}
-.winter-intro h2 {
-  font: 500 clamp(36px, 4vw, 52px)/1.14 var(--font-display);
-  letter-spacing: -0.035em;
-  margin: 16px 0 24px;
-  max-width: 360px;
-}
-.winter-highlights {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 11px;
-  font-size: 16px;
-  color: #405a4c;
-}
-.winter-highlights li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.winter-highlights li::before {
-  content: '✳';
-  color: #94703d;
-  font-size: 17px;
-}
-.winter-packages {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.winter-packages article {
-  padding: 24px;
-  border: 1px solid #d8d3c5;
-  border-top: 3px solid #a7814c;
-  border-radius: 4px 4px 16px 16px;
-  background: #fffdf7;
-}
-.winter-packages h3 {
-  font-size: 16px;
-  font-weight: 550;
-  margin: 0 0 18px;
-}
-.winter-packages p {
-  margin: 0;
-}
-.winter-packages strong {
-  display: block;
-  font-size: clamp(28px, 3vw, 36px);
-  letter-spacing: -0.04em;
-  line-height: 1.2;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-.winter-packages span {
-  display: block;
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--muted);
-}
-.winter-stay {
-  font-size: 14px;
-  line-height: 1.8;
-  margin: 20px 0 12px;
-}
-.winter-stay strong {
-  font-weight: 650;
-}
-.winter-note {
-  color: var(--muted);
-  font-size: 12px;
-  margin: 0 0 22px;
-}
-.winter-offer .button {
-  background: var(--pine);
-  color: #fff9ef;
-}
-.winter-offer .button:hover {
-  background: #28523f;
-}
-
 /* Vehicle editorial: real fleet photo with a framed nameplate and a direct next step. */
 .proof {
   padding: var(--section-space) 0;
@@ -265,58 +173,6 @@ p {
 .proof-grid {
   grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 6vw, 80px);
-}
-.proof-visual {
-  min-width: 0;
-  position: relative;
-  padding: 0 18px 30px 0;
-}
-.proof-visual::before {
-  content: '';
-  position: absolute;
-  inset: 24px 0 0 28px;
-  background: #e8e2d3;
-  border: 1px solid #d9d1bf;
-  border-radius: 100px 16px 16px 16px;
-}
-.proof-visual .proof-photo {
-  min-height: 440px;
-  border-radius: 100px 16px 16px 16px;
-  box-shadow: none;
-}
-.proof-photo span {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.015em;
-}
-.vehicle-plaque {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: -2px 18px 0;
-  padding: 20px 4px 0;
-}
-.vehicle-plaque > .icon {
-  color: #896735;
-  flex-shrink: 0;
-}
-.vehicle-plaque strong {
-  display: block;
-  font-size: 17px;
-  font-weight: 650;
-  line-height: 1.4;
-}
-.vehicle-plaque div span {
-  display: block;
-  font-size: 13px;
-  color: var(--muted);
-}
-.plaque-label {
-  margin-left: auto;
-  font-size: 9px;
-  letter-spacing: 0.13em;
-  color: #73664f;
 }
 .proof h2,
 .contact h2,
@@ -350,45 +206,6 @@ p {
   line-height: 1.7;
   margin: 0;
 }
-.proof-features {
-  margin-top: 48px;
-  gap: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.proof-features li {
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  padding: 30px 24px;
-}
-.proof-features li + li {
-  border-left: 1px solid var(--line);
-}
-.proof-features li:first-child {
-  padding-left: 0;
-}
-.proof-features li:last-child {
-  padding-right: 0;
-}
-.proof-icon {
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 12px;
-  background: #eae3d2;
-}
-.proof-features strong {
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.45;
-  letter-spacing: -0.015em;
-}
-.proof-features li > span:last-child {
-  font-size: 14px;
-  line-height: 1.7;
-}
-
 /* The same type rhythm carries through drivers, guides and supporting pages. */
 .driver-intro {
   padding: var(--section-space) 0;
@@ -645,31 +462,9 @@ p {
   }
 }
 @media (max-width: 900px) {
-  .winter-grid,
   .proof-grid {
     grid-template-columns: 1fr;
     gap: 36px;
-  }
-  .winter-intro h2 {
-    max-width: none;
-  }
-  .winter-highlights {
-    grid-template-columns: 1fr 1fr;
-    font-size: 14px;
-  }
-  .proof-visual {
-    max-width: 620px;
-    width: 100%;
-  }
-  .proof-copy {
-    max-width: 650px;
-  }
-  .proof-features {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .proof-features li {
-    flex-direction: column;
-    padding: 24px 18px;
   }
   .mobile-book {
     bottom: 0;
@@ -761,66 +556,10 @@ p {
   .hero-trust {
     display: none;
   }
-  .winter-highlights {
-    grid-template-columns: 1fr;
-    gap: 9px;
-  }
-  .winter-packages {
-    gap: 10px;
-  }
-  .winter-packages article {
-    padding: 18px 14px;
-  }
-  .winter-packages h3 {
-    font-size: 14px;
-    margin-bottom: 14px;
-  }
-  .winter-packages strong {
-    font-size: 27px;
-  }
-  .winter-packages span {
-    font-size: 12px;
-  }
-  .winter-offer .button {
-    width: 100%;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-  .proof-visual {
-    padding-right: 12px;
-  }
-  .proof-visual .proof-photo {
-    min-height: 310px;
-    border-top-left-radius: 72px;
-  }
-  .proof-visual .proof-photo img {
-    min-height: 310px;
-  }
-  .vehicle-plaque {
-    margin-left: 12px;
-    margin-right: 0;
-  }
-  .plaque-label {
-    display: none;
-  }
   .proof h2,
   .driver-intro h2,
   .contact h2 {
     font-size: 38px;
-  }
-  .proof-features {
-    grid-template-columns: 1fr;
-    margin-top: 32px;
-  }
-  .proof-features li,
-  .proof-features li:first-child,
-  .proof-features li:last-child {
-    flex-direction: row;
-    padding: 22px 0;
-  }
-  .proof-features li + li {
-    border-left: 0;
-    border-top: 1px solid var(--line);
   }
   .driver-topics li,
   .driver-topics li:first-child {
@@ -859,11 +598,4 @@ p {
 
 .journey-enquire {
   margin-top: 24px;
-}
-
-.winter-description {
-  color: var(--muted);
-  margin: -8px 0 22px;
-  font-size: 16px;
-  line-height: 1.7;
 }

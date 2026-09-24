@@ -79,7 +79,7 @@ export function pinKindLabel(type: string): string {
     case 'start':
       return 'depart';
     case 'detour':
-      return 'optional';
+      return 'detour';
     case 'monastery':
     case 'lake':
     case 'pass':
@@ -94,15 +94,11 @@ export function pinKindAttr(type: string): string {
   return type === 'overnight' ? 'stay' : type;
 }
 
-export function chipLabel(stop: { name: string; isOptional: boolean }): string {
-  return stop.isOptional ? `${stop.name} · optional` : stop.name;
+export function chipLabel(stop: { name: string }): string {
+  return stop.name;
 }
 
-export function mapLabel(stop: {
-  name: string;
-  mapLabel: string | null;
-  isOptional: boolean;
-}): string {
+export function mapLabel(stop: { name: string; mapLabel: string | null }): string {
   return stop.mapLabel ?? chipLabel(stop);
 }
 
