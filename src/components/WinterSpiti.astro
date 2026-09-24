@@ -47,7 +47,7 @@ const packages = WINTER_TRIPS.map((t) => ({ ...t, price: formatInr(t.price) }));
       </p>
     </header>
 
-    <ul class="winter-moments" aria-label="Winter Spiti highlights">
+    <ul class="winter-moments swipe-row" aria-label="Winter Spiti highlights">
       {moments.map((m) => (
         <li>
           <span class="winter-moment-icon">
@@ -63,8 +63,11 @@ const packages = WINTER_TRIPS.map((t) => ({ ...t, price: formatInr(t.price) }));
       <div class="winter-route-head">
         <h3 id="winterRouteTitle">Sample winter route</h3>
         <p>In through Kinnaur, out through Kinnaur. Kaza is your winter base.</p>
+        <span class="swipe-hint" aria-hidden="true">
+          Swipe the road →
+        </span>
       </div>
-      <ol class="winter-road">
+      <ol class="winter-road swipe-row">
         {winterRoute.map((stop) => (
           <li class:list={{ 'is-base': stop.base }}>
             <span class="winter-road-dot" aria-hidden="true">
@@ -77,7 +80,10 @@ const packages = WINTER_TRIPS.map((t) => ({ ...t, price: formatInr(t.price) }));
       </ol>
     </div>
 
-    <div class="winter-tickets">
+    <span class="swipe-hint swipe-hint-tickets" aria-hidden="true">
+      Swipe for 7N / 8D →
+    </span>
+    <div class="winter-tickets swipe-row">
       {packages.map((trip) => {
         const label = `${trip.nights} nights / ${trip.days} days`;
         return (
@@ -114,8 +120,11 @@ const packages = WINTER_TRIPS.map((t) => ({ ...t, price: formatInr(t.price) }));
       <p class="winter-stay">
         <Icon name="home" size={20} />
         <span>
-          <strong>Homestay ₹1,500 per person</strong> · breakfast &amp; dinner included, priced
-          separately from the car.
+          <strong>Homestay ₹1,500 per person</strong>
+          <span class="winter-stay-extra">
+            · breakfast &amp; dinner included, priced separately from the car.
+          </span>
+          <span class="winter-stay-short">· with breakfast &amp; dinner</span>
         </span>
       </p>
       <p class="winter-note">

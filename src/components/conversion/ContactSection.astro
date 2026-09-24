@@ -61,9 +61,13 @@ const steps = [
 
     <figure class="chat-phone" aria-labelledby="chatCaption">
       <div class="iphone" aria-hidden="true">
+        <span class="iphone-btn iphone-action"></span>
+        <span class="iphone-btn iphone-vol-up"></span>
+        <span class="iphone-btn iphone-vol-down"></span>
+        <span class="iphone-btn iphone-power"></span>
         <div class="iphone-screen">
           <div class="iphone-status">
-            <span>9:41</span>
+            <span class="iphone-time">9:41</span>
             <span class="iphone-island"></span>
             <span class="iphone-icons">
               <svg viewBox="0 0 18 12" width="17" height="11">
@@ -72,32 +76,77 @@ const steps = [
                 <rect x="10" y="3" width="3" height="9" rx="1" />
                 <rect x="15" y="0" width="3" height="12" rx="1" />
               </svg>
-              <svg viewBox="0 0 26 12" width="25" height="12">
+              <svg viewBox="0 0 16 12" width="15" height="11">
+                <path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0Z" />
+                <path d="M3.4 6.8a6.5 6.5 0 0 1 9.2 0l-1.4 1.4a4.5 4.5 0 0 0-6.4 0Z" />
+                <path d="M1.2 4.6a9.6 9.6 0 0 1 13.6 0l-1.4 1.4a7.6 7.6 0 0 0-10.8 0Z" />
+              </svg>
+              <svg viewBox="0 0 27 13" width="26" height="12">
                 <rect
                   x="0.5"
                   y="0.5"
-                  width="21"
-                  height="11"
-                  rx="3.5"
+                  width="22"
+                  height="12"
+                  rx="3.8"
                   fill="none"
                   stroke="currentColor"
-                  opacity=".45"
+                  opacity=".4"
                 />
-                <rect x="2" y="2" width="16" height="8" rx="2" />
-                <rect x="23" y="4" width="2" height="4" rx="1" opacity=".45" />
+                <rect x="2.2" y="2.2" width="17" height="8.6" rx="2.2" />
+                <path d="M24.5 4.5v4c.9-.3 1.5-1.1 1.5-2s-.6-1.7-1.5-2Z" opacity=".4" />
               </svg>
             </span>
           </div>
           <div class="chat-bar">
-            <span class="chat-back">‹</span>
-            <img src="/brand/spiti-darshan-mark.webp" alt="" width="38" height="38" />
-            <span>
+            <svg class="chat-back" viewBox="0 0 12 20" width="11" height="19">
+              <path
+                d="M10 2 2 10l8 8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <img src="/brand/spiti-darshan-mark.webp" alt="" width="36" height="36" />
+            <span class="chat-title">
               <strong>{SITE.name}</strong>
               <small>Business account</small>
+            </span>
+            <span class="chat-actions">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <rect
+                  x="2"
+                  y="6"
+                  width="13"
+                  height="12"
+                  rx="3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                />
+                <path
+                  d="m15 10.5 6-3.5v10l-6-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <svg viewBox="0 0 24 24" width="21" height="21">
+                <path
+                  d="M6.6 3.5h2.6l1.3 4.1-2 1.5a12 12 0 0 0 6.4 6.4l1.5-2 4.1 1.3v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </span>
           </div>
           <div class="chat-body">
             <span class="chat-day">Today</span>
+            <span class="chat-secure">🔒 Messages are end-to-end encrypted.</span>
             <p class="bubble bubble-out">
               {preview.map((line) => (
                 <span>{line}</span>
@@ -110,7 +159,7 @@ const steps = [
               <span>Here’s your trip plan 🏔️</span>
               <div class="chat-doc">
                 <span class="chat-doc-icon">
-                  <Icon name="doc" size={22} />
+                  <Icon name="doc" size={20} />
                 </span>
                 <span>
                   <strong>{packageName}</strong>
@@ -118,15 +167,50 @@ const steps = [
                 </span>
               </div>
               <span>Tell us if you’d like to change any stop.</span>
+              <small class="bubble-meta">9:42</small>
             </div>
           </div>
           <div class="chat-input">
-            <span>Message</span>
-            <span class="chat-send">
-              <Icon name="chat" size={16} />
-            </span>
+            <span class="chat-plus">+</span>
+            <span class="chat-field"></span>
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <path
+                d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.4-2h4.6l1.4 2h1.8A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <circle
+                cx="12"
+                cy="12.5"
+                r="3.4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+            </svg>
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <rect
+                x="8.5"
+                y="3"
+                width="7"
+                height="12"
+                rx="3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <path
+                d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
           </div>
           <span class="iphone-home"></span>
+          <span class="iphone-glare"></span>
         </div>
       </div>
       <figcaption id="chatCaption">
