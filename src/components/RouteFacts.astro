@@ -2,6 +2,7 @@
 /* Route pages only: the at-a-glance answers a traveller needs before messaging. */
 import type { RouteView } from '../lib/domain/types';
 import WhatsAppLink from './conversion/WhatsAppLink.astro';
+import { formatInr } from '../lib/home';
 
 interface Props {
   route: RouteView;
@@ -32,6 +33,15 @@ const optional = route.days.flatMap((d) => d.stops.filter((s) => s.isOptional).m
         <dt>Duration</dt>
         <dd>{route.days.length} days</dd>
       </div>
+      {route.carPrice && (
+        <div>
+          <dt>Car price</dt>
+          <dd>
+            {formatInr(route.carPrice)} for your group. Homestays ₹1,500 per person with breakfast
+            &amp; dinner, priced separately.
+          </dd>
+        </div>
+      )}
       {route.vehicles.length > 0 && (
         <div>
           <dt>Vehicle</dt>

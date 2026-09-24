@@ -1,8 +1,17 @@
-/** Owner-supplied winter car prices (for the group, homestays extra). One source for page and schema. */
-export const WINTER_TRIPS = [
-  { nights: 6, days: 7, price: 35000 },
-  { nights: 7, days: 8, price: 40000 },
-] as const;
+import { routeContent } from '../content/routes';
+
+/**
+ * The winter offer = the priced winter routes in src/content/routes (car price for the group,
+ * homestays extra). One source for the homepage, the route pages and structured data.
+ */
+export const WINTER_TRIPS = routeContent
+  .filter((r) => r.status === 'published' && r.slug.startsWith('winter-spiti') && r.carPrice)
+  .map((r) => ({
+    slug: r.slug,
+    nights: r.days.length - 1,
+    days: r.days.length,
+    price: r.carPrice!,
+  }));
 
 export const formatInr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 

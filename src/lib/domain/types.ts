@@ -82,6 +82,8 @@ export interface RouteView {
   durationDays: number;
   seasonality: string;
   isFeatured: boolean;
+  /** Owner-supplied car price in INR for the whole group, when the route has a fixed price. */
+  carPrice: number | null;
   hero: {
     kicker: string;
     title: string;

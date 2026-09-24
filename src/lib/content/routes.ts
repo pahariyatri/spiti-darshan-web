@@ -25,6 +25,7 @@ export function toRouteView(route: RouteContent): RouteView {
     durationDays: route.days.length,
     seasonality: route.seasonality,
     isFeatured: route.isFeatured,
+    carPrice: route.carPrice ?? null,
     hero: {
       kicker: route.hero.kicker,
       title: route.hero.title,

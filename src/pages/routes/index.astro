@@ -1,15 +1,25 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import Picture from '../../components/Picture.astro';
+import Icon from '../../components/Icon.astro';
+import WhatsAppLink from '../../components/conversion/WhatsAppLink.astro';
 import { buildPageMeta, routePath } from '../../lib/seo/meta';
-import { breadcrumbSchema, graph, organizationSchema, webPageSchema } from '../../lib/seo/schema';
+import {
+  breadcrumbSchema,
+  graph,
+  organizationSchema,
+  touristTripSchema,
+  webPageSchema,
+} from '../../lib/seo/schema';
 import { getPublishedRoutes } from '../../lib/content/routes';
+import { formatInr } from '../../lib/home';
 
 const routes = getPublishedRoutes();
 const site = Astro.site ?? Astro.url;
 const meta = buildPageMeta({
-  title: 'Private Spiti taxi routes',
+  title: 'Spiti road trip routes by Innova Crysta',
   description:
-    'Daily private taxi routes for Spiti Valley by Innova Crysta. See each itinerary, seasonal sections and overnight stops, then check your dates on WhatsApp.',
+    'Winter Spiti in 7 or 8 days and the 9-day Shimla → Spiti → Manali circuit, by Innova Crysta with a driver. See each route day by day, then plan on WhatsApp.',
   path: '/routes/',
   site,
 });
@@ -21,30 +31,75 @@ const jsonLd = graph(
   organizationSchema(site),
   webPageSchema({ name: meta.title, description: meta.description, url: meta.canonical, site }),
   breadcrumbSchema(crumbs, site),
+  ...routes.map((r) => touristTripSchema(r, site)),
 );
+const overnights = (r: (typeof routes)[number]) => [
+  ...new Set(r.days.map((d) => d.overnight).filter((o): o is string => Boolean(o))),
+];
 ---
 
 <PageLayout
   meta={meta}
   jsonLd={jsonLd}
-  eyebrow="Private Spiti transport"
+  eyebrow="Spiti road trips"
   title="Choose your road."
   titleAccent="Every route, day by day."
   breadcrumbs={crumbs}
 >
   <div class="shell">
-    <ul class="route-cards">
-      {routes.map((r) => (
-        <li>
-          <a href={routePath(r.slug)}>
-            <div class="eyebrow">
-              {r.durationDays} days · {r.startingLocation} → {r.endingLocation}
+    <ul class="route-grid">
+      {routes.map((r) => {
+        const winter = r.slug.startsWith('winter');
+        return (
+          <li class:list={['route-card', { 'is-winter': winter }]}>
+            <div class="route-card-photo">
+              {r.hero.media && (
+                <Picture
+                  media={r.hero.media}
+                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 50vw, 390px"
+                  alt=""
+                />
+              )}
+              <span class="route-card-tag">
+                <Icon name={winter ? 'snow' : 'mountain'} size={14} />
+                {winter ? 'Winter' : 'Summer circuit'}
+              </span>
+              <span class="route-card-days">
+                <b>{r.durationDays}</b> days
+              </span>
             </div>
-            <strong>{r.shortTitle}</strong>
-            <span>{r.summary}</span>
-          </a>
-        </li>
-      ))}
+            <div class="route-card-body">
+              <h2>
+                <a href={routePath(r.slug)}>{r.shortTitle}</a>
+              </h2>
+              <p class="route-card-path">{overnights(r).join(' → ')}</p>
+              <p>{r.summary}</p>
+              <div class="route-card-foot">
+                {r.carPrice ? (
+                  <span class="route-card-price">
+                    <b>{formatInr(r.carPrice)}</b>
+                    <small>Car price for your group</small>
+                  </span>
+                ) : (
+                  <span class="route-card-price">
+                    <b>Price on WhatsApp</b>
+                    <small>Quoted for your dates</small>
+                  </span>
+                )}
+                <span class="route-card-go" aria-hidden="true">
+                  Day by day →
+                </span>
+              </div>
+            </div>
+          </li>
+        );
+      })}
     </ul>
+    <div class="route-grid-cta">
+      <p>Want a different start, pace or season? We plan it with you.</p>
+      <WhatsAppLink class="button button-whatsapp" cta="page">
+        <Icon name="chat" size={18} /> Plan my own route on WhatsApp
+      </WhatsAppLink>
+    </div>
   </div>
 </PageLayout>

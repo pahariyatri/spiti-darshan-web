@@ -57,6 +57,8 @@ export interface RouteContent {
   endingLocation: string;
   seasonality: string;
   isFeatured: boolean;
+  /** Car price in INR for the group (homestays extra). Only set when the owner has confirmed it. */
+  carPrice?: number;
   hero: {
     kicker: string;
     title: string;

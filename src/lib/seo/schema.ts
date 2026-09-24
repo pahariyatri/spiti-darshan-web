@@ -70,6 +70,16 @@ export function touristTripSchema(route: RouteView, site: string | URL, url?: st
     description: route.summary,
     url: url ?? absoluteUrl(routePath(route.slug), site),
     provider: { '@id': organizationSchema(site)['@id'] },
+    ...(route.carPrice
+      ? {
+          offers: {
+            '@type': 'Offer',
+            description: 'Innova Crysta with driver, car price for your group',
+            price: route.carPrice,
+            priceCurrency: 'INR',
+          },
+        }
+      : {}),
     itinerary: {
       '@type': 'ItemList',
       numberOfItems: route.days.length,
@@ -105,7 +115,7 @@ export function articleSchema(opts: {
 /** Wraps nodes in one @graph document. */
 /** The winter offer: car price for the group per trip length (homestays priced separately). */
 export function winterTripSchema(
-  trips: readonly { nights: number; days: number; price: number }[],
+  trips: readonly { slug: string; nights: number; days: number; price: number }[],
   site: string | URL,
 ): Json {
   return {
@@ -122,7 +132,7 @@ export function winterTripSchema(
       description: 'Innova Crysta with driver, car price for your group',
       price: t.price,
       priceCurrency: 'INR',
-      url: absoluteUrl('/#winter', site),
+      url: absoluteUrl(routePath(t.slug), site),
     })),
   };
 }

@@ -97,6 +97,9 @@ const packages = WINTER_TRIPS.map((t) => ({ ...t, price: formatInr(t.price) }));
                 <span class="sr-only">{label}</span>
               </h3>
               <p class="ticket-sub">{label} · Innova Crysta with driver</p>
+              <a class="ticket-plan" href={`/routes/${trip.slug}/`}>
+                See the day-by-day plan <span aria-hidden="true">→</span>
+              </a>
             </div>
             <div class="ticket-bottom">
               <p class="ticket-price">
