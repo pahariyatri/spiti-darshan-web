@@ -125,7 +125,7 @@ test('WhatsApp CTAs are direct wa.me links with the agreed message', async ({ pa
   expect(day5).toContain('Interested in: Day 5: Key → Kibber → Chicham');
   expect(day5).toContain('Route: Shimla → Spiti → Manali');
   expect(await decode('.hero-actions a.whatsapp-link')).toContain(
-    "I'd like a quote for a private Spiti taxi.",
+    "I'd like a Spiti trip plan and quote for an Innova Crysta.",
   );
   await expect(page.locator('a.whatsapp-link').first()).toHaveAttribute('target', '_blank');
 });

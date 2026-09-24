@@ -9,10 +9,11 @@ describe('WhatsApp message', () => {
   it('builds a short route booking message', () => {
     expect(buildWhatsAppMessage({ routeLabel: 'Shimla → Spiti → Manali' })).toBe(
       [
-        "Hello Spiti Darshan! I'd like a quote for a private Spiti taxi.",
+        "Hello Spiti Darshan! I'd like a Spiti trip plan and quote for an Innova Crysta.",
         'Route: Shimla → Spiti → Manali',
         'Dates:',
         'Travellers:',
+        'Pickup city:',
       ].join('\n'),
     );
   });
@@ -25,7 +26,7 @@ describe('WhatsApp message', () => {
     expect(msg).toContain(
       'Route: Shimla → Spiti → Manali\nInterested in: Day 5: Key → Kibber → Chicham',
     );
-    expect(msg.split('\n')).toHaveLength(5);
+    expect(msg.split('\n')).toHaveLength(6);
   });
 
   it('omits the route line when there is no route context', () => {

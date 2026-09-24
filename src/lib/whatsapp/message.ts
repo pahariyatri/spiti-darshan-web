@@ -8,10 +8,10 @@ export interface WhatsAppMessageInput {
 
 /** Short booking message: route, optional day context, then blanks for dates and travellers. */
 export function buildWhatsAppMessage({ routeLabel, day }: WhatsAppMessageInput = {}): string {
-  const lines = ["Hello Spiti Darshan! I'd like a quote for a private Spiti taxi."];
+  const lines = ["Hello Spiti Darshan! I'd like a Spiti trip plan and quote for an Innova Crysta."];
   if (routeLabel) lines.push(`Route: ${routeLabel}`);
   if (day) lines.push(`Interested in: Day ${day.number}: ${day.leg}`);
-  lines.push('Dates:', 'Travellers:');
+  lines.push('Dates:', 'Travellers:', 'Pickup city:');
   return lines.join('\n');
 }
 

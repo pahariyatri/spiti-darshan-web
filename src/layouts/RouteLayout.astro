@@ -44,12 +44,13 @@ const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
   />
   <main id="main">
     {variant === 'home' && <WinterSpiti />}
+    {variant === 'home' && <VehicleProof media={proofMedia} />}
     <JourneySection route={route} />
     {variant !== 'home' && <RouteFacts route={route} />}
-    <VehicleProof media={proofMedia} />
+    {variant !== 'home' && <VehicleProof media={proofMedia} />}
     {variant !== 'home' && <DriverIntro />}
-    <ContactSection routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle} />
     <FaqSection />
+    <ContactSection routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle} />
   </main>
   <Footer />
   <MobileWhatsAppCTA routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle} />

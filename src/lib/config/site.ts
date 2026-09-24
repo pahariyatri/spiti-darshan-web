@@ -2,8 +2,8 @@
 export const SITE = {
   name: 'Spiti Darshan',
   brandMark: 'SD',
-  tagline: 'Private road journeys',
-  footerTagline: 'Private Spiti transport',
+  tagline: 'Spiti journeys, planned with you',
+  footerTagline: 'Innova Crysta journeys',
   themeColor: '#10211c',
   locale: 'en_IN',
   defaultOgImage: '/media/hero-vehicles-og.jpg',

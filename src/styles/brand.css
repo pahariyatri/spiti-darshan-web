@@ -860,3 +860,10 @@ p {
 .journey-enquire {
   margin-top: 24px;
 }
+
+.winter-description {
+  color: var(--muted);
+  margin: -8px 0 22px;
+  font-size: 16px;
+  line-height: 1.7;
+}
