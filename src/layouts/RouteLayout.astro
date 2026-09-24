@@ -4,6 +4,7 @@
  * adding a route is content, never a copied page.
  */
 import BaseLayout from './BaseLayout.astro';
+import WinterSpiti from '../components/WinterSpiti.astro';
 import Hero from '../components/Hero.astro';
 import JourneySection from '../components/journey/JourneySection.astro';
 import RouteFacts from '../components/RouteFacts.astro';
@@ -38,17 +39,18 @@ const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
     titleAccent={hero.titleAccent}
     subtitle={hero.subtitle}
     media={hero.media}
-    routeLabel={route.shortTitle}
+    routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle}
     primaryCta={primaryCta}
   />
   <main id="main">
+    {variant === 'home' && <WinterSpiti />}
     <JourneySection route={route} />
     {variant !== 'home' && <RouteFacts route={route} />}
     <VehicleProof media={proofMedia} />
     <DriverIntro />
-    <ContactSection routeLabel={route.shortTitle} />
+    <ContactSection routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle} />
     <FaqSection />
   </main>
   <Footer />
-  <MobileWhatsAppCTA routeLabel={route.shortTitle} />
+  <MobileWhatsAppCTA routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle} />
 </BaseLayout>

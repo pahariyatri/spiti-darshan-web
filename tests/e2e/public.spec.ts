@@ -19,7 +19,7 @@ async function scrollToDay(page: Page, day: number, fraction = 0.5) {
 test('homepage loads with the approved hero, SEO tags and structured data', async ({ page }) => {
   const response = await page.goto('/');
   expect(response?.status()).toBe(200);
-  await expect(page).toHaveTitle('Private Shimla to Spiti Taxi & Innova Crysta | Spiti Darshan');
+  await expect(page).toHaveTitle('Winter Spiti & Innova Crysta Trips | Spiti Darshan');
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('h1')).toHaveText('Explore the roof of the world');
   await expect(page.locator('.hero-actions .whatsapp-link')).toHaveText('Book your road trip now');
@@ -144,7 +144,7 @@ test('mobile sticky WhatsApp bar', async ({ page, isMobile }) => {
   expect(box!.y + box!.height).toBeGreaterThan(844 - 30);
   await expect(bar.locator('a')).toHaveAttribute(
     'href',
-    /^https:\/\/wa\.me\/.*Route%3A%20Shimla%20%E2%86%92%20Spiti/,
+    /^https:\/\/wa\.me\/.*Route%3A%20Winter%20Spiti/,
   );
 });
 

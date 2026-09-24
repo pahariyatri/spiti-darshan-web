@@ -1,6 +1,6 @@
 ---
 import WhatsAppLink from '../conversion/WhatsAppLink.astro';
-import { driverTopics } from '../../content/team';
+import { drivers } from '../../content/team';
 interface Props {
   showStory?: boolean;
 }
@@ -10,15 +10,15 @@ const { showStory = true } = Astro.props;
 <section class="driver-intro" id="your-driver" aria-labelledby="driverTitle">
   <div class="shell driver-grid">
     <div class="driver-copy">
-      <div class="eyebrow">The person behind the wheel</div>
+      <div class="eyebrow">Meet your drivers</div>
       <h2 id="driverTitle">
-        Your driver.
+        Your drivers.
         <br />
         <em>Part of the journey.</em>
       </h2>
       <p>
-        Your private Innova Crysta journey includes a driver for your group. The person sharing the
-        road with you matters as much as the vehicle.
+        Meet Mukul and Rajat, our Innova Crysta drivers. Message us to confirm your driver and
+        vehicle for your travel dates.
       </p>
       <WhatsAppLink class="day-enquire" cta="page">
         Ask about your driver <span aria-hidden="true">↗</span>
@@ -31,12 +31,15 @@ const { showStory = true } = Astro.props;
       )}
     </div>
     <ul class="driver-topics">
-      {driverTopics.map((topic, i) => (
+      {drivers.map((driver) => (
         <li>
-          <span aria-hidden="true">0{i + 1}</span>
+          <span class="driver-initial" aria-hidden="true">{driver.name.charAt(0)}</span>
           <div>
-            <h3>{topic.title}</h3>
-            <p>{topic.text}</p>
+            <h3>{driver.name}</h3>
+            <p>
+              {driver.vehicle}
+            </p>
+            <span class="vehicle-registration">{driver.registration}</span>
           </div>
         </li>
       ))}

@@ -26,7 +26,7 @@ const {
 } = Astro.props;
 /* Only verified service facts (no ratings, counts or driver claims). */
 const trust = [
-  { icon: 'car', title: 'Private Innova Crysta', text: 'Just your group' },
+  { icon: 'car', title: 'Innova Crysta', text: 'Just your group' },
   { icon: 'route', title: 'Flexible stops', text: 'Your pace, your plan' },
   { icon: 'shield', title: 'Route checked', text: 'For your travel dates' },
 ] as const;
@@ -39,8 +39,7 @@ const trust = [
     <div class="hero-copy">
       <div class="hero-kicker">{kicker}</div>
       <h1 id="heroTitle">
-        {title}{' '}
-        <br />
+        {title} <br />
         <em>{titleAccent}</em>
       </h1>
       {subtitle && <p class="hero-sub">{subtitle}</p>}

@@ -1,17 +1,16 @@
-/** Homepage copy from the approved page. The itinerary itself comes from the featured route. */
+/** Homepage invitation; full package details are shared on WhatsApp. */
 export const HOME = {
-  title: 'Private Shimla to Spiti Taxi & Innova Crysta | Spiti Darshan',
+  title: 'Winter Spiti & Innova Crysta Trips | Spiti Darshan',
   description:
-    'Private Shimla to Spiti taxi and Innova Crysta transport with Spiti Darshan. Explore the daily Kinnaur, Kaza and seasonal Chandratal to Manali circuit. Enquire on WhatsApp.',
-  ogTitle: 'Explore the roof of the world | Spiti Darshan',
+    'Discover White Spiti with Spiti Darshan. Innova Crysta car prices: 6 nights / 7 days for ₹35,000 or 7 nights / 8 days for ₹40,000. Ask for the full package on WhatsApp.',
+  ogTitle: 'Winter Spiti is calling | Spiti Darshan',
   ogDescription:
-    'Book your road trip now. Explore Spiti, Kinnaur and the seasonal road to Manali with a private Innova Crysta.',
+    'White Spiti, snow leopard expeditions, Ice Cafe Lingti and snow chain drives. Message us on WhatsApp to plan your winter trip.',
   primaryCta: 'Book your road trip now',
   hero: {
     kicker: 'Spiti · Private transport',
     title: 'Explore the roof',
     titleAccent: 'of the world',
-    subtitle:
-      'Private Innova Crysta journeys through Shimla, Kinnaur, Kaza, Chandratal and Manali.',
+    subtitle: 'Innova Crysta journeys through Shimla, Kinnaur, Kaza, Chandratal and Manali.',
   },
 } as const;

@@ -14,9 +14,11 @@ const first = payload.days[0];
 ---
 
 <section class="journey" id="journey" aria-labelledby="journeyTitle">
-  <h2 id="journeyTitle" class="sr-only">
-    Your journey of {route.days.length} days, stop by stop
-  </h2>
+  <div class="journey-intro">
+    <div class="eyebrow">A little inspiration for the road</div>
+    <h2 id="journeyTitle">Your journey, stop by stop.</h2>
+    <p>A sample {route.days.length}-day circuit. We'll shape your own route around your dates and the season.</p>
+  </div>
   <JourneyMap
     path={journeyPath(route)}
     firstLeg={first?.leg ?? route.shortTitle}

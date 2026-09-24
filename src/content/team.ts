@@ -10,17 +10,7 @@ export const foundersStory = {
   ],
 };
 
-export const driverTopics = [
-  {
-    title: 'Know who is driving',
-    text: 'Ask us about the driver for your trip, their background and their experience on the route you are considering.',
-  },
-  {
-    title: 'Talk through your day',
-    text: 'Discuss your pickup, planned stops and breaks so the driving day fits your group.',
-  },
-  {
-    title: 'Keep the route practical',
-    text: 'Road access and weather can change the plan. Discuss the seasonal sections and possible alternatives before travelling.',
-  },
+export const drivers = [
+  { name: 'Mukul', vehicle: 'Innova Crysta', registration: 'HP 01A 8924' },
+  { name: 'Rajat', vehicle: 'Innova Crysta', registration: 'HP 01 AB 0140' },
 ];

@@ -20,11 +20,11 @@ export const shimlaToSpiti: RouteContent = {
     kicker: 'Spiti · Private transport',
     title: 'Shimla → Spiti → Manali.',
     titleAccent: 'Your private ride.',
-    subtitle: '9 days by private Innova Crysta via Kinnaur, Kaza and the seasonal Kunzum road.',
+    subtitle: '9 days by Innova Crysta via Kinnaur, Kaza and the seasonal Kunzum road.',
     media: 'hero-vehicles',
   },
   seo: {
-    metaTitle: 'Shimla to Spiti Taxi: 9 Day Private Innova Crysta Circuit',
+    metaTitle: 'Shimla to Spiti Taxi: 9 Day Innova Crysta Circuit',
     metaDescription:
       'Daily private taxi route from Shimla through Kinnaur and Kaza, with the seasonal Chandratal to Manali crossing. Check the route for your dates on WhatsApp.',
     ogTitle: 'Private Shimla to Spiti Road Trip | Spiti Darshan',

@@ -22,7 +22,7 @@ export function organizationSchema(site: string | URL): Json {
       height: 512,
       caption: SITE.name,
     },
-    description: 'Private Innova Crysta transport for Spiti Valley road journeys.',
+    description: 'Innova Crysta transport for Spiti Valley road journeys.',
     // Owner-verified WhatsApp business number.
     contactPoint: {
       '@type': 'ContactPoint',

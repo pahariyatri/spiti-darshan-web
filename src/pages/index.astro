@@ -1,5 +1,6 @@
 ---
 /* Homepage: the brand hero over the featured route's itinerary (src/content/routes). */
+import { staticMedia, toMediaView } from '../lib/media/static-media';
 import RouteLayout from '../layouts/RouteLayout.astro';
 import { buildPageMeta } from '../lib/seo/meta';
 import { graph, organizationSchema, touristTripSchema, webPageSchema } from '../lib/seo/schema';
@@ -7,6 +8,7 @@ import { HOME } from '../lib/home';
 import { getFeaturedRoute } from '../lib/content/routes';
 
 const route = getFeaturedRoute();
+const homeHero = { ...HOME.hero, media: toMediaView(staticMedia('day-key-monastery')) };
 const site = Astro.site ?? Astro.url;
 const meta = buildPageMeta({
   title: HOME.title,
@@ -15,7 +17,7 @@ const meta = buildPageMeta({
   site,
   ogTitle: HOME.ogTitle,
   ogDescription: HOME.ogDescription,
-  ogImage: route.hero.media,
+  ogImage: homeHero.media,
 });
 const jsonLd = graph(
   organizationSchema(site),
@@ -29,6 +31,6 @@ const jsonLd = graph(
   meta={meta}
   jsonLd={jsonLd}
   variant="home"
-  hero={HOME.hero}
+  hero={homeHero}
   primaryCta={HOME.primaryCta}
 />

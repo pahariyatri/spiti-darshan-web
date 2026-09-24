@@ -11,9 +11,9 @@ const site = Astro.site ?? Astro.url;
 const hero = toMediaView(staticMedia('hero-vehicles'));
 const fleet = toMediaView(staticMedia('fleet-parked'));
 const meta = buildPageMeta({
-  title: 'Private Innova Crysta taxi for Spiti',
+  title: 'Innova Crysta taxi for Spiti',
   description:
-    'Travel to Spiti Valley in a private Innova Crysta with Spiti Darshan. See our real vehicles, what the car is suited for, and how we confirm each route for your dates.',
+    'Travel to Spiti Valley in an Innova Crysta with Spiti Darshan. See our real vehicles, what the car is suited for, and how we confirm each route for your dates.',
   path: '/vehicles/innova-crysta/',
   site,
   ogImage: hero,
@@ -33,9 +33,9 @@ const jsonLd = graph(
   meta={meta}
   jsonLd={jsonLd}
   eyebrow="Your vehicle"
-  title="Private Innova Crysta."
+  title="Innova Crysta."
   titleAccent="On the real Spiti road."
-  intro="Private transport only: the vehicle, the driver and the stops are for your group."
+  intro="Your vehicle, your driver and stops planned around your group."
   breadcrumbs={crumbs}
 >
   <div class="shell grid-2">
@@ -46,7 +46,7 @@ const jsonLd = graph(
     <div class="prose">
       <h2>What to expect</h2>
       <ul>
-        <li>A private Innova Crysta for your group.</li>
+        <li>An Innova Crysta for your group.</li>
         <li>Stops you choose along the route, matched to your travel dates.</li>
         <li>Seating and luggage confirmed for your group size when you enquire.</li>
       </ul>
@@ -69,7 +69,7 @@ const jsonLd = graph(
     </div>
     <div class="proof-photo">
       <Picture media={fleet} sizes="(max-width: 900px) calc(100vw - 34px), 560px" />
-      <span>Your private ride, on the real road.</span>
+      <span>Your Innova Crysta, on the real road.</span>
     </div>
   </div>
   <DriverIntro />
