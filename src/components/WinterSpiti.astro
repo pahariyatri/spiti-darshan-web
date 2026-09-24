@@ -4,6 +4,7 @@ import Icon from './Icon.astro';
 import Picture from './Picture.astro';
 import WhatsAppLink from './conversion/WhatsAppLink.astro';
 import { staticMedia, toMediaView } from '../lib/media/static-media';
+import { WINTER_TRIPS, formatInr } from '../lib/home';
 
 const photo = toMediaView(staticMedia('day-kalpa-kinner-kailash'));
 
@@ -25,10 +26,7 @@ const winterRoute = [
   { name: 'Back via Kinnaur', note: 'Return' },
 ];
 
-const packages = [
-  { nights: 6, days: 7, price: '₹35,000' },
-  { nights: 7, days: 8, price: '₹40,000' },
-];
+const packages = WINTER_TRIPS.map((t) => ({ ...t, price: formatInr(t.price) }));
 ---
 
 <section id="winter" class="winter" aria-labelledby="winterTitle">

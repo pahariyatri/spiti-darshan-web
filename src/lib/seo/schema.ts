@@ -1,6 +1,7 @@
 /**
- * schema.org builders. Only facts we actually hold: no ratings, prices, addresses, availability or
- * fleet sizes — add those only once verified. (The WhatsApp number is owner-verified.)
+ * schema.org builders. Only facts we actually hold: no ratings, addresses, availability or fleet
+ * sizes — add those only once verified. (The WhatsApp number and winter car prices are
+ * owner-supplied.)
  */
 import { SITE } from '../config/site';
 import { businessWhatsApp } from '../config/env';
@@ -102,6 +103,30 @@ export function articleSchema(opts: {
 }
 
 /** Wraps nodes in one @graph document. */
+/** The winter offer: car price for the group per trip length (homestays priced separately). */
+export function winterTripSchema(
+  trips: readonly { nights: number; days: number; price: number }[],
+  site: string | URL,
+): Json {
+  return {
+    '@type': 'TouristTrip',
+    name: 'Winter Spiti by Innova Crysta',
+    description:
+      'White Spiti road trip via Kinnaur with an Innova Crysta and driver for your group. Homestays with breakfast and dinner are priced separately.',
+    url: absoluteUrl('/#winter', site),
+    touristType: 'Private group',
+    provider: { '@id': organizationSchema(site)['@id'] },
+    offers: trips.map((t) => ({
+      '@type': 'Offer',
+      name: `${t.nights} nights / ${t.days} days`,
+      description: 'Innova Crysta with driver, car price for your group',
+      price: t.price,
+      priceCurrency: 'INR',
+      url: absoluteUrl('/#winter', site),
+    })),
+  };
+}
+
 export function graph(...nodes: Json[]): Json {
   return { '@context': 'https://schema.org', '@graph': nodes };
 }

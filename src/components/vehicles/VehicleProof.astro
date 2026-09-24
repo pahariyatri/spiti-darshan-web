@@ -3,13 +3,16 @@ import type { MediaView } from '../../lib/domain/types';
 import Icon from '../Icon.astro';
 import WhatsAppLink from '../conversion/WhatsAppLink.astro';
 import Picture from '../Picture.astro';
+import { drivers } from '../../content/team';
 
 interface Props {
   media: MediaView | null;
   /** A second real fleet photo for the collage. */
   secondary?: MediaView | null;
+  /** Show the drivers and registrations (pages with a full driver section skip this). */
+  showDrivers?: boolean;
 }
-const { media, secondary = null } = Astro.props;
+const { media, secondary = null, showDrivers = false } = Astro.props;
 /* Verified service facts only — no fleet size, ratings or driver claims. */
 const features = [
   {
@@ -31,6 +34,9 @@ const features = [
 ---
 
 <section class="proof" aria-labelledby="proofTitle">
+  <span class="proof-watermark" aria-hidden="true">
+    Innova Crysta
+  </span>
   <div class="shell proof-grid">
     <div class="proof-visual">
       <div class="proof-photo">
@@ -73,6 +79,29 @@ const features = [
           </li>
         ))}
       </ul>
+      {showDrivers && (
+        <div class="proof-drivers">
+          <h3>Your drivers &amp; cars</h3>
+          <ul>
+            {drivers.map((d) => (
+              <li>
+                <span class="driver-avatar" aria-hidden="true">
+                  {d.name.charAt(0)}
+                </span>
+                <span class="driver-name">
+                  <strong>{d.name}</strong>
+                  {d.vehicle}
+                </span>
+                <span class="plate">
+                  <b aria-hidden="true">IND</b>
+                  <span class="sr-only">Registration</span>
+                  {d.registration}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div class="proof-actions">
         <WhatsAppLink class="button button-whatsapp" cta="page">
           <Icon name="chat" size={18} /> Get my trip plan

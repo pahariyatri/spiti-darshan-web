@@ -13,6 +13,16 @@ interface Props {
   media: MediaView | null;
   routeLabel?: string | null;
   primaryCta?: string;
+  /** Optional seasonal offer card (homepage). */
+  offer?: {
+    href: string;
+    tag: string;
+    title: string;
+    trips: readonly { label: string; price: string }[];
+    note: string;
+  } | null;
+  /** Where the hero photo was taken, shown as a small tag. */
+  place?: string | null;
 }
 
 const {
@@ -23,6 +33,8 @@ const {
   media,
   routeLabel,
   primaryCta = 'Plan my ride on WhatsApp',
+  offer = null,
+  place = null,
 } = Astro.props;
 /* Only verified service facts (no ratings, counts or driver claims). */
 const trust = [
@@ -34,6 +46,7 @@ const trust = [
 
 <section class="hero" id="top" aria-labelledby="heroTitle">
   <div class="hero-photo">{media && <Picture media={media} sizes="100vw" priority />}</div>
+  {offer && <div class="snowfall hero-snow" aria-hidden="true" />}
   <Header routeLabel={routeLabel} homeHref="/" />
   <div class="shell">
     <div class="hero-copy">
@@ -63,5 +76,29 @@ const trust = [
         ))}
       </ul>
     </div>
+    {offer && (
+      <a class="hero-offer" href={offer.href}>
+        <span class="hero-offer-tag">
+          <Icon name="snow" size={14} /> {offer.tag}
+        </span>
+        <strong class="hero-offer-title">{offer.title}</strong>
+        <span class="hero-offer-trips">
+          {offer.trips.map((t) => (
+            <span>
+              <small>{t.label}</small>
+              <b>{t.price}</b>
+            </span>
+          ))}
+        </span>
+        <span class="hero-offer-note">
+          {offer.note} <span aria-hidden="true">↓</span>
+        </span>
+      </a>
+    )}
   </div>
+  {place && (
+    <span class="hero-place">
+      <Icon name="mountain" size={14} /> {place}
+    </span>
+  )}
 </section>

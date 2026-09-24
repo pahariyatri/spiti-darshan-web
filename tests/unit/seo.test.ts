@@ -12,7 +12,9 @@ import {
   organizationSchema,
   serializeJsonLd,
   touristTripSchema,
+  winterTripSchema,
 } from '../../src/lib/seo/schema';
+import { WINTER_TRIPS } from '../../src/lib/home';
 import { buildRobots, buildSitemap } from '../../src/lib/seo/sitemap';
 import { toRouteView } from '../../src/lib/content/routes';
 import { shimlaToSpiti } from '../../src/content/routes/shimla-to-spiti';
@@ -64,6 +66,14 @@ describe('structured data', () => {
     for (const banned of ['aggregateRating', 'review', 'offers', 'price', 'address']) {
       expect(json).not.toContain(banned);
     }
+  });
+
+  it('offers the owner-supplied winter car prices in INR, with no ratings', () => {
+    const json = JSON.stringify(winterTripSchema(WINTER_TRIPS, SITE));
+    expect(json).toContain('"price":35000');
+    expect(json).toContain('"price":40000');
+    expect(json).toContain('"priceCurrency":"INR"');
+    expect(json).not.toContain('aggregateRating');
   });
 
   it('numbers breadcrumbs and escapes script-breaking characters', () => {

@@ -16,6 +16,7 @@ import Footer from '../components/Footer.astro';
 import MobileWhatsAppCTA from '../components/conversion/MobileWhatsAppCTA.astro';
 import type { RouteView } from '../lib/domain/types';
 import type { PageMeta } from '../lib/seo/meta';
+import type { ComponentProps } from 'astro/types';
 import { staticMedia, toMediaView } from '../lib/media/static-media';
 
 interface Props {
@@ -26,9 +27,20 @@ interface Props {
   variant: 'home' | 'route';
   hero?: Partial<RouteView['hero']>;
   primaryCta?: string;
+  heroOffer?: ComponentProps<typeof Hero>['offer'];
+  heroPlace?: string | null;
 }
 
-const { route, meta, jsonLd, variant, hero: heroOverride, primaryCta } = Astro.props;
+const {
+  route,
+  meta,
+  jsonLd,
+  variant,
+  hero: heroOverride,
+  primaryCta,
+  heroOffer = null,
+  heroPlace = null,
+} = Astro.props;
 const hero = { ...route.hero, ...heroOverride };
 const proofMedia = route.vehicles.find((v) => v.media)?.media ?? null;
 const proofSecondary = toMediaView(staticMedia('hero-vehicles'));
@@ -43,12 +55,14 @@ const proofSecondary = toMediaView(staticMedia('hero-vehicles'));
     media={hero.media}
     routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle}
     primaryCta={primaryCta}
+    offer={heroOffer}
+    place={heroPlace}
   />
   <main id="main">
     {variant === 'home' && <WinterSpiti />}
     <JourneySection route={route} />
     {variant !== 'home' && <RouteFacts route={route} />}
-    <VehicleProof media={proofMedia} secondary={proofSecondary} />
+    <VehicleProof media={proofMedia} secondary={proofSecondary} showDrivers={variant === 'home'} />
     {variant !== 'home' && <DriverIntro />}
     <FaqSection />
     <ContactSection routeLabel={variant === 'home' ? 'Winter Spiti' : route.shortTitle} />

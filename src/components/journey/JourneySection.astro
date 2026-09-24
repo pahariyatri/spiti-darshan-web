@@ -3,8 +3,6 @@ import type { RouteView } from '../../lib/domain/types';
 import { buildJourneyPayload, journeyPath } from '../../lib/journey/payload';
 import JourneyMap from './JourneyMap.astro';
 import JourneyDay from './JourneyDay.astro';
-import Icon from '../Icon.astro';
-import WhatsAppLink from '../conversion/WhatsAppLink.astro';
 
 interface Props {
   route: RouteView;
@@ -13,47 +11,12 @@ interface Props {
 const { route } = Astro.props;
 const payload = buildJourneyPayload(route);
 const first = payload.days[0];
-const stops = route.days.flatMap((d) => d.stops.filter((s) => s.showOnMap));
-const places = new Set(stops.map((s) => s.destinationSlug ?? s.attractionSlug ?? s.name));
-const nights = new Set(route.days.map((d) => d.overnight).filter(Boolean));
-const stats = [
-  { value: route.days.length, label: 'days on the road' },
-  { value: places.size, label: 'places along the way' },
-  { value: nights.size, label: 'towns to stay in' },
-];
 ---
 
 <section class="journey" id="journey" aria-labelledby="journeyTitle">
-  <div class="journey-intro">
-    <div class="eyebrow">The whole route · Sample itinerary</div>
-    <h2 id="journeyTitle">
-      {route.startingLocation} to {route.endingLocation}.<em>All of Spiti, stop by stop.</em>
-    </h2>
-    <p>
-      Scroll to drive the {route.days.length}-day circuit with us. Your own route is shaped around
-      your dates and the season.
-    </p>
-    <ul class="journey-stats">
-      {stats.map((s) => (
-        <li>
-          <strong>{s.value}</strong>
-          <span>{s.label}</span>
-        </li>
-      ))}
-    </ul>
-    <div class="journey-actions">
-      <WhatsAppLink
-        class="button button-whatsapp journey-enquire"
-        cta="page"
-        routeLabel={route.shortTitle}
-      >
-        <Icon name="chat" size={18} /> Plan this route on WhatsApp
-      </WhatsAppLink>
-      <span class="journey-scroll" aria-hidden="true">
-        Scroll to start the drive <Icon name="arrow-down" size={16} />
-      </span>
-    </div>
-  </div>
+  <h2 class="sr-only" id="journeyTitle">
+    Sample itinerary: {route.shortTitle}, day by day
+  </h2>
   <JourneyMap
     path={journeyPath(route)}
     firstLeg={first?.leg ?? route.shortTitle}

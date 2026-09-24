@@ -3,8 +3,14 @@
 import { staticMedia, toMediaView } from '../lib/media/static-media';
 import RouteLayout from '../layouts/RouteLayout.astro';
 import { buildPageMeta } from '../lib/seo/meta';
-import { graph, organizationSchema, touristTripSchema, webPageSchema } from '../lib/seo/schema';
-import { HOME } from '../lib/home';
+import {
+  graph,
+  organizationSchema,
+  touristTripSchema,
+  webPageSchema,
+  winterTripSchema,
+} from '../lib/seo/schema';
+import { HOME, WINTER_TRIPS } from '../lib/home';
 import { getFeaturedRoute } from '../lib/content/routes';
 
 const route = getFeaturedRoute();
@@ -22,6 +28,7 @@ const meta = buildPageMeta({
 const jsonLd = graph(
   organizationSchema(site),
   webPageSchema({ name: HOME.title, description: HOME.description, url: meta.canonical, site }),
+  winterTripSchema(WINTER_TRIPS, site),
   touristTripSchema(route, site),
 );
 ---
@@ -33,4 +40,6 @@ const jsonLd = graph(
   variant="home"
   hero={homeHero}
   primaryCta={HOME.primaryCta}
+  heroOffer={HOME.heroOffer}
+  heroPlace={HOME.heroPlace}
 />

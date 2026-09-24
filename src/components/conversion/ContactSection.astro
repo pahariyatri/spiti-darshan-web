@@ -60,37 +60,73 @@ const steps = [
     </div>
 
     <figure class="chat-phone" aria-labelledby="chatCaption">
-      <div class="chat-screen" aria-hidden="true">
-        <div class="chat-bar">
-          <img src="/brand/spiti-darshan-mark.webp" alt="" width="36" height="36" />
-          <span>
-            <strong>{SITE.name}</strong>
-            <small>WhatsApp</small>
-          </span>
-        </div>
-        <div class="chat-body">
-          <p class="bubble bubble-out">
-            {preview.map((line) => (
-              <span>{line}</span>
-            ))}
-          </p>
-          <div class="bubble bubble-in">
-            <span>Here’s your trip plan 🏔️</span>
-            <div class="chat-doc">
-              <Icon name="doc" size={26} />
-              <span>
-                <strong>{packageName}</strong>
-                <small>Route · Innova Crysta · Stays · Price</small>
-              </span>
-            </div>
-            <span>Tell us if you’d like to change any stop.</span>
+      <div class="iphone" aria-hidden="true">
+        <div class="iphone-screen">
+          <div class="iphone-status">
+            <span>9:41</span>
+            <span class="iphone-island"></span>
+            <span class="iphone-icons">
+              <svg viewBox="0 0 18 12" width="17" height="11">
+                <rect x="0" y="8" width="3" height="4" rx="1" />
+                <rect x="5" y="5.5" width="3" height="6.5" rx="1" />
+                <rect x="10" y="3" width="3" height="9" rx="1" />
+                <rect x="15" y="0" width="3" height="12" rx="1" />
+              </svg>
+              <svg viewBox="0 0 26 12" width="25" height="12">
+                <rect
+                  x="0.5"
+                  y="0.5"
+                  width="21"
+                  height="11"
+                  rx="3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  opacity=".45"
+                />
+                <rect x="2" y="2" width="16" height="8" rx="2" />
+                <rect x="23" y="4" width="2" height="4" rx="1" opacity=".45" />
+              </svg>
+            </span>
           </div>
-        </div>
-        <div class="chat-input">
-          <span>Message</span>
-          <span class="chat-send">
-            <Icon name="chat" size={16} />
-          </span>
+          <div class="chat-bar">
+            <span class="chat-back">‹</span>
+            <img src="/brand/spiti-darshan-mark.webp" alt="" width="38" height="38" />
+            <span>
+              <strong>{SITE.name}</strong>
+              <small>Business account</small>
+            </span>
+          </div>
+          <div class="chat-body">
+            <span class="chat-day">Today</span>
+            <p class="bubble bubble-out">
+              {preview.map((line) => (
+                <span>{line}</span>
+              ))}
+              <small class="bubble-meta">
+                9:41 <b>✓✓</b>
+              </small>
+            </p>
+            <div class="bubble bubble-in">
+              <span>Here’s your trip plan 🏔️</span>
+              <div class="chat-doc">
+                <span class="chat-doc-icon">
+                  <Icon name="doc" size={22} />
+                </span>
+                <span>
+                  <strong>{packageName}</strong>
+                  <small>Route · Innova Crysta · Stays · Price</small>
+                </span>
+              </div>
+              <span>Tell us if you’d like to change any stop.</span>
+            </div>
+          </div>
+          <div class="chat-input">
+            <span>Message</span>
+            <span class="chat-send">
+              <Icon name="chat" size={16} />
+            </span>
+          </div>
+          <span class="iphone-home"></span>
         </div>
       </div>
       <figcaption id="chatCaption">
